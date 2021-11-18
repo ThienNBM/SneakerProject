@@ -1,0 +1,683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SneakerDBModelStoreContainer" CdmEntityContainer="SneakerDBEntities">
+    <EntitySetMapping Name="Admins">
+      <EntityTypeMapping TypeName="SneakerDBModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Catalogs">
+      <EntityTypeMapping TypeName="SneakerDBModel.Catalog">
+        <MappingFragment StoreEntitySet="Catalog">
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Districts">
+      <EntityTypeMapping TypeName="SneakerDBModel.District">
+        <MappingFragment StoreEntitySet="District">
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImageProducts">
+      <EntityTypeMapping TypeName="SneakerDBModel.ImageProduct">
+        <MappingFragment StoreEntitySet="ImageProduct">
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="SneakerDBModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductItems">
+      <EntityTypeMapping TypeName="SneakerDBModel.ProductItem">
+        <MappingFragment StoreEntitySet="ProductItem">
+          <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provinces">
+      <EntityTypeMapping TypeName="SneakerDBModel.Province">
+        <MappingFragment StoreEntitySet="Province">
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sizes">
+      <EntityTypeMapping TypeName="SneakerDBModel.Size">
+        <MappingFragment StoreEntitySet="Size">
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubCatalogs">
+      <EntityTypeMapping TypeName="SneakerDBModel.SubCatalog">
+        <MappingFragment StoreEntitySet="SubCatalog">
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="SneakerDBModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="SneakerDBModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserOrders">
+      <EntityTypeMapping TypeName="SneakerDBModel.UserOrder">
+        <MappingFragment StoreEntitySet="UserOrder">
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="SneakerDBModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetail">
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+          <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Admin_Delete" FunctionName="SneakerDBModel.Store.Admin_Delete" />
+    <FunctionImportMapping FunctionImportName="Admin_GetAll" FunctionName="SneakerDBModel.Store.Admin_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Admin_GetAll_Result">
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Admin_GetItemById" FunctionName="SneakerDBModel.Store.Admin_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Admin_GetItemById_Result">
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Admin_Insert" FunctionName="SneakerDBModel.Store.Admin_Insert" />
+    <FunctionImportMapping FunctionImportName="Admin_Update" FunctionName="SneakerDBModel.Store.Admin_Update" />
+    <FunctionImportMapping FunctionImportName="Catalog_Delete" FunctionName="SneakerDBModel.Store.Catalog_Delete" />
+    <FunctionImportMapping FunctionImportName="Catalog_GetAll" FunctionName="SneakerDBModel.Store.Catalog_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Catalog_GetAll_Result">
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Catalog_GetItemById" FunctionName="SneakerDBModel.Store.Catalog_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Catalog_GetItemById_Result">
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Catalog_Insert" FunctionName="SneakerDBModel.Store.Catalog_Insert" />
+    <FunctionImportMapping FunctionImportName="Catalog_Update" FunctionName="SneakerDBModel.Store.Catalog_Update" />
+    <FunctionImportMapping FunctionImportName="ChangePassword" FunctionName="SneakerDBModel.Store.ChangePassword" />
+    <FunctionImportMapping FunctionImportName="DashBoard_GetCountProductByCatalogName" FunctionName="SneakerDBModel.Store.DashBoard_GetCountProductByCatalogName">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.DashBoard_GetCountProductByCatalogName_Result">
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+          <ScalarProperty Name="TotalProduct" ColumnName="TotalProduct" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DashBoard_GetOrderStatus" FunctionName="SneakerDBModel.Store.DashBoard_GetOrderStatus">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.DashBoard_GetOrderStatus_Result">
+          <ScalarProperty Name="WaitConfirm" ColumnName="WaitConfirm" />
+          <ScalarProperty Name="Shipping" ColumnName="Shipping" />
+          <ScalarProperty Name="Complete" ColumnName="Complete" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DashBoard_GetTop10ProductOrder" FunctionName="SneakerDBModel.Store.DashBoard_GetTop10ProductOrder">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.DashBoard_GetTop10ProductOrder_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="TotalBuy" ColumnName="TotalBuy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="District_Delete" FunctionName="SneakerDBModel.Store.District_Delete" />
+    <FunctionImportMapping FunctionImportName="District_GetAll" FunctionName="SneakerDBModel.Store.District_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.District_GetAll_Result">
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="District_GetItemById" FunctionName="SneakerDBModel.Store.District_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.District_GetItemById_Result">
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="District_Insert" FunctionName="SneakerDBModel.Store.District_Insert" />
+    <FunctionImportMapping FunctionImportName="District_Update" FunctionName="SneakerDBModel.Store.District_Update" />
+    <FunctionImportMapping FunctionImportName="ImageProduct_Delete" FunctionName="SneakerDBModel.Store.ImageProduct_Delete" />
+    <FunctionImportMapping FunctionImportName="ImageProduct_GetAll" FunctionName="SneakerDBModel.Store.ImageProduct_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.ImageProduct_GetAll_Result">
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ImageProduct_GetItemById" FunctionName="SneakerDBModel.Store.ImageProduct_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.ImageProduct_GetItemById_Result">
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ImageProduct_Insert" FunctionName="SneakerDBModel.Store.ImageProduct_Insert" />
+    <FunctionImportMapping FunctionImportName="ImageProduct_Update" FunctionName="SneakerDBModel.Store.ImageProduct_Update" />
+    <FunctionImportMapping FunctionImportName="IS_GetProductByCatalog" FunctionName="SneakerDBModel.Store.IS_GetProductByCatalog">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.IS_GetProductByCatalog_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IS_GetSubCatalogByCatalog" FunctionName="SneakerDBModel.Store.IS_GetSubCatalogByCatalog">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.IS_GetSubCatalogByCatalog_Result">
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Login" FunctionName="SneakerDBModel.Store.Login">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Login_Result">
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Order_ChangeStatus" FunctionName="SneakerDBModel.Store.Order_ChangeStatus" />
+    <FunctionImportMapping FunctionImportName="Order_Destroy" FunctionName="SneakerDBModel.Store.Order_Destroy" />
+    <FunctionImportMapping FunctionImportName="Order_GetAll" FunctionName="SneakerDBModel.Store.Order_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetAll_Result">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Order_GetDetail" FunctionName="SneakerDBModel.Store.Order_GetDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetDetail_Result">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Order_GetDetail_For_Destroy" FunctionName="SneakerDBModel.Store.Order_GetDetail_For_Destroy">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetDetail_For_Destroy_Result">
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+          <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+          <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Order_GetOrderByStatus" FunctionName="SneakerDBModel.Store.Order_GetOrderByStatus">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetOrderByStatus_Result">
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+          <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_ChangeInfo" FunctionName="SneakerDBModel.Store.OS_ChangeInfo" />
+    <FunctionImportMapping FunctionImportName="OS_ChangePassword" FunctionName="SneakerDBModel.Store.OS_ChangePassword" />
+    <FunctionImportMapping FunctionImportName="OS_GetAllCatalog" FunctionName="SneakerDBModel.Store.OS_GetAllCatalog">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllCatalog_Result">
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetAllDistrict" FunctionName="SneakerDBModel.Store.OS_GetAllDistrict">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllDistrict_Result">
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetAllOrder" FunctionName="SneakerDBModel.Store.OS_GetAllOrder">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllOrder_Result">
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetAllProduct" FunctionName="SneakerDBModel.Store.OS_GetAllProduct" />
+    <FunctionImportMapping FunctionImportName="OS_GetAllProvince" FunctionName="SneakerDBModel.Store.OS_GetAllProvince">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllProvince_Result">
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetDistrictByProvince" FunctionName="SneakerDBModel.Store.OS_GetDistrictByProvince">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetDistrictByProvince_Result">
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetImageProductByID" FunctionName="SneakerDBModel.Store.OS_GetImageProductByID" />
+    <FunctionImportMapping FunctionImportName="OS_GetOrderDetail" FunctionName="SneakerDBModel.Store.OS_GetOrderDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetOrderDetail_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetProductDetailByID" FunctionName="SneakerDBModel.Store.OS_GetProductDetailByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetProductDetailByID_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetProductDetailInCart" FunctionName="SneakerDBModel.Store.OS_GetProductDetailInCart">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetProductDetailInCart_Result">
+          <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetSizeProductByID" FunctionName="SneakerDBModel.Store.OS_GetSizeProductByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetSizeProductByID_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetSubCatalogByCatalog" FunctionName="SneakerDBModel.Store.OS_GetSubCatalogByCatalog">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetSubCatalogByCatalog_Result">
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetTop10NewProduct" FunctionName="SneakerDBModel.Store.OS_GetTop10NewProduct">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetTop10NewProduct_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_GetTop10SaleProduct" FunctionName="SneakerDBModel.Store.OS_GetTop10SaleProduct">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetTop10SaleProduct_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_Login" FunctionName="SneakerDBModel.Store.OS_Login">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.OS_Login_Result">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="OS_Payment_LoginUser" FunctionName="SneakerDBModel.Store.OS_Payment_LoginUser" />
+    <FunctionImportMapping FunctionImportName="OS_Payment_NormalUser" FunctionName="SneakerDBModel.Store.OS_Payment_NormalUser" />
+    <FunctionImportMapping FunctionImportName="OS_SearchProduct" FunctionName="SneakerDBModel.Store.OS_SearchProduct" />
+    <FunctionImportMapping FunctionImportName="OS_SignUp" FunctionName="SneakerDBModel.Store.OS_SignUp" />
+    <FunctionImportMapping FunctionImportName="OS_UpdateAmountStock" FunctionName="SneakerDBModel.Store.OS_UpdateAmountStock" />
+    <FunctionImportMapping FunctionImportName="Product_Delete" FunctionName="SneakerDBModel.Store.Product_Delete" />
+    <FunctionImportMapping FunctionImportName="Product_GetAll" FunctionName="SneakerDBModel.Store.Product_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Product_GetAll_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Product_GetItemById" FunctionName="SneakerDBModel.Store.Product_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Product_GetItemById_Result">
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Product_Insert" FunctionName="SneakerDBModel.Store.Product_Insert" />
+    <FunctionImportMapping FunctionImportName="Product_Update" FunctionName="SneakerDBModel.Store.Product_Update" />
+    <FunctionImportMapping FunctionImportName="ProductItem_Delete" FunctionName="SneakerDBModel.Store.ProductItem_Delete" />
+    <FunctionImportMapping FunctionImportName="ProductItem_GetAll" FunctionName="SneakerDBModel.Store.ProductItem_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.ProductItem_GetAll_Result">
+          <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ProductItem_GetItemById" FunctionName="SneakerDBModel.Store.ProductItem_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.ProductItem_GetItemById_Result">
+          <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ProductItem_Insert" FunctionName="SneakerDBModel.Store.ProductItem_Insert" />
+    <FunctionImportMapping FunctionImportName="ProductItem_Update" FunctionName="SneakerDBModel.Store.ProductItem_Update" />
+    <FunctionImportMapping FunctionImportName="Province_Delete" FunctionName="SneakerDBModel.Store.Province_Delete" />
+    <FunctionImportMapping FunctionImportName="Province_GetAll" FunctionName="SneakerDBModel.Store.Province_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Province_GetAll_Result">
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Province_GetItemById" FunctionName="SneakerDBModel.Store.Province_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Province_GetItemById_Result">
+          <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Province_Insert" FunctionName="SneakerDBModel.Store.Province_Insert" />
+    <FunctionImportMapping FunctionImportName="Province_Update" FunctionName="SneakerDBModel.Store.Province_Update" />
+    <FunctionImportMapping FunctionImportName="Size_Delete" FunctionName="SneakerDBModel.Store.Size_Delete" />
+    <FunctionImportMapping FunctionImportName="Size_GetAll" FunctionName="SneakerDBModel.Store.Size_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Size_GetAll_Result">
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Size_GetItemById" FunctionName="SneakerDBModel.Store.Size_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Size_GetItemById_Result">
+          <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Size_Insert" FunctionName="SneakerDBModel.Store.Size_Insert" />
+    <FunctionImportMapping FunctionImportName="Size_Update" FunctionName="SneakerDBModel.Store.Size_Update" />
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="SneakerDBModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="SneakerDBModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="SneakerDBModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="SneakerDBModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="SneakerDBModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SneakerDBModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SneakerDBModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="Statistic_GetAmountStock" FunctionName="SneakerDBModel.Store.Statistic_GetAmountStock">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.Statistic_GetAmountStock_Result">
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Statistic_GetListOrder" FunctionName="SneakerDBModel.Store.Statistic_GetListOrder" />
+    <FunctionImportMapping FunctionImportName="SubCatalog_Delete" FunctionName="SneakerDBModel.Store.SubCatalog_Delete" />
+    <FunctionImportMapping FunctionImportName="SubCatalog_GetAll" FunctionName="SneakerDBModel.Store.SubCatalog_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.SubCatalog_GetAll_Result">
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SubCatalog_GetItemById" FunctionName="SneakerDBModel.Store.SubCatalog_GetItemById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.SubCatalog_GetItemById_Result">
+          <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+          <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SubCatalog_Insert" FunctionName="SneakerDBModel.Store.SubCatalog_Insert" />
+    <FunctionImportMapping FunctionImportName="SubCatalog_Update" FunctionName="SneakerDBModel.Store.SubCatalog_Update" />
+    <FunctionImportMapping FunctionImportName="UserLogin_GetAll" FunctionName="SneakerDBModel.Store.UserLogin_GetAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.UserLogin_GetAll_Result">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+          <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UserLogin_GetAllOrder" FunctionName="SneakerDBModel.Store.UserLogin_GetAllOrder">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.UserLogin_GetAllOrder_Result">
+          <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+          <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UserLogin_GetOrderDetail" FunctionName="SneakerDBModel.Store.UserLogin_GetOrderDetail">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SneakerDBModel.UserLogin_GetOrderDetail_Result">
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

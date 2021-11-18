@@ -641,9 +641,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Source\\SneakerProject\\SneakerAPI\\SneakerAPI.csproj",
-      "projectName": "SneakerAPI",
-      "projectPath": "D:\\Source\\SneakerProject\\SneakerAPI\\SneakerAPI.csproj",
+      "projectUniqueName": "D:\\Source\\SneakerProject\\SneakerAPI\\SneakerAPIADO.csproj",
+      "projectName": "SneakerAPIADO",
+      "projectPath": "D:\\Source\\SneakerProject\\SneakerAPI\\SneakerAPIADO.csproj",
       "packagesPath": "C:\\Users\\THIENNBM\\.nuget\\packages\\",
       "outputPath": "D:\\Source\\SneakerProject\\SneakerAPI\\obj\\",
       "projectStyle": "PackageReference",
@@ -701,7 +701,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

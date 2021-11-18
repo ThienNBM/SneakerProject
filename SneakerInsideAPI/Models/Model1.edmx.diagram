@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3c3e6ac30a9f4a6e9b1d1369f263ef00" Name="Diagram1">
+        <EntityTypeShape EntityType="SneakerDBModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.Catalog" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.District" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.ImageProduct" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.Product" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.ProductItem" Width="1.5" PointX="7.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.Province" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.Size" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.SubCatalog" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.sysdiagram" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.User" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.UserOrder" Width="1.5" PointX="7.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SneakerDBModel.OrderDetail" Width="1.5" PointX="9.75" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="SneakerDBModel.FK_Product_Catalog" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_SubCatalog_Catalog" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_District_Province" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_User_District" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_Image_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_Product_SubCatalog" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_ProductItem_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_OrderDetail_ProductItem" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_ProductItem_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_User_Province" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_UserOrder_User" ManuallyRouted="false" />
+        <AssociationConnector Association="SneakerDBModel.FK_OrderDetail_UserOrder" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

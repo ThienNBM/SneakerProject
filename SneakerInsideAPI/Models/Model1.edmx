@@ -1,0 +1,2728 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SneakerDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Catalog">
+          <Key>
+            <PropertyRef Name="CatalogID" />
+          </Key>
+          <Property Name="CatalogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CatalogName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DistrictID" />
+          </Key>
+          <Property Name="DistrictID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DistrictName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ProvinceID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImageProduct">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SneakerDB.dbo.OrderDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="UserOrderID" />
+            <PropertyRef Name="ProductItemID" />
+            <PropertyRef Name="AmountBuy" />
+            <PropertyRef Name="Total" />
+          </Key>
+          <Property Name="UserOrderID" Type="int" Nullable="false" />
+          <Property Name="ProductItemID" Type="int" Nullable="false" />
+          <Property Name="AmountBuy" Type="int" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CatalogID" Type="int" Nullable="false" />
+          <Property Name="SubCatalogID" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductItem">
+          <Key>
+            <PropertyRef Name="ProductItemID" />
+          </Key>
+          <Property Name="ProductItemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="SizeID" Type="int" Nullable="false" />
+          <Property Name="AmountStock" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="ProvinceID" />
+          </Key>
+          <Property Name="ProvinceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProvinceName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Size">
+          <Key>
+            <PropertyRef Name="SizeID" />
+          </Key>
+          <Property Name="SizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SizeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubCatalog">
+          <Key>
+            <PropertyRef Name="SubCatalogID" />
+          </Key>
+          <Property Name="SubCatalogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCatalogName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CatalogID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Account" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="10" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProvinceID" Type="int" />
+          <Property Name="DistrictID" Type="int" />
+        </EntityType>
+        <EntityType Name="UserOrder">
+          <Key>
+            <PropertyRef Name="UserOrderID" />
+          </Key>
+          <Property Name="UserOrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateCreate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_District_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="District" Type="Self.District" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="ProvinceID" />
+            </Principal>
+            <Dependent Role="District">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ImageProduct" Type="Self.ImageProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ImageProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_ProductItem">
+          <End Role="ProductItem" Type="Self.ProductItem" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductItem">
+              <PropertyRef Name="ProductItemID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_UserOrder">
+          <End Role="UserOrder" Type="Self.UserOrder" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserOrder">
+              <PropertyRef Name="UserOrderID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="UserOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Catalog">
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catalog">
+              <PropertyRef Name="CatalogID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CatalogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_SubCatalog">
+          <End Role="SubCatalog" Type="Self.SubCatalog" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCatalog">
+              <PropertyRef Name="SubCatalogID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SubCatalogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductItem" Type="Self.ProductItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductItem">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductItem_Size">
+          <End Role="Size" Type="Self.Size" Multiplicity="1" />
+          <End Role="ProductItem" Type="Self.ProductItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Size">
+              <PropertyRef Name="SizeID" />
+            </Principal>
+            <Dependent Role="ProductItem">
+              <PropertyRef Name="SizeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubCatalog_Catalog">
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
+          <End Role="SubCatalog" Type="Self.SubCatalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catalog">
+              <PropertyRef Name="CatalogID" />
+            </Principal>
+            <Dependent Role="SubCatalog">
+              <PropertyRef Name="CatalogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_District">
+          <End Role="District" Type="Self.District" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DistrictID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="ProvinceID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrder_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserOrder" Type="Self.UserOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserOrder">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Admin_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AdminID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Admin_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Admin_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AdminID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Admin_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Account" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Role" Type="int" Mode="In" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Admin_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AdminID" Type="int" Mode="In" />
+          <Parameter Name="Account" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Role" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Catalog_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Catalog_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Catalog_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Catalog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Catalog_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="CatalogName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ChangePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AdminID" Type="int" Mode="In" />
+          <Parameter Name="NewPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="DashBoard_GetCountProductByCatalogName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="DashBoard_GetOrderStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="DashBoard_GetTop10ProductOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="District_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DistrictID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="District_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="District_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DistrictID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="District_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DistrictName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="District_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DistrictID" Type="int" Mode="In" />
+          <Parameter Name="DistrictName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="ImageProduct_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ImageID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ImageProduct_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ImageProduct_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ImageID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ImageProduct_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="Image" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ImageProduct_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ImageID" Type="int" Mode="In" />
+          <Parameter Name="Image" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="IS_GetProductByCatalog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="IS_GetSubCatalogByCatalog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Account" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Order_ChangeStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserOrderID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Order_Destroy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserOrderID" Type="int" Mode="In" />
+          <Parameter Name="ProductItemID" Type="int" Mode="In" />
+          <Parameter Name="AmountStock" Type="int" Mode="In" />
+          <Parameter Name="AmountBuy" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Order_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Order_GetDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserOrderID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Order_GetDetail_For_Destroy" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserOrderID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Order_GetOrderByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_ChangeInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PhoneNumber" Type="nvarchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Address" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="DistrictID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_ChangePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="NewPassword" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetAllCatalog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetAllDistrict" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetAllOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetAllProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InSort" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="SubCatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetAllProvince" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetDistrictByProvince" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetImageProductByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetOrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserOrderID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetProductDetailByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetProductDetailInCart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="SizeID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetSizeProductByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetSubCatalogByCatalog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetTop10NewProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_GetTop10SaleProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_Login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Account" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_Payment_LoginUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IN_JSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_Payment_NormalUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IN_JSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_SearchProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InSort" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Content" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_SignUp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Account" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="OS_UpdateAmountStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductItemID" Type="int" Mode="In" />
+          <Parameter Name="AmountStock" Type="int" Mode="In" />
+          <Parameter Name="AmountBuy" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Product_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Product_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Product_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Product_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Price" Type="float" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="SubCatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Product_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="ProductName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Price" Type="float" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="SubCatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ProductItem_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductItemID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ProductItem_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ProductItem_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductItemID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ProductItem_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="SizeID" Type="int" Mode="In" />
+          <Parameter Name="AmountStock" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="ProductItem_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductItemID" Type="int" Mode="In" />
+          <Parameter Name="ProductID" Type="int" Mode="In" />
+          <Parameter Name="SizeID" Type="int" Mode="In" />
+          <Parameter Name="AmountStock" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Province_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Province_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Province_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Province_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProvinceName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Province_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProvinceID" Type="int" Mode="In" />
+          <Parameter Name="ProvinceName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Size_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SizeID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Size_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Size_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SizeID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Size_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SizeName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Size_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SizeID" Type="int" Mode="In" />
+          <Parameter Name="SizeName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Statistic_GetAmountStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="Statistic_GetListOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Month" Type="int" Mode="In" />
+          <Parameter Name="Year" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SubCatalog_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SubCatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SubCatalog_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SubCatalog_GetItemById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SubCatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SubCatalog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SubCatalogName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SubCatalog_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SubCatalogID" Type="int" Mode="In" />
+          <Parameter Name="SubCatalogName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+          <Parameter Name="CatalogID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="UserLogin_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="UserLogin_GetAllOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="UserLogin_GetOrderDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserOrderID" Type="int" Mode="In" />
+          <Parameter Name="ErrorCode" Type="nvarchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="SneakerDBModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Catalog" EntityType="Self.Catalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImageProduct" EntityType="Self.ImageProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductItem" EntityType="Self.ProductItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCatalog" EntityType="Self.SubCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserOrder" EntityType="Self.UserOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[OrderDetail].[UserOrderID] AS [UserOrderID], 
+[OrderDetail].[ProductItemID] AS [ProductItemID], 
+[OrderDetail].[AmountBuy] AS [AmountBuy], 
+[OrderDetail].[Total] AS [Total]
+FROM [dbo].[OrderDetail] AS [OrderDetail]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_District_Province" Association="Self.FK_District_Province">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="District" EntitySet="District" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_Product" Association="Self.FK_Image_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ImageProduct" EntitySet="ImageProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_ProductItem" Association="Self.FK_OrderDetail_ProductItem">
+            <End Role="ProductItem" EntitySet="ProductItem" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_UserOrder" Association="Self.FK_OrderDetail_UserOrder">
+            <End Role="UserOrder" EntitySet="UserOrder" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Catalog" Association="Self.FK_Product_Catalog">
+            <End Role="Catalog" EntitySet="Catalog" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_SubCatalog" Association="Self.FK_Product_SubCatalog">
+            <End Role="SubCatalog" EntitySet="SubCatalog" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductItem_Product" Association="Self.FK_ProductItem_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductItem" EntitySet="ProductItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductItem_Size" Association="Self.FK_ProductItem_Size">
+            <End Role="Size" EntitySet="Size" />
+            <End Role="ProductItem" EntitySet="ProductItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubCatalog_Catalog" Association="Self.FK_SubCatalog_Catalog">
+            <End Role="Catalog" EntitySet="Catalog" />
+            <End Role="SubCatalog" EntitySet="SubCatalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_District" Association="Self.FK_User_District">
+            <End Role="District" EntitySet="District" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Province" Association="Self.FK_User_Province">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder_User" Association="Self.FK_UserOrder_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserOrder" EntitySet="UserOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SneakerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Catalog">
+          <Key>
+            <PropertyRef Name="CatalogID" />
+          </Key>
+          <Property Name="CatalogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CatalogName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Catalog" FromRole="Catalog" ToRole="Product" />
+          <NavigationProperty Name="SubCatalogs" Relationship="Self.FK_SubCatalog_Catalog" FromRole="Catalog" ToRole="SubCatalog" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="DistrictID" />
+          </Key>
+          <Property Name="DistrictID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DistrictName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ProvinceID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Province" Relationship="Self.FK_District_Province" FromRole="District" ToRole="Province" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_District" FromRole="District" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ImageProduct">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Image_Product" FromRole="ImageProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CatalogID" Type="Int32" Nullable="false" />
+          <Property Name="SubCatalogID" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Catalog" Relationship="Self.FK_Product_Catalog" FromRole="Product" ToRole="Catalog" />
+          <NavigationProperty Name="ImageProducts" Relationship="Self.FK_Image_Product" FromRole="Product" ToRole="ImageProduct" />
+          <NavigationProperty Name="SubCatalog" Relationship="Self.FK_Product_SubCatalog" FromRole="Product" ToRole="SubCatalog" />
+          <NavigationProperty Name="ProductItems" Relationship="Self.FK_ProductItem_Product" FromRole="Product" ToRole="ProductItem" />
+        </EntityType>
+        <EntityType Name="ProductItem">
+          <Key>
+            <PropertyRef Name="ProductItemID" />
+          </Key>
+          <Property Name="ProductItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="SizeID" Type="Int32" Nullable="false" />
+          <Property Name="AmountStock" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProductItem_Product" FromRole="ProductItem" ToRole="Product" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_ProductItem" FromRole="ProductItem" ToRole="OrderDetail" />
+          <NavigationProperty Name="Size" Relationship="Self.FK_ProductItem_Size" FromRole="ProductItem" ToRole="Size" />
+        </EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="ProvinceID" />
+          </Key>
+          <Property Name="ProvinceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProvinceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Districts" Relationship="Self.FK_District_Province" FromRole="Province" ToRole="District" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Province" FromRole="Province" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Size">
+          <Key>
+            <PropertyRef Name="SizeID" />
+          </Key>
+          <Property Name="SizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SizeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProductItems" Relationship="Self.FK_ProductItem_Size" FromRole="Size" ToRole="ProductItem" />
+        </EntityType>
+        <EntityType Name="SubCatalog">
+          <Key>
+            <PropertyRef Name="SubCatalogID" />
+          </Key>
+          <Property Name="SubCatalogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCatalogName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CatalogID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Catalog" Relationship="Self.FK_SubCatalog_Catalog" FromRole="SubCatalog" ToRole="Catalog" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_SubCatalog" FromRole="SubCatalog" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Account" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceID" Type="Int32" />
+          <Property Name="DistrictID" Type="Int32" />
+          <NavigationProperty Name="District" Relationship="Self.FK_User_District" FromRole="User" ToRole="District" />
+          <NavigationProperty Name="Province" Relationship="Self.FK_User_Province" FromRole="User" ToRole="Province" />
+          <NavigationProperty Name="UserOrders" Relationship="Self.FK_UserOrder_User" FromRole="User" ToRole="UserOrder" />
+        </EntityType>
+        <EntityType Name="UserOrder">
+          <Key>
+            <PropertyRef Name="UserOrderID" />
+          </Key>
+          <Property Name="UserOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserOrder_User" FromRole="UserOrder" ToRole="User" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetail_UserOrder" FromRole="UserOrder" ToRole="OrderDetail" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="UserOrderID" />
+            <PropertyRef Name="ProductItemID" />
+            <PropertyRef Name="AmountBuy" />
+            <PropertyRef Name="Total" />
+          </Key>
+          <Property Name="UserOrderID" Type="Int32" Nullable="false" />
+          <Property Name="ProductItemID" Type="Int32" Nullable="false" />
+          <Property Name="AmountBuy" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <NavigationProperty Name="ProductItem" Relationship="Self.FK_OrderDetail_ProductItem" FromRole="OrderDetail" ToRole="ProductItem" />
+          <NavigationProperty Name="UserOrder" Relationship="Self.FK_OrderDetail_UserOrder" FromRole="OrderDetail" ToRole="UserOrder" />
+        </EntityType>
+        <Association Name="FK_Product_Catalog">
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catalog">
+              <PropertyRef Name="CatalogID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CatalogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubCatalog_Catalog">
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
+          <End Role="SubCatalog" Type="Self.SubCatalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Catalog">
+              <PropertyRef Name="CatalogID" />
+            </Principal>
+            <Dependent Role="SubCatalog">
+              <PropertyRef Name="CatalogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_District_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="District" Type="Self.District" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="ProvinceID" />
+            </Principal>
+            <Dependent Role="District">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_District">
+          <End Role="District" Type="Self.District" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="DistrictID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DistrictID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ImageProduct" Type="Self.ImageProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ImageProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_SubCatalog">
+          <End Role="SubCatalog" Type="Self.SubCatalog" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCatalog">
+              <PropertyRef Name="SubCatalogID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SubCatalogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductItem_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductItem" Type="Self.ProductItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="ProductItem">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_ProductItem">
+          <End Role="ProductItem" Type="Self.ProductItem" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductItem">
+              <PropertyRef Name="ProductItemID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductItem_Size">
+          <End Role="Size" Type="Self.Size" Multiplicity="1" />
+          <End Role="ProductItem" Type="Self.ProductItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Size">
+              <PropertyRef Name="SizeID" />
+            </Principal>
+            <Dependent Role="ProductItem">
+              <PropertyRef Name="SizeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Province">
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="ProvinceID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserOrder_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserOrder" Type="Self.UserOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserOrder">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_UserOrder">
+          <End Role="UserOrder" Type="Self.UserOrder" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserOrder">
+              <PropertyRef Name="UserOrderID" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="UserOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SneakerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Catalogs" EntityType="Self.Catalog" />
+          <EntitySet Name="Districts" EntityType="Self.District" />
+          <EntitySet Name="ImageProducts" EntityType="Self.ImageProduct" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="ProductItems" EntityType="Self.ProductItem" />
+          <EntitySet Name="Provinces" EntityType="Self.Province" />
+          <EntitySet Name="Sizes" EntityType="Self.Size" />
+          <EntitySet Name="SubCatalogs" EntityType="Self.SubCatalog" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserOrders" EntityType="Self.UserOrder" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
+          <AssociationSet Name="FK_Product_Catalog" Association="Self.FK_Product_Catalog">
+            <End Role="Catalog" EntitySet="Catalogs" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubCatalog_Catalog" Association="Self.FK_SubCatalog_Catalog">
+            <End Role="Catalog" EntitySet="Catalogs" />
+            <End Role="SubCatalog" EntitySet="SubCatalogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_District_Province" Association="Self.FK_District_Province">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="District" EntitySet="Districts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_District" Association="Self.FK_User_District">
+            <End Role="District" EntitySet="Districts" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_Product" Association="Self.FK_Image_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ImageProduct" EntitySet="ImageProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_SubCatalog" Association="Self.FK_Product_SubCatalog">
+            <End Role="SubCatalog" EntitySet="SubCatalogs" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductItem_Product" Association="Self.FK_ProductItem_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductItem" EntitySet="ProductItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_ProductItem" Association="Self.FK_OrderDetail_ProductItem">
+            <End Role="ProductItem" EntitySet="ProductItems" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductItem_Size" Association="Self.FK_ProductItem_Size">
+            <End Role="Size" EntitySet="Sizes" />
+            <End Role="ProductItem" EntitySet="ProductItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Province" Association="Self.FK_User_Province">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserOrder_User" Association="Self.FK_UserOrder_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserOrder" EntitySet="UserOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_UserOrder" Association="Self.FK_OrderDetail_UserOrder">
+            <End Role="UserOrder" EntitySet="UserOrders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <FunctionImport Name="Admin_Delete">
+            <Parameter Name="AdminID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Admin_GetAll" ReturnType="Collection(SneakerDBModel.Admin_GetAll_Result)" />
+          <FunctionImport Name="Admin_GetItemById" ReturnType="Collection(SneakerDBModel.Admin_GetItemById_Result)">
+            <Parameter Name="AdminID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Admin_Insert">
+            <Parameter Name="Account" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Role" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Admin_Update">
+            <Parameter Name="AdminID" Mode="In" Type="Int32" />
+            <Parameter Name="Account" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Role" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Catalog_Delete">
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Catalog_GetAll" ReturnType="Collection(SneakerDBModel.Catalog_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Catalog_GetItemById" ReturnType="Collection(SneakerDBModel.Catalog_GetItemById_Result)">
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Catalog_Insert">
+            <Parameter Name="CatalogName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Catalog_Update">
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="CatalogName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ChangePassword">
+            <Parameter Name="AdminID" Mode="In" Type="Int32" />
+            <Parameter Name="NewPassword" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DashBoard_GetCountProductByCatalogName" ReturnType="Collection(SneakerDBModel.DashBoard_GetCountProductByCatalogName_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DashBoard_GetOrderStatus" ReturnType="Collection(SneakerDBModel.DashBoard_GetOrderStatus_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DashBoard_GetTop10ProductOrder" ReturnType="Collection(SneakerDBModel.DashBoard_GetTop10ProductOrder_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="District_Delete">
+            <Parameter Name="DistrictID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="District_GetAll" ReturnType="Collection(SneakerDBModel.District_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="District_GetItemById" ReturnType="Collection(SneakerDBModel.District_GetItemById_Result)">
+            <Parameter Name="DistrictID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="District_Insert">
+            <Parameter Name="DistrictName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="District_Update">
+            <Parameter Name="DistrictID" Mode="In" Type="Int32" />
+            <Parameter Name="DistrictName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImageProduct_Delete">
+            <Parameter Name="ImageID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImageProduct_GetAll" ReturnType="Collection(SneakerDBModel.ImageProduct_GetAll_Result)">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImageProduct_GetItemById" ReturnType="Collection(SneakerDBModel.ImageProduct_GetItemById_Result)">
+            <Parameter Name="ImageID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImageProduct_Insert">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="Image" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImageProduct_Update">
+            <Parameter Name="ImageID" Mode="In" Type="Int32" />
+            <Parameter Name="Image" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IS_GetProductByCatalog" ReturnType="Collection(SneakerDBModel.IS_GetProductByCatalog_Result)">
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IS_GetSubCatalogByCatalog" ReturnType="Collection(SneakerDBModel.IS_GetSubCatalogByCatalog_Result)">
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Login" ReturnType="Collection(SneakerDBModel.Login_Result)">
+            <Parameter Name="Account" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Order_ChangeStatus">
+            <Parameter Name="UserOrderID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Order_Destroy">
+            <Parameter Name="UserOrderID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductItemID" Mode="In" Type="Int32" />
+            <Parameter Name="AmountStock" Mode="In" Type="Int32" />
+            <Parameter Name="AmountBuy" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Order_GetAll" ReturnType="Collection(SneakerDBModel.Order_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Order_GetDetail" ReturnType="Collection(SneakerDBModel.Order_GetDetail_Result)">
+            <Parameter Name="UserOrderID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Order_GetDetail_For_Destroy" ReturnType="Collection(SneakerDBModel.Order_GetDetail_For_Destroy_Result)">
+            <Parameter Name="UserOrderID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Order_GetOrderByStatus" ReturnType="Collection(SneakerDBModel.Order_GetOrderByStatus_Result)">
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_ChangeInfo">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Address" Mode="In" Type="String" />
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="DistrictID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_ChangePassword">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="NewPassword" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetAllCatalog" ReturnType="Collection(SneakerDBModel.OS_GetAllCatalog_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetAllDistrict" ReturnType="Collection(SneakerDBModel.OS_GetAllDistrict_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetAllOrder" ReturnType="Collection(SneakerDBModel.OS_GetAllOrder_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetAllProduct">
+            <Parameter Name="InSort" Mode="In" Type="String" />
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="SubCatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetAllProvince" ReturnType="Collection(SneakerDBModel.OS_GetAllProvince_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetDistrictByProvince" ReturnType="Collection(SneakerDBModel.OS_GetDistrictByProvince_Result)">
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetImageProductByID" ReturnType="Collection(String)">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetOrderDetail" ReturnType="Collection(SneakerDBModel.OS_GetOrderDetail_Result)">
+            <Parameter Name="UserOrderID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetProductDetailByID" ReturnType="Collection(SneakerDBModel.OS_GetProductDetailByID_Result)">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetProductDetailInCart" ReturnType="Collection(SneakerDBModel.OS_GetProductDetailInCart_Result)">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="SizeID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetSizeProductByID" ReturnType="Collection(SneakerDBModel.OS_GetSizeProductByID_Result)">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetSubCatalogByCatalog" ReturnType="Collection(SneakerDBModel.OS_GetSubCatalogByCatalog_Result)">
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetTop10NewProduct" ReturnType="Collection(SneakerDBModel.OS_GetTop10NewProduct_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_GetTop10SaleProduct" ReturnType="Collection(SneakerDBModel.OS_GetTop10SaleProduct_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_Login" ReturnType="Collection(SneakerDBModel.OS_Login_Result)">
+            <Parameter Name="Account" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_Payment_LoginUser">
+            <Parameter Name="IN_JSON" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_Payment_NormalUser">
+            <Parameter Name="IN_JSON" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_SearchProduct">
+            <Parameter Name="InSort" Mode="In" Type="String" />
+            <Parameter Name="Content" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_SignUp">
+            <Parameter Name="Account" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="OS_UpdateAmountStock">
+            <Parameter Name="ProductItemID" Mode="In" Type="Int32" />
+            <Parameter Name="AmountStock" Mode="In" Type="Int32" />
+            <Parameter Name="AmountBuy" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Product_Delete">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Product_GetAll" ReturnType="Collection(SneakerDBModel.Product_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Product_GetItemById" ReturnType="Collection(SneakerDBModel.Product_GetItemById_Result)">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Product_Insert">
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Double" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="SubCatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Product_Update">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductName" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Double" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="SubCatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ProductItem_Delete">
+            <Parameter Name="ProductItemID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ProductItem_GetAll" ReturnType="Collection(SneakerDBModel.ProductItem_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ProductItem_GetItemById" ReturnType="Collection(SneakerDBModel.ProductItem_GetItemById_Result)">
+            <Parameter Name="ProductItemID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ProductItem_Insert">
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="SizeID" Mode="In" Type="Int32" />
+            <Parameter Name="AmountStock" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ProductItem_Update">
+            <Parameter Name="ProductItemID" Mode="In" Type="Int32" />
+            <Parameter Name="ProductID" Mode="In" Type="Int32" />
+            <Parameter Name="SizeID" Mode="In" Type="Int32" />
+            <Parameter Name="AmountStock" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Province_Delete">
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Province_GetAll" ReturnType="Collection(SneakerDBModel.Province_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Province_GetItemById" ReturnType="Collection(SneakerDBModel.Province_GetItemById_Result)">
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Province_Insert">
+            <Parameter Name="ProvinceName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Province_Update">
+            <Parameter Name="ProvinceID" Mode="In" Type="Int32" />
+            <Parameter Name="ProvinceName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Size_Delete">
+            <Parameter Name="SizeID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Size_GetAll" ReturnType="Collection(SneakerDBModel.Size_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Size_GetItemById" ReturnType="Collection(SneakerDBModel.Size_GetItemById_Result)">
+            <Parameter Name="SizeID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Size_Insert">
+            <Parameter Name="SizeName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Size_Update">
+            <Parameter Name="SizeID" Mode="In" Type="Int32" />
+            <Parameter Name="SizeName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(SneakerDBModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(SneakerDBModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="Statistic_GetAmountStock" ReturnType="Collection(SneakerDBModel.Statistic_GetAmountStock_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Statistic_GetListOrder">
+            <Parameter Name="Month" Mode="In" Type="Int32" />
+            <Parameter Name="Year" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SubCatalog_Delete">
+            <Parameter Name="SubCatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SubCatalog_GetAll" ReturnType="Collection(SneakerDBModel.SubCatalog_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SubCatalog_GetItemById" ReturnType="Collection(SneakerDBModel.SubCatalog_GetItemById_Result)">
+            <Parameter Name="SubCatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SubCatalog_Insert">
+            <Parameter Name="SubCatalogName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SubCatalog_Update">
+            <Parameter Name="SubCatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="SubCatalogName" Mode="In" Type="String" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+            <Parameter Name="CatalogID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserLogin_GetAll" ReturnType="Collection(SneakerDBModel.UserLogin_GetAll_Result)">
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserLogin_GetAllOrder" ReturnType="Collection(SneakerDBModel.UserLogin_GetAllOrder_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserLogin_GetOrderDetail" ReturnType="Collection(SneakerDBModel.UserLogin_GetOrderDetail_Result)">
+            <Parameter Name="UserOrderID" Mode="In" Type="Int32" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Admin_GetAll_Result">
+          <Property Type="Int32" Name="AdminID" Nullable="false" />
+          <Property Type="String" Name="Account" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Role" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Admin_GetItemById_Result">
+          <Property Type="Int32" Name="AdminID" Nullable="false" />
+          <Property Type="String" Name="Account" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Role" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Catalog_GetAll_Result">
+          <Property Type="Int32" Name="CatalogID" Nullable="false" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Catalog_GetItemById_Result">
+          <Property Type="Int32" Name="CatalogID" Nullable="false" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="DashBoard_GetCountProductByCatalogName_Result">
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="TotalProduct" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DashBoard_GetOrderStatus_Result">
+          <Property Type="Int32" Name="WaitConfirm" Nullable="true" />
+          <Property Type="Int32" Name="Shipping" Nullable="true" />
+          <Property Type="Int32" Name="Complete" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DashBoard_GetTop10ProductOrder_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="TotalBuy" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="District_GetAll_Result">
+          <Property Type="Int32" Name="DistrictID" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="ProvinceName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="District_GetItemById_Result">
+          <Property Type="Int32" Name="DistrictID" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="ProvinceID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ImageProduct_GetAll_Result">
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="ImageProduct_GetItemById_Result">
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="Image" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="IS_GetProductByCatalog_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="IS_GetSubCatalogByCatalog_Result">
+          <Property Type="Int32" Name="SubCatalogID" Nullable="false" />
+          <Property Type="String" Name="SubCatalogName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Login_Result">
+          <Property Type="Int32" Name="AdminID" Nullable="false" />
+          <Property Type="String" Name="Account" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Role" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Order_GetAll_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ProvinceName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UserOrderID" Nullable="false" />
+          <Property Type="DateTime" Name="DateCreate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+          <Property Type="Double" Name="TotalMoney" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Order_GetDetail_Result">
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="AmountBuy" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Order_GetDetail_For_Destroy_Result">
+          <Property Type="Int32" Name="UserOrderID" Nullable="false" />
+          <Property Type="Int32" Name="ProductItemID" Nullable="false" />
+          <Property Type="Int32" Name="AmountBuy" Nullable="false" />
+          <Property Type="Int32" Name="AmountStock" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Order_GetOrderByStatus_Result">
+          <Property Type="Int32" Name="UserOrderID" Nullable="false" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ProvinceName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DateCreate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+          <Property Type="Double" Name="TotalMoney" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="OS_GetAllCatalog_Result">
+          <Property Type="Int32" Name="CatalogID" Nullable="false" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="OS_GetAllDistrict_Result">
+          <Property Type="Int32" Name="DistrictID" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="OS_GetAllOrder_Result">
+          <Property Type="Int32" Name="UserOrderID" Nullable="false" />
+          <Property Type="DateTime" Name="DateCreate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+          <Property Type="Double" Name="TotalMoney" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="OS_GetAllProvince_Result">
+          <Property Type="Int32" Name="ProvinceID" Nullable="false" />
+          <Property Type="String" Name="ProvinceName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="OS_GetDistrictByProvince_Result">
+          <Property Type="Int32" Name="DistrictID" Nullable="false" />
+          <Property Type="String" Name="DistrictName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="OS_GetOrderDetail_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="AmountBuy" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="OS_GetProductDetailByID_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="OS_GetProductDetailInCart_Result">
+          <Property Type="Int32" Name="ProductItemID" Nullable="false" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="String" Name="Image" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="SizeID" Nullable="false" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AmountStock" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="OS_GetSizeProductByID_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="SizeID" Nullable="false" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="OS_GetSubCatalogByCatalog_Result">
+          <Property Type="Int32" Name="SubCatalogID" Nullable="false" />
+          <Property Type="String" Name="SubCatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="CatalogID" Nullable="false" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="OS_GetTop10NewProduct_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="false" MaxLength="200" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="OS_GetTop10SaleProduct_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="false" MaxLength="200" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="OS_Login_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="Account" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ProvinceID" Nullable="true" />
+          <Property Type="Int32" Name="DistrictID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Product_GetAll_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SubCatalogName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Product_GetItemById_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="CatalogID" Nullable="false" />
+          <Property Type="Int32" Name="SubCatalogID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ProductItem_GetAll_Result">
+          <Property Type="Int32" Name="ProductItemID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AmountStock" Nullable="false" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ProductItem_GetItemById_Result">
+          <Property Type="Int32" Name="ProductItemID" Nullable="false" />
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="SizeID" Nullable="false" />
+          <Property Type="Int32" Name="AmountStock" Nullable="false" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Province_GetAll_Result">
+          <Property Type="Int32" Name="ProvinceID" Nullable="false" />
+          <Property Type="String" Name="ProvinceName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Province_GetItemById_Result">
+          <Property Type="Int32" Name="ProvinceID" Nullable="false" />
+          <Property Type="String" Name="ProvinceName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Size_GetAll_Result">
+          <Property Type="Int32" Name="SizeID" Nullable="false" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Size_GetItemById_Result">
+          <Property Type="Int32" Name="SizeID" Nullable="false" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="Statistic_GetAmountStock_Result">
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SubCatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AmountStock" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SubCatalog_GetAll_Result">
+          <Property Type="Int32" Name="SubCatalogID" Nullable="false" />
+          <Property Type="String" Name="SubCatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="CatalogName" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SubCatalog_GetItemById_Result">
+          <Property Type="Int32" Name="SubCatalogID" Nullable="false" />
+          <Property Type="String" Name="SubCatalogName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="CatalogID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="UserLogin_GetAll_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="Account" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ProvinceName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DistrictName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UserLogin_GetAllOrder_Result">
+          <Property Type="Int32" Name="UserOrderID" Nullable="false" />
+          <Property Type="DateTime" Name="DateCreate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="Note" Nullable="true" MaxLength="500" />
+          <Property Type="Double" Name="TotalMoney" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UserLogin_GetOrderDetail_Result">
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SizeName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Image" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="AmountBuy" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SneakerDBModelStoreContainer" CdmEntityContainer="SneakerDBEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="SneakerDBModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Catalogs">
+            <EntityTypeMapping TypeName="SneakerDBModel.Catalog">
+              <MappingFragment StoreEntitySet="Catalog">
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Districts">
+            <EntityTypeMapping TypeName="SneakerDBModel.District">
+              <MappingFragment StoreEntitySet="District">
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImageProducts">
+            <EntityTypeMapping TypeName="SneakerDBModel.ImageProduct">
+              <MappingFragment StoreEntitySet="ImageProduct">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="SneakerDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductItems">
+            <EntityTypeMapping TypeName="SneakerDBModel.ProductItem">
+              <MappingFragment StoreEntitySet="ProductItem">
+                <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provinces">
+            <EntityTypeMapping TypeName="SneakerDBModel.Province">
+              <MappingFragment StoreEntitySet="Province">
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sizes">
+            <EntityTypeMapping TypeName="SneakerDBModel.Size">
+              <MappingFragment StoreEntitySet="Size">
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCatalogs">
+            <EntityTypeMapping TypeName="SneakerDBModel.SubCatalog">
+              <MappingFragment StoreEntitySet="SubCatalog">
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SneakerDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SneakerDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserOrders">
+            <EntityTypeMapping TypeName="SneakerDBModel.UserOrder">
+              <MappingFragment StoreEntitySet="UserOrder">
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="SneakerDBModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+                <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Admin_Delete" FunctionName="SneakerDBModel.Store.Admin_Delete" />
+          <FunctionImportMapping FunctionImportName="Admin_GetAll" FunctionName="SneakerDBModel.Store.Admin_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Admin_GetAll_Result">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Admin_GetItemById" FunctionName="SneakerDBModel.Store.Admin_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Admin_GetItemById_Result">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Admin_Insert" FunctionName="SneakerDBModel.Store.Admin_Insert" />
+          <FunctionImportMapping FunctionImportName="Admin_Update" FunctionName="SneakerDBModel.Store.Admin_Update" />
+          <FunctionImportMapping FunctionImportName="Catalog_Delete" FunctionName="SneakerDBModel.Store.Catalog_Delete" />
+          <FunctionImportMapping FunctionImportName="Catalog_GetAll" FunctionName="SneakerDBModel.Store.Catalog_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Catalog_GetAll_Result">
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Catalog_GetItemById" FunctionName="SneakerDBModel.Store.Catalog_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Catalog_GetItemById_Result">
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Catalog_Insert" FunctionName="SneakerDBModel.Store.Catalog_Insert" />
+          <FunctionImportMapping FunctionImportName="Catalog_Update" FunctionName="SneakerDBModel.Store.Catalog_Update" />
+          <FunctionImportMapping FunctionImportName="ChangePassword" FunctionName="SneakerDBModel.Store.ChangePassword" />
+          <FunctionImportMapping FunctionImportName="DashBoard_GetCountProductByCatalogName" FunctionName="SneakerDBModel.Store.DashBoard_GetCountProductByCatalogName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.DashBoard_GetCountProductByCatalogName_Result">
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+                <ScalarProperty Name="TotalProduct" ColumnName="TotalProduct" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DashBoard_GetOrderStatus" FunctionName="SneakerDBModel.Store.DashBoard_GetOrderStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.DashBoard_GetOrderStatus_Result">
+                <ScalarProperty Name="WaitConfirm" ColumnName="WaitConfirm" />
+                <ScalarProperty Name="Shipping" ColumnName="Shipping" />
+                <ScalarProperty Name="Complete" ColumnName="Complete" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DashBoard_GetTop10ProductOrder" FunctionName="SneakerDBModel.Store.DashBoard_GetTop10ProductOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.DashBoard_GetTop10ProductOrder_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="TotalBuy" ColumnName="TotalBuy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="District_Delete" FunctionName="SneakerDBModel.Store.District_Delete" />
+          <FunctionImportMapping FunctionImportName="District_GetAll" FunctionName="SneakerDBModel.Store.District_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.District_GetAll_Result">
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="District_GetItemById" FunctionName="SneakerDBModel.Store.District_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.District_GetItemById_Result">
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="District_Insert" FunctionName="SneakerDBModel.Store.District_Insert" />
+          <FunctionImportMapping FunctionImportName="District_Update" FunctionName="SneakerDBModel.Store.District_Update" />
+          <FunctionImportMapping FunctionImportName="ImageProduct_Delete" FunctionName="SneakerDBModel.Store.ImageProduct_Delete" />
+          <FunctionImportMapping FunctionImportName="ImageProduct_GetAll" FunctionName="SneakerDBModel.Store.ImageProduct_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.ImageProduct_GetAll_Result">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ImageProduct_GetItemById" FunctionName="SneakerDBModel.Store.ImageProduct_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.ImageProduct_GetItemById_Result">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ImageProduct_Insert" FunctionName="SneakerDBModel.Store.ImageProduct_Insert" />
+          <FunctionImportMapping FunctionImportName="ImageProduct_Update" FunctionName="SneakerDBModel.Store.ImageProduct_Update" />
+          <FunctionImportMapping FunctionImportName="IS_GetProductByCatalog" FunctionName="SneakerDBModel.Store.IS_GetProductByCatalog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.IS_GetProductByCatalog_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IS_GetSubCatalogByCatalog" FunctionName="SneakerDBModel.Store.IS_GetSubCatalogByCatalog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.IS_GetSubCatalogByCatalog_Result">
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Login" FunctionName="SneakerDBModel.Store.Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Login_Result">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Order_ChangeStatus" FunctionName="SneakerDBModel.Store.Order_ChangeStatus" />
+          <FunctionImportMapping FunctionImportName="Order_Destroy" FunctionName="SneakerDBModel.Store.Order_Destroy" />
+          <FunctionImportMapping FunctionImportName="Order_GetAll" FunctionName="SneakerDBModel.Store.Order_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetAll_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Order_GetDetail" FunctionName="SneakerDBModel.Store.Order_GetDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetDetail_Result">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Order_GetDetail_For_Destroy" FunctionName="SneakerDBModel.Store.Order_GetDetail_For_Destroy">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetDetail_For_Destroy_Result">
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+                <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+                <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Order_GetOrderByStatus" FunctionName="SneakerDBModel.Store.Order_GetOrderByStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Order_GetOrderByStatus_Result">
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_ChangeInfo" FunctionName="SneakerDBModel.Store.OS_ChangeInfo" />
+          <FunctionImportMapping FunctionImportName="OS_ChangePassword" FunctionName="SneakerDBModel.Store.OS_ChangePassword" />
+          <FunctionImportMapping FunctionImportName="OS_GetAllCatalog" FunctionName="SneakerDBModel.Store.OS_GetAllCatalog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllCatalog_Result">
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetAllDistrict" FunctionName="SneakerDBModel.Store.OS_GetAllDistrict">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllDistrict_Result">
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetAllOrder" FunctionName="SneakerDBModel.Store.OS_GetAllOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllOrder_Result">
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetAllProduct" FunctionName="SneakerDBModel.Store.OS_GetAllProduct" />
+          <FunctionImportMapping FunctionImportName="OS_GetAllProvince" FunctionName="SneakerDBModel.Store.OS_GetAllProvince">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetAllProvince_Result">
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetDistrictByProvince" FunctionName="SneakerDBModel.Store.OS_GetDistrictByProvince">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetDistrictByProvince_Result">
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetImageProductByID" FunctionName="SneakerDBModel.Store.OS_GetImageProductByID" />
+          <FunctionImportMapping FunctionImportName="OS_GetOrderDetail" FunctionName="SneakerDBModel.Store.OS_GetOrderDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetOrderDetail_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetProductDetailByID" FunctionName="SneakerDBModel.Store.OS_GetProductDetailByID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetProductDetailByID_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetProductDetailInCart" FunctionName="SneakerDBModel.Store.OS_GetProductDetailInCart">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetProductDetailInCart_Result">
+                <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetSizeProductByID" FunctionName="SneakerDBModel.Store.OS_GetSizeProductByID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetSizeProductByID_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetSubCatalogByCatalog" FunctionName="SneakerDBModel.Store.OS_GetSubCatalogByCatalog">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetSubCatalogByCatalog_Result">
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetTop10NewProduct" FunctionName="SneakerDBModel.Store.OS_GetTop10NewProduct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetTop10NewProduct_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_GetTop10SaleProduct" FunctionName="SneakerDBModel.Store.OS_GetTop10SaleProduct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_GetTop10SaleProduct_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_Login" FunctionName="SneakerDBModel.Store.OS_Login">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.OS_Login_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="DistrictID" ColumnName="DistrictID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="OS_Payment_LoginUser" FunctionName="SneakerDBModel.Store.OS_Payment_LoginUser" />
+          <FunctionImportMapping FunctionImportName="OS_Payment_NormalUser" FunctionName="SneakerDBModel.Store.OS_Payment_NormalUser" />
+          <FunctionImportMapping FunctionImportName="OS_SearchProduct" FunctionName="SneakerDBModel.Store.OS_SearchProduct" />
+          <FunctionImportMapping FunctionImportName="OS_SignUp" FunctionName="SneakerDBModel.Store.OS_SignUp" />
+          <FunctionImportMapping FunctionImportName="OS_UpdateAmountStock" FunctionName="SneakerDBModel.Store.OS_UpdateAmountStock" />
+          <FunctionImportMapping FunctionImportName="Product_Delete" FunctionName="SneakerDBModel.Store.Product_Delete" />
+          <FunctionImportMapping FunctionImportName="Product_GetAll" FunctionName="SneakerDBModel.Store.Product_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Product_GetAll_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Product_GetItemById" FunctionName="SneakerDBModel.Store.Product_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Product_GetItemById_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Product_Insert" FunctionName="SneakerDBModel.Store.Product_Insert" />
+          <FunctionImportMapping FunctionImportName="Product_Update" FunctionName="SneakerDBModel.Store.Product_Update" />
+          <FunctionImportMapping FunctionImportName="ProductItem_Delete" FunctionName="SneakerDBModel.Store.ProductItem_Delete" />
+          <FunctionImportMapping FunctionImportName="ProductItem_GetAll" FunctionName="SneakerDBModel.Store.ProductItem_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.ProductItem_GetAll_Result">
+                <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProductItem_GetItemById" FunctionName="SneakerDBModel.Store.ProductItem_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.ProductItem_GetItemById_Result">
+                <ScalarProperty Name="ProductItemID" ColumnName="ProductItemID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ProductItem_Insert" FunctionName="SneakerDBModel.Store.ProductItem_Insert" />
+          <FunctionImportMapping FunctionImportName="ProductItem_Update" FunctionName="SneakerDBModel.Store.ProductItem_Update" />
+          <FunctionImportMapping FunctionImportName="Province_Delete" FunctionName="SneakerDBModel.Store.Province_Delete" />
+          <FunctionImportMapping FunctionImportName="Province_GetAll" FunctionName="SneakerDBModel.Store.Province_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Province_GetAll_Result">
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Province_GetItemById" FunctionName="SneakerDBModel.Store.Province_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Province_GetItemById_Result">
+                <ScalarProperty Name="ProvinceID" ColumnName="ProvinceID" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Province_Insert" FunctionName="SneakerDBModel.Store.Province_Insert" />
+          <FunctionImportMapping FunctionImportName="Province_Update" FunctionName="SneakerDBModel.Store.Province_Update" />
+          <FunctionImportMapping FunctionImportName="Size_Delete" FunctionName="SneakerDBModel.Store.Size_Delete" />
+          <FunctionImportMapping FunctionImportName="Size_GetAll" FunctionName="SneakerDBModel.Store.Size_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Size_GetAll_Result">
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Size_GetItemById" FunctionName="SneakerDBModel.Store.Size_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Size_GetItemById_Result">
+                <ScalarProperty Name="SizeID" ColumnName="SizeID" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Size_Insert" FunctionName="SneakerDBModel.Store.Size_Insert" />
+          <FunctionImportMapping FunctionImportName="Size_Update" FunctionName="SneakerDBModel.Store.Size_Update" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="SneakerDBModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="SneakerDBModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="SneakerDBModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="SneakerDBModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="SneakerDBModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="SneakerDBModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="SneakerDBModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="Statistic_GetAmountStock" FunctionName="SneakerDBModel.Store.Statistic_GetAmountStock">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.Statistic_GetAmountStock_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="AmountStock" ColumnName="AmountStock" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Statistic_GetListOrder" FunctionName="SneakerDBModel.Store.Statistic_GetListOrder" />
+          <FunctionImportMapping FunctionImportName="SubCatalog_Delete" FunctionName="SneakerDBModel.Store.SubCatalog_Delete" />
+          <FunctionImportMapping FunctionImportName="SubCatalog_GetAll" FunctionName="SneakerDBModel.Store.SubCatalog_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.SubCatalog_GetAll_Result">
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CatalogName" ColumnName="CatalogName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SubCatalog_GetItemById" FunctionName="SneakerDBModel.Store.SubCatalog_GetItemById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.SubCatalog_GetItemById_Result">
+                <ScalarProperty Name="SubCatalogID" ColumnName="SubCatalogID" />
+                <ScalarProperty Name="SubCatalogName" ColumnName="SubCatalogName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CatalogID" ColumnName="CatalogID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SubCatalog_Insert" FunctionName="SneakerDBModel.Store.SubCatalog_Insert" />
+          <FunctionImportMapping FunctionImportName="SubCatalog_Update" FunctionName="SneakerDBModel.Store.SubCatalog_Update" />
+          <FunctionImportMapping FunctionImportName="UserLogin_GetAll" FunctionName="SneakerDBModel.Store.UserLogin_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.UserLogin_GetAll_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="DistrictName" ColumnName="DistrictName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserLogin_GetAllOrder" FunctionName="SneakerDBModel.Store.UserLogin_GetAllOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.UserLogin_GetAllOrder_Result">
+                <ScalarProperty Name="UserOrderID" ColumnName="UserOrderID" />
+                <ScalarProperty Name="DateCreate" ColumnName="DateCreate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserLogin_GetOrderDetail" FunctionName="SneakerDBModel.Store.UserLogin_GetOrderDetail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SneakerDBModel.UserLogin_GetOrderDetail_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="SizeName" ColumnName="SizeName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AmountBuy" ColumnName="AmountBuy" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
