@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SneakerInside.Models.Catalog>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Input addon -->
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Danh sách hãng giày</h3>
+    </div>
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Thêm mới</a>
+        </p>
+        <table id="CatalogTable" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CatalogID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CatalogName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @*<tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CatalogID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CatalogName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+            </tbody>*@
+        </table>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#CatalogTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": "@Url.Action("Index", "Catalog")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }],
+                "columns": [
+                    { "data": "CatalogID", "autoWidth": true },
+                    { "data": "CatalogName", "autoWidth": true },
+                    { "data": "Status", "autoWidth": true },
+                    {
+                        "render": function (data, row) { return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id + "'); >Delete</a>"; }
+                    },
+                ]
+            });
+        });
+    </script>
+}
