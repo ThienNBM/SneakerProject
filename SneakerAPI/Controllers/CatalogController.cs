@@ -45,7 +45,7 @@ namespace SneakerAPI.Controllers
             return await _context.Catalog.FromSqlRaw(StoredProc, CatalogID, ErrorCode, ErrorMessage).ToListAsync();
         }
 
-        [HttpPost]
+        [HttpPost("Insert")]
         public async Task<ActionResult<Error>> InsertCatalog(Catalog catalog)
         {
             string StoredProc = "exec Catalog_Insert @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
@@ -63,7 +63,7 @@ namespace SneakerAPI.Controllers
             return error;
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("Update/{id}")]
         public async Task<ActionResult<Error>> UpdateCatalog(int id, Catalog catalog)
         {
             string StoredProc = "exec Catalog_Update @CatalogID, @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";

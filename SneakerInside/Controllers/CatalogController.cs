@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace SneakerInside.Controllers
@@ -28,12 +29,6 @@ namespace SneakerInside.Controllers
             return View(catalogs);
         }
 
-        // GET: CatalogController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: CatalogController/Create
         public ActionResult Create()
         {
@@ -43,23 +38,33 @@ namespace SneakerInside.Controllers
         // POST: CatalogController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(Catalog catalog)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            HttpClient client = _api.Initial();
+            var postTask = client.PostAsJsonAsync<Catalog>("api/Catalog/Insert", catalog);
+            postTask.Wait();
 
-        // GET: CatalogController/Edit/5
-        public ActionResult Edit(int id)
-        {
+            var result = postTask.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            List<Catalog> catalogs = new List<Catalog>();
+            HttpClient client = _api.Initial();
+            HttpResponseMessage res = await client.GetAsync($"api/Catalog/Update/{id}");
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
+            }
+            return View(catalogs);
+        }
+
 
         // POST: CatalogController/Edit/5
         [HttpPost]
