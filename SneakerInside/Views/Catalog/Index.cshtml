@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Catalog> ListCatalog = new List<Catalog>();
+    ListCatalog = ViewBag.ListCatalog;
 }
 
 <!-- Input addon -->
@@ -11,7 +13,7 @@
         <h3 class="card-title">Danh sách hãng giày</h3>
     </div>
     <div class="card-body">
-        <table id="CatalogTable" class="table table-bordered table-hover">
+        <table id="catalogTable" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>
@@ -28,8 +30,8 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
+            @*<tbody>
+                @foreach (var item in ListCatalog)
                 {
                     <tr>
                         <td>
@@ -56,16 +58,52 @@
                         </td>
                     </tr>
                 }
-            </tbody>
+            </tbody>*@
         </table>
     </div>
 </div>
 
 @section Scripts{ 
     <script type="text/javascript">
+
         $(document).ready(function () {
-            $('#CatalogTable').DataTable({
+            var data = [];
+            $.ajax({
+                url: '@Url.Action("GetAll", "Catalog")',
+                type: 'GET',
+                dataType: 'html',
+                success: function (response) {
+                    data = response;
+                }
+            });
+            console.log('11111');
+            console.log(data)
+            $('#catalogTable').dataTable({
+                data: data,
+                columns: [
+                    {
+                        data: 'catalogID' },
+                    { data: 'catalogName' },
+                    { data: 'status' },
+                    {
+                        //"render": function (data, row) {
+                        //    return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id + "'); >Delete</a>";
+                        //}
+                    },
+                ]
             });
         });
+
+        function getdata() {
+            $.ajax({
+                url: '@Url.Action("GetAll", "Catalog")',
+                type: 'GET',
+                dataType: 'html',
+                success: function (response) {
+                    console.log(response);
+                    return data;
+                }
+            });
+        }
     </script>
 }

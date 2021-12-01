@@ -12,8 +12,6 @@ namespace SneakerInside.Controllers
 {
     public class HomeController : Controller
     {
-        SneakerAPIUrl _api = new SneakerAPIUrl();
-
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

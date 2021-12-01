@@ -9,7 +9,6 @@ D:\Source\SneakerProject\SneakerOutside\bin\Debug\net5.0\ref\SneakerOutside.dll
 D:\Source\SneakerProject\SneakerOutside\bin\Debug\net5.0\SneakerOutside.pdb
 D:\Source\SneakerProject\SneakerOutside\bin\Debug\net5.0\SneakerOutside.Views.dll
 D:\Source\SneakerProject\SneakerOutside\bin\Debug\net5.0\SneakerOutside.Views.pdb
-D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.csproj.AssemblyReference.cache
 D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.GeneratedMSBuildEditorConfig.editorconfig
 D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.AssemblyInfoInputs.cache
 D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.AssemblyInfo.cs

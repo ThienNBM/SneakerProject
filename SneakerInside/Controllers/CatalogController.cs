@@ -9,97 +9,61 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace SneakerInside.Controllers
 {
     public class CatalogController : Controller
     {
-        SneakerAPIUrl _api = new SneakerAPIUrl();
-
-        public async Task<IActionResult> Index()
+        private readonly ILogger<CatalogController> _logger;
+        private readonly IConfiguration _Configure;
+        private readonly string apiUrl;
+        public CatalogController(ILogger<CatalogController> logger, IConfiguration configuration)
         {
-            List<Catalog> catalogs = new List<Catalog>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage res = await client.GetAsync("api/Catalog/GetAll");
-            if (res.IsSuccessStatusCode)
-            {
-                var result = res.Content.ReadAsStringAsync().Result;
-                catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
-            }
-            return View(catalogs);
+            _logger = logger;
+            _Configure = configuration;
+
+            apiUrl = _Configure.GetValue<string>("SneakerAPIUrl");
         }
 
-        // GET: CatalogController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Index()
         {
+            //List<Catalog> catalogs = new List<Catalog>();
+            //HttpClient client = _api.Initial();
+            //HttpResponseMessage res = await client.GetAsync("api/Catalog/GetAll");
+            //if (res.IsSuccessStatusCode)
+            //{
+            //    var result = res.Content.ReadAsStringAsync().Result;
+
+            //    catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
+            //}
+            //ViewBag.ListCatalog = catalogs;
             return View();
         }
 
-        // POST: CatalogController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Catalog catalog)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            HttpClient client = _api.Initial();
-            var postTask = client.PostAsJsonAsync<Catalog>("api/Catalog/Insert", catalog);
-            postTask.Wait();
-
-            var result = postTask.Result;
-            if (result.IsSuccessStatusCode)
+            using (HttpClient httpClient = new HttpClient())
             {
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            List<Catalog> catalogs = new List<Catalog>();
-            HttpClient client = _api.Initial();
-            HttpResponseMessage res = await client.GetAsync($"api/Catalog/Update/{id}");
-            if (res.IsSuccessStatusCode)
-            {
-                var result = res.Content.ReadAsStringAsync().Result;
-                catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
-            }
-            return View(catalogs);
-        }
-
-
-        // POST: CatalogController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CatalogController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CatalogController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                string endpoint = apiUrl + "/api/Catalog/GetAll";
+                using (var Response = await httpClient.GetAsync(endpoint))
+                {
+                    if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var result = Response.Content.ReadAsStringAsync().Result;
+                        return Json(result);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }     
         }
     }
 }
