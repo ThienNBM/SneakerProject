@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<Catalog> ListCatalog = new List<Catalog>();
-    ListCatalog = ViewBag.ListCatalog;
+    //List<Catalog> ListCatalog = new List<Catalog>();
+    //ListCatalog = ViewBag.ListCatalog;
 }
 
 <!-- Input addon -->
@@ -30,8 +30,8 @@
                     </th>
                 </tr>
             </thead>
-            @*<tbody>
-                @foreach (var item in ListCatalog)
+            <tbody>
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -58,15 +58,20 @@
                         </td>
                     </tr>
                 }
-            </tbody>*@
+            </tbody>
         </table>
     </div>
 </div>
 
 @section Scripts{ 
     <script type="text/javascript">
-
         $(document).ready(function () {
+            $('#catalogTable').dataTable({
+
+            });
+        });
+
+        @*$(document).ready(function () {
             var data = [];
             $.ajax({
                 url: '@Url.Action("GetAll", "Catalog")',
@@ -86,9 +91,9 @@
                     { data: 'catalogName' },
                     { data: 'status' },
                     {
-                        //"render": function (data, row) {
-                        //    return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id + "'); >Delete</a>";
-                        //}
+                        "render": function (data, row) {
+                            return "<a href='#' class='btn btn-danger' onclick=DeleteCustomer('" + row.id + "'); >Delete</a>";
+                        }
                     },
                 ]
             });
@@ -104,6 +109,6 @@
                     return data;
                 }
             });
-        }
+        }*@
     </script>
 }

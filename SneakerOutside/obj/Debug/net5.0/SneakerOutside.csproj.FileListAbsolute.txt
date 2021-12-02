@@ -37,3 +37,4 @@ D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\ref\SneakerOutside.dll
 D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.pdb
 D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.genruntimeconfig.cache
 D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.csproj.CopyComplete
+D:\Source\SneakerProject\SneakerOutside\obj\Debug\net5.0\SneakerOutside.csproj.AssemblyReference.cache

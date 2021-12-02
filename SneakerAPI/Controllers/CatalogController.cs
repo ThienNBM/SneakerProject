@@ -33,7 +33,7 @@ namespace SneakerAPI.Controllers
             return await _context.Catalog.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<ActionResult<IEnumerable<Catalog>>> GetCatalogByID(int id)
         {
             string StoredProc = "exec Catalog_GetItemById @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
@@ -82,7 +82,7 @@ namespace SneakerAPI.Controllers
             return error;
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<ActionResult<Error>> DeleteCatalog(int id)
         {
             string StoredProc = "exec Catalog_Delete @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";

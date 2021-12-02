@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using SneakerInside.Helper;
+using Newtonsoft.Json.Linq;
 using SneakerInside.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using System.Text;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace SneakerInside.Controllers
 {
@@ -25,45 +22,78 @@ namespace SneakerInside.Controllers
         {
             _logger = logger;
             _Configure = configuration;
-
             apiUrl = _Configure.GetValue<string>("SneakerAPIUrl");
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            //List<Catalog> catalogs = new List<Catalog>();
-            //HttpClient client = _api.Initial();
-            //HttpResponseMessage res = await client.GetAsync("api/Catalog/GetAll");
-            //if (res.IsSuccessStatusCode)
-            //{
-            //    var result = res.Content.ReadAsStringAsync().Result;
-
-            //    catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
-            //}
-            //ViewBag.ListCatalog = catalogs;
-            return View();
+            List<Catalog> catalogs = new List<Catalog>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                HttpResponseMessage res = await client.GetAsync("/api/Catalog/GetAll");
+                if (res.IsSuccessStatusCode)
+                {
+                    var result = res.Content.ReadAsStringAsync().Result;
+                    catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
+                }
+                return View(catalogs);
+            }
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult> Edit(int id)
         {
-            using (HttpClient httpClient = new HttpClient())
+            Catalog catalog = new Catalog();
+            using (var client = new HttpClient())
             {
-                string endpoint = apiUrl + "/api/Catalog/GetAll";
-                using (var Response = await httpClient.GetAsync(endpoint))
+                client.BaseAddress = new Uri(apiUrl);
+                HttpResponseMessage res = await client.GetAsync($"/api/Catalog/GetById/{id}");
+                if (res.IsSuccessStatusCode)
                 {
-                    if (Response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        var result = Response.Content.ReadAsStringAsync().Result;
-                        return Json(result);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    var result = res.Content.ReadAsStringAsync().Result;
+                    var dataJson = (JArray)JsonConvert.DeserializeObject(result);
+                    catalog.CatalogID = dataJson.First["catalogID"].Value<int>();
+                    catalog.CatalogName = dataJson.First["catalogName"].Value<string>();
+                    catalog.Status = dataJson.First["status"].Value<int>();
                 }
-            }     
+                return View(catalog);
+            }
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Catalog catalog)
+        {
+            using (var client = new HttpClient())
+            {
+                int id = catalog.CatalogID;
+                StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
+                client.BaseAddress = new Uri(apiUrl);
+                HttpResponseMessage res = await client.PutAsync($"/api/Catalog/Update/{id}", content);
+                return RedirectToAction("Index");
+            }
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        string endpoint = apiUrl + "/api/Catalog/GetAll";
+        //        using (var Response = await client.GetAsync(endpoint))
+        //        {
+        //            if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+        //            {
+        //                var result = Response.Content.ReadAsStringAsync().Result;
+        //                return Json(result);
+        //            }
+        //            else
+        //            {
+        //                return null;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
