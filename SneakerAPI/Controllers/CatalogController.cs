@@ -63,12 +63,12 @@ namespace SneakerAPI.Controllers
             return error;
         }
 
-        [HttpPut("Update/{id}")]
-        public async Task<ActionResult<Error>> UpdateCatalog(int id, Catalog catalog)
+        [HttpPut("Update")]
+        public async Task<ActionResult<Error>> UpdateCatalog(Catalog catalog)
         {
             string StoredProc = "exec Catalog_Update @CatalogID, @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
 
-            var CatalogID = new SqlParameter("@CatalogID", id);
+            var CatalogID = new SqlParameter("@CatalogID", catalog.CatalogID);
             var CatalogName = new SqlParameter("@CatalogName", catalog.CatalogName);
             var Status = new SqlParameter("@Status", catalog.Status);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };

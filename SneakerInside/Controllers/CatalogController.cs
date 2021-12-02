@@ -38,8 +38,8 @@ namespace SneakerInside.Controllers
                     var result = res.Content.ReadAsStringAsync().Result;
                     catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
                 }
-                return View(catalogs);
             }
+            return View(catalogs);
         }
 
         [HttpGet]
@@ -54,12 +54,12 @@ namespace SneakerInside.Controllers
                 {
                     var result = res.Content.ReadAsStringAsync().Result;
                     var dataJson = (JArray)JsonConvert.DeserializeObject(result);
-                    catalog.CatalogID = dataJson.First["catalogID"].Value<int>();
-                    catalog.CatalogName = dataJson.First["catalogName"].Value<string>();
-                    catalog.Status = dataJson.First["status"].Value<int>();
+                    catalog.CatalogID = (int)dataJson.First["catalogID"];
+                    catalog.CatalogName = (string)dataJson.First["catalogName"];
+                    catalog.Status = (int)dataJson.First["status"];
                 }
-                return View(catalog);
             }
+            return View(catalog);
         }
 
         [HttpPost]
@@ -67,13 +67,29 @@ namespace SneakerInside.Controllers
         {
             using (var client = new HttpClient())
             {
-                int id = catalog.CatalogID;
                 StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
                 client.BaseAddress = new Uri(apiUrl);
-                HttpResponseMessage res = await client.PutAsync($"/api/Catalog/Update/{id}", content);
-                return RedirectToAction("Index");
+                HttpResponseMessage res = await client.PutAsync("/api/Catalog/Update", content);
             }
+            return RedirectToAction("Index");
         }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                HttpResponseMessage res = await client.DeleteAsync($"/api/Catalog/Delete/{id}");
+                if (res.IsSuccessStatusCode)
+                {
+                    var result = res.Content.ReadAsStringAsync();
+                    var a = result.Result;
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
 
         //[HttpGet]
         //public async Task<IActionResult> GetAll()

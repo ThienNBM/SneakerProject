@@ -52,9 +52,10 @@
                         </td>
                         <td style="text-align: center">
                             <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", "Catalog" ,new { id = item.CatalogID})"><i class="fa fa-edit"></i></a>
-                            <button type="button" class="btn btn-danger btn-sm btn_delete" data-toggle="modal" data-target="#deleteModal">
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Catalog" ,new { id = item.CatalogID})"><i class="fa fa-edit"></i></a>
+                            @*<button type="button" class="btn btn-danger btn-sm btn_delete" data-toggle="modal" data-target="#deleteModal">
                                 <i class="fa fa-trash"></i>
-                            </button>
+                            </button>*@
                         </td>
                     </tr>
                 }
