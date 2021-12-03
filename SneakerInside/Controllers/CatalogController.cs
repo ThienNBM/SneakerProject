@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -25,7 +26,6 @@ namespace SneakerInside.Controllers
             apiUrl = _Configure.GetValue<string>("SneakerAPIUrl");
         }
 
-        [HttpGet]
         public async Task<ActionResult> Index()
         {
             List<Catalog> catalogs = new List<Catalog>();
@@ -42,7 +42,30 @@ namespace SneakerInside.Controllers
             return View(catalogs);
         }
 
-        [HttpGet]
+        public ActionResult Create()
+        {
+            List<SelectListItem> status = new List<SelectListItem>()
+            {
+                new SelectListItem { Value = "1", Text = "Hoạt động" },
+                new SelectListItem { Value = "0", Text = "Không hoạt động" },
+            };
+            ViewBag.status = status;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Catalog catalog) 
+        {
+            using (var client = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
+                client.BaseAddress = new Uri(apiUrl);
+                HttpResponseMessage res = await client.PostAsync("/api/Catalog/Insert", content);
+            }
+            return RedirectToAction("Index");
+        }
+
         public async Task<ActionResult> Edit(int id)
         {
             Catalog catalog = new Catalog();
@@ -74,7 +97,6 @@ namespace SneakerInside.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
             using (var client = new HttpClient())
@@ -83,8 +105,14 @@ namespace SneakerInside.Controllers
                 HttpResponseMessage res = await client.DeleteAsync($"/api/Catalog/Delete/{id}");
                 if (res.IsSuccessStatusCode)
                 {
-                    var result = res.Content.ReadAsStringAsync();
-                    var a = result.Result;
+                    var result = res.Content.ReadAsStringAsync().Result;
+
+                    dynamic data = JObject.Parse(result);
+                    string errorCode = data.errorCode;
+                    string errorMessage = data.errorMessage;
+
+                    //var data = (JObject)JsonConvert.DeserializeObject(result);
+                    //string errorMessage = data["errorMessage"].Value<string>();
                 }
             }
             return RedirectToAction("Index");

@@ -26,7 +26,7 @@
                         @Html.DisplayNameFor(model => model.Status)
                     </th>
                     <th style="text-align: center">
-                        <a class="btn btn-success btn-sm" href="@Url.Action("Create","Catalog")"><i class="fa fa-plus-square"></i></a>
+                        <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
                     </th>
                 </tr>
             </thead>
@@ -35,10 +35,10 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CatalogID)
+                            @item.CatalogID
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CatalogName)
+                            @item.CatalogName
                         </td>
                         <td>
                             @if (item.Status == 1)
@@ -51,8 +51,8 @@
                             }
                         </td>
                         <td style="text-align: center">
-                            <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", "Catalog" ,new { id = item.CatalogID})"><i class="fa fa-edit"></i></a>
-                            <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Catalog" ,new { id = item.CatalogID})"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.CatalogID" class="btn btn-warning">Chỉnh sửa</a>
+                            <a asp-action="Delete" asp-route-id="@item.CatalogID" class="btn btn-danger">Xóa</a>
                             @*<button type="button" class="btn btn-danger btn-sm btn_delete" data-toggle="modal" data-target="#deleteModal">
                                 <i class="fa fa-trash"></i>
                             </button>*@
