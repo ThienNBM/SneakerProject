@@ -1,16 +1,38 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SneakerAPI.Models
 {
-    public class Catalog
+    [Keyless]
+    public class CatalogGetAll
     {
-        [Key]
+        public int CatalogID { get; set; }
+
+        public string CatalogName { get; set; }
+
+        public int Status { get; set; }
+    }
+
+    [Keyless]
+    public class CatalogGetById
+    {
+        public int CatalogID { get; set; }
+
+        public string CatalogName { get; set; }
+
+        public int Status { get; set; }
+    }
+
+    [Keyless]
+    public class CatalogInsert
+    {
+        public string CatalogName { get; set; }
+
+        public int Status { get; set; }
+    }
+
+    [Keyless]
+    public class CatalogUpdate
+    {
         public int CatalogID { get; set; }
 
         public string CatalogName { get; set; }

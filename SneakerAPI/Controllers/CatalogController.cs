@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using SneakerAPI;
 using SneakerAPI.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SneakerAPI.Controllers
 {
@@ -22,67 +18,88 @@ namespace SneakerAPI.Controllers
             _context = context;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<Catalog>>> GetAll()
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<ActionResult<IEnumerable<CatalogGetAll>>> GetAll()
         {
+            var catalogs = new List<CatalogGetAll>();
             string StoredProc = "exec Catalog_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            return await _context.Catalog.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+            try
+            {
+                catalogs = await _context.CatalogGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                catalogs = null;
+            }
+            return catalogs;
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<IEnumerable<Catalog>>> GetCatalogByID(int id)
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<ActionResult<IEnumerable<CatalogGetById>>> GetById(int id)
         {
+            var catalogs = new List<CatalogGetById>();
             string StoredProc = "exec Catalog_GetItemById @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
             var CatalogID = new SqlParameter("@CatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            return await _context.Catalog.FromSqlRaw(StoredProc, CatalogID, ErrorCode, ErrorMessage).ToListAsync();
+            try
+            {
+                catalogs = await _context.CatalogGetById.FromSqlRaw(StoredProc, CatalogID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                catalogs = null;
+            }
+            return catalogs;
         }
 
-        [HttpPost("Insert")]
-        public async Task<ActionResult<Error>> InsertCatalog(Catalog catalog)
+        [HttpPost]
+        [Route("Insert")]
+        public async Task<ActionResult<Error>> InsertCatalog(CatalogInsert CatalogInsert)
         {
             string StoredProc = "exec Catalog_Insert @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
-            var CatalogName = new SqlParameter("@CatalogName", catalog.CatalogName);
-            var Status = new SqlParameter("@Status", catalog.Status);
+            var CatalogName = new SqlParameter("@CatalogName", CatalogInsert.CatalogName);
+            var Status = new SqlParameter("@Status", CatalogInsert.Status);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
 
             await _context.Database.ExecuteSqlRawAsync(StoredProc, CatalogName, Status, ErrorCode, ErrorMessage);
 
-            var error = new Error();
-            error.ErrorCode = ErrorCode.Value.ToString();
-            error.ErrorMessage = ErrorMessage.Value.ToString();
+            var error = new Error
+            {
+                ErrorCode = ErrorCode.Value.ToString(),
+                ErrorMessage = ErrorMessage.Value.ToString()
+            };
             return error;
         }
 
-        [HttpPut("Update")]
-        public async Task<ActionResult<Error>> UpdateCatalog(Catalog catalog)
+        [HttpPut]
+        [Route("Update")]
+        public async Task<ActionResult<Error>> UpdateCatalog(CatalogUpdate CatalogUpdate)
         {
             string StoredProc = "exec Catalog_Update @CatalogID, @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
-            var CatalogID = new SqlParameter("@CatalogID", catalog.CatalogID);
-            var CatalogName = new SqlParameter("@CatalogName", catalog.CatalogName);
-            var Status = new SqlParameter("@Status", catalog.Status);
+            var CatalogID = new SqlParameter("@CatalogID", CatalogUpdate.CatalogID);
+            var CatalogName = new SqlParameter("@CatalogName", CatalogUpdate.CatalogName);
+            var Status = new SqlParameter("@Status", CatalogUpdate.Status);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
 
             await _context.Database.ExecuteSqlRawAsync(StoredProc, CatalogID, CatalogName, Status, ErrorCode, ErrorMessage);
 
-            var error = new Error();
-            error.ErrorCode = ErrorCode.Value.ToString();
-            error.ErrorMessage = ErrorMessage.Value.ToString();
+            var error = new Error
+            {
+                ErrorCode = ErrorCode.Value.ToString(),
+                ErrorMessage = ErrorMessage.Value.ToString()
+            };
             return error;
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete]
+        [Route("Delete/{id}")]
         public async Task<ActionResult<Error>> DeleteCatalog(int id)
         {
             string StoredProc = "exec Catalog_Delete @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
@@ -93,41 +110,12 @@ namespace SneakerAPI.Controllers
 
             await _context.Database.ExecuteSqlRawAsync(StoredProc, CatalogID, ErrorCode, ErrorMessage);
 
-            var error = new Error();
-            error.ErrorCode = ErrorCode.Value.ToString();
-            error.ErrorMessage = ErrorMessage.Value.ToString();
+            var error = new Error
+            {
+                ErrorCode = ErrorCode.Value.ToString(),
+                ErrorMessage = ErrorMessage.Value.ToString()
+            };
             return error;
         }
-
-        //[HttpGet("{Id}")]
-        //public async Task<ActionResult<Catalog>> GetCatalogByID(int Id)
-        //{
-        //    var catalog = _context.Catalog.FromSqlRaw("SELECT CatalogID, CatalogName, Status FROM[dbo].[Catalog] where CatalogID = {0}", Id).FirstOrDefault();
-        //    if (catalog == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return catalog;
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult<Error>> Add(Catalog catalog)
-        //{
-        //    string StoredProc = "exec Catalog_Insert @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
-        //    SqlParameter[] param = {
-        //        new SqlParameter("@CatalogName", catalog.CatalogName),
-        //        new SqlParameter("@Status", catalog.Status),
-        //        new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output },
-        //        new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output }
-        //    };
-        //    var addResult = _context.Database.ExecuteSqlRaw(StoredProc, param);
-
-        //    var error = new Error();
-        //    error.ErrorCode = param[2].Value.ToString();
-        //    error.ErrorMessage = param[3].Value.ToString();
-        //    return error;
-        //}
     }
 }

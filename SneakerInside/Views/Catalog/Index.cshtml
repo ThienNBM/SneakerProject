@@ -10,7 +10,7 @@
 <!-- Input addon -->
 <div class="card card-info">
     <div class="card-header">
-        <h3 class="card-title">Danh sách hãng giày</h3>
+        <h3 class="card-title">Danh sách @ViewBag.Name</h3>
     </div>
     <div class="card-body">
         <table id="catalogTable" class="table table-bordered table-hover">
@@ -26,7 +26,7 @@
                         @Html.DisplayNameFor(model => model.Status)
                     </th>
                     <th style="text-align: center">
-                        <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+                        <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i></a>
                     </th>
                 </tr>
             </thead>
@@ -51,8 +51,8 @@
                             }
                         </td>
                         <td style="text-align: center">
-                            <a asp-action="Edit" asp-route-id="@item.CatalogID" class="btn btn-warning">Chỉnh sửa</a>
-                            <a asp-action="Delete" asp-route-id="@item.CatalogID" class="btn btn-danger">Xóa</a>
+                            <a asp-action="Edit" asp-route-id="@item.CatalogID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.CatalogID" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                             @*<button type="button" class="btn btn-danger btn-sm btn_delete" data-toggle="modal" data-target="#deleteModal">
                                 <i class="fa fa-trash"></i>
                             </button>*@

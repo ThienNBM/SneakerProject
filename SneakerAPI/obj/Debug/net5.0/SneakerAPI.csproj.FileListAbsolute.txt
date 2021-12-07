@@ -267,3 +267,4 @@ D:\Source\SneakerProject\SneakerAPI\obj\Debug\net5.0\ref\SneakerAPI.dll
 D:\Source\SneakerProject\SneakerAPI\obj\Debug\net5.0\SneakerAPI.pdb
 D:\Source\SneakerProject\SneakerAPI\obj\Debug\net5.0\SneakerAPI.genruntimeconfig.cache
 D:\Source\SneakerProject\SneakerAPI\obj\Debug\net5.0\SneakerAPI.csproj.AssemblyReference.cache
+D:\Source\SneakerProject\SneakerAPI\obj\Debug\net5.0\SneakerAPI.csproj.CopyComplete

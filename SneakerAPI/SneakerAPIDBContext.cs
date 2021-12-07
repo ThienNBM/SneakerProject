@@ -17,7 +17,10 @@ namespace SneakerAPI
         
         }
 
-        public DbSet<SneakerAPI.Models.Catalog> Catalog { get; set; }
+        public DbSet<SneakerAPI.Models.CatalogGetAll> CatalogGetAll { get; set; }
+        public DbSet<SneakerAPI.Models.CatalogGetById> CatalogGetById { get; set; }
+        public DbSet<SneakerAPI.Models.CatalogInsert> CatalogInsert { get; set; }
+        public DbSet<SneakerAPI.Models.CatalogUpdate> CatalogUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.SubCatalogGetAll> SubCatalogGetAll { get; set; }
         public DbSet<SneakerAPI.Models.SubCatalogGetByID> SubCatalogGetByID { get; set; }

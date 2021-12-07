@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SneakerInside.Models;
-using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,31 +15,73 @@ namespace SneakerInside.Controllers
     {
         private readonly ILogger<CatalogController> _logger;
         private readonly IConfiguration _Configure;
-        private readonly string apiUrl;
+        private readonly string apiBaseUrl;
         public CatalogController(ILogger<CatalogController> logger, IConfiguration configuration)
         {
             _logger = logger;
             _Configure = configuration;
-            apiUrl = _Configure.GetValue<string>("SneakerAPIUrl");
+            apiBaseUrl = _Configure.GetValue<string>("SneakerAPIUrl");
         }
 
-        public async Task<ActionResult> Index()
+        Catalog _catalog = new Catalog();
+        List<Catalog> _catalogs = new List<Catalog>();
+        Error _error = new Error();
+
+        readonly string Name = "hãng giày";
+        
+        List<SelectListItem> status = new List<SelectListItem>()
         {
-            List<Catalog> catalogs = new List<Catalog>();
-            using (var client = new HttpClient())
+            new SelectListItem { Value = "1", Text = "Hoạt động" },
+            new SelectListItem { Value = "0", Text = "Không hoạt động" },
+        };
+
+        public async Task<IActionResult> Index()
+        {
+            _catalogs = new List<Catalog>();
+            using (var httpClient = new HttpClient())
             {
-                client.BaseAddress = new Uri(apiUrl);
-                HttpResponseMessage res = await client.GetAsync("/api/Catalog/GetAll");
-                if (res.IsSuccessStatusCode)
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Catalog/GetAll"))
                 {
-                    var result = res.Content.ReadAsStringAsync().Result;
-                    catalogs = JsonConvert.DeserializeObject<List<Catalog>>(result);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _catalogs = JsonConvert.DeserializeObject<List<Catalog>>(apiResponse);
+                    }
                 }
             }
-            return View(catalogs);
+            ViewBag.Name = Name;
+            return View(_catalogs);
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
+        {
+            ViewBag.Name = Name;
+            ViewBag.status = status;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Catalog catalog)
+        {
+            _error = new Error();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Catalog/Insert", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        string errorCode = _error.ErrorCode;
+                        string errorMesage = _error.ErrorMessage;
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int id)
         {
             List<SelectListItem> status = new List<SelectListItem>()
             {
@@ -51,93 +90,60 @@ namespace SneakerInside.Controllers
             };
             ViewBag.status = status;
 
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(Catalog catalog) 
-        {
-            using (var client = new HttpClient())
+            _catalog = new Catalog();
+            using (var httpClient = new HttpClient())
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
-                client.BaseAddress = new Uri(apiUrl);
-                HttpResponseMessage res = await client.PostAsync("/api/Catalog/Insert", content);
-            }
-            return RedirectToAction("Index");
-        }
-
-        public async Task<ActionResult> Edit(int id)
-        {
-            Catalog catalog = new Catalog();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                HttpResponseMessage res = await client.GetAsync($"/api/Catalog/GetById/{id}");
-                if (res.IsSuccessStatusCode)
+                using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/Catalog/GetById/{id}"))
                 {
-                    var result = res.Content.ReadAsStringAsync().Result;
-                    var dataJson = (JArray)JsonConvert.DeserializeObject(result);
-                    catalog.CatalogID = (int)dataJson.First["catalogID"];
-                    catalog.CatalogName = (string)dataJson.First["catalogName"];
-                    catalog.Status = (int)dataJson.First["status"];
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _catalog = JsonConvert.DeserializeObject<List<Catalog>>(apiResponse)[0];
+                    }
                 }
             }
-            return View(catalog);
+            ViewBag.Name = Name;
+            return View(_catalog);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(Catalog catalog)
+        public async Task<IActionResult> Edit(Catalog catalog)
         {
-            using (var client = new HttpClient())
+            _error = new Error();
+            using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
-                client.BaseAddress = new Uri(apiUrl);
-                HttpResponseMessage res = await client.PutAsync("/api/Catalog/Update", content);
-            }
-            return RedirectToAction("Index");
-        }
-
-        public async Task<ActionResult> Delete(int id)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                HttpResponseMessage res = await client.DeleteAsync($"/api/Catalog/Delete/{id}");
-                if (res.IsSuccessStatusCode)
+                using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Catalog/Update", content))
                 {
-                    var result = res.Content.ReadAsStringAsync().Result;
-
-                    dynamic data = JObject.Parse(result);
-                    string errorCode = data.errorCode;
-                    string errorMessage = data.errorMessage;
-
-                    //var data = (JObject)JsonConvert.DeserializeObject(result);
-                    //string errorMessage = data["errorMessage"].Value<string>();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        string errorCode = _error.ErrorCode;
+                        string errorMesage = _error.ErrorMessage;
+                    }
                 }
             }
             return RedirectToAction("Index");
         }
 
-
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        string endpoint = apiUrl + "/api/Catalog/GetAll";
-        //        using (var Response = await client.GetAsync(endpoint))
-        //        {
-        //            if (Response.StatusCode == System.Net.HttpStatusCode.OK)
-        //            {
-        //                var result = Response.Content.ReadAsStringAsync().Result;
-        //                return Json(result);
-        //            }
-        //            else
-        //            {
-        //                return null;
-        //            }
-        //        }
-        //    }
-        //}
+        public async Task<IActionResult> Delete(int id)
+        {
+            _error = new Error();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.DeleteAsync(apiBaseUrl + $"/api/Catalog/Delete/{id}"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        string errorCode = _error.ErrorCode;
+                        string errorMesage = _error.ErrorMessage;
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
