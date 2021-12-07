@@ -1,0 +1,40 @@
+﻿@model SneakerInside.Models.SubCatalogInsert
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Thêm mới @ViewBag.Name</h3>
+        </div>
+        <form asp-action="Create">
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="SubCatalogName" class="control-label"></label>
+                    <input asp-for="SubCatalogName" class="form-control" />
+                    <span asp-validation-for="SubCatalogName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" class="form-control" asp-items="@ViewBag.status"></select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CatalogID" class="control-label"></label>
+                    <input asp-for="CatalogID" class="form-control" />
+                    <span asp-validation-for="CatalogID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Thêm mới" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

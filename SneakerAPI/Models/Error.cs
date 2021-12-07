@@ -7,8 +7,8 @@ namespace SneakerAPI.Models
 {
     public class Error
     {
-        public String ErrorCode { get; set; }
+        public string ErrorCode { get; set; }
 
-        public String ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class CatalogController : ControllerBase
@@ -22,10 +23,10 @@ namespace SneakerAPI.Controllers
         [Route("GetAll")]
         public async Task<ActionResult<IEnumerable<CatalogGetAll>>> GetAll()
         {
-            var catalogs = new List<CatalogGetAll>();
             string StoredProc = "exec Catalog_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<CatalogGetAll> catalogs;
             try
             {
                 catalogs = await _context.CatalogGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
@@ -41,11 +42,11 @@ namespace SneakerAPI.Controllers
         [Route("GetById/{id}")]
         public async Task<ActionResult<IEnumerable<CatalogGetById>>> GetById(int id)
         {
-            var catalogs = new List<CatalogGetById>();
             string StoredProc = "exec Catalog_GetItemById @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var CatalogID = new SqlParameter("@CatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<CatalogGetById> catalogs;
             try
             {
                 catalogs = await _context.CatalogGetById.FromSqlRaw(StoredProc, CatalogID, ErrorCode, ErrorMessage).ToListAsync();
@@ -59,7 +60,7 @@ namespace SneakerAPI.Controllers
 
         [HttpPost]
         [Route("Insert")]
-        public async Task<ActionResult<Error>> InsertCatalog(CatalogInsert CatalogInsert)
+        public async Task<ActionResult<Error>> Insert(CatalogInsert CatalogInsert)
         {
             string StoredProc = "exec Catalog_Insert @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var CatalogName = new SqlParameter("@CatalogName", CatalogInsert.CatalogName);
@@ -79,7 +80,7 @@ namespace SneakerAPI.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<ActionResult<Error>> UpdateCatalog(CatalogUpdate CatalogUpdate)
+        public async Task<ActionResult<Error>> Update(CatalogUpdate CatalogUpdate)
         {
             string StoredProc = "exec Catalog_Update @CatalogID, @CatalogName, @Status, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var CatalogID = new SqlParameter("@CatalogID", CatalogUpdate.CatalogID);
@@ -100,10 +101,9 @@ namespace SneakerAPI.Controllers
 
         [HttpDelete]
         [Route("Delete/{id}")]
-        public async Task<ActionResult<Error>> DeleteCatalog(int id)
+        public async Task<ActionResult<Error>> Delete(int id)
         {
             string StoredProc = "exec Catalog_Delete @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
             var CatalogID = new SqlParameter("@CatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };

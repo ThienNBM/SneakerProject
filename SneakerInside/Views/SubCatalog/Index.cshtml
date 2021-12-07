@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SneakerInside.Models.SubCatalogGetAll>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Danh sách @ViewBag.Name</h3>
+    </div>
+    <div class="card-body">
+        <table id="subCatalogTable" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SubCatalogID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SubCatalogName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CatalogName)
+                    </th>
+                    <th style="text-align: center">
+                        <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.SubCatalogID
+                        </td>
+                        <td>
+                            @item.SubCatalogName
+                        </td>
+                        <td>
+                            @if (item.Status == 1)
+                            {
+                                <p>Hoạt động</p>
+                            }
+                            else
+                            {
+                                <p>Không hoạt động</p>
+                            }
+                        </td>
+                        <td>
+                            @item.CatalogName
+                        </td>
+                        <td style="text-align: center">
+                            <a asp-action="Edit" asp-route-id="@item.SubCatalogID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.SubCatalogID" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

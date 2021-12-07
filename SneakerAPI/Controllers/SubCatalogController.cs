@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using SneakerAPI;
 using SneakerAPI.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SneakerAPI.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class SubCatalogController : ControllerBase
@@ -24,81 +19,103 @@ namespace SneakerAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubCatalogGetAll>>> GetAllSubCatalog()
+        [Route("GetAll")]
+        public async Task<ActionResult<IEnumerable<SubCatalogGetAll>>> GetAll()
         {
             string StoredProc = "exec SubCatalog_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            return await _context.SubCatalogGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<SubCatalogGetByID>>> GetSubCatalogByID(int id)
-        {
-            string StoredProc = "exec SubCatalog_GetItemById @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
-            var SubCatalogID = new SqlParameter("@SubCatalogID", id);
-            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
-            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            return await _context.SubCatalogGetByID.FromSqlRaw(StoredProc, SubCatalogID, ErrorCode, ErrorMessage).ToListAsync();
+            List<SubCatalogGetAll> subCatalogs;
+            try
+            {
+                subCatalogs = await _context.SubCatalogGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                subCatalogs = null;
+            }
+            return subCatalogs;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Error>> InsertSubCatalog(SubCatalogInsertAndUpdate subCatalogInsertAndUpdate)
+        [Route("Insert")]
+        public async Task<ActionResult<Error>> Insert(SubCatalogInsert SubCatalogInsert)
         {
             string StoredProc = "exec SubCatalog_Insert @SubCatalogName, @Status, @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
-            var SubCatalogName = new SqlParameter("@SubCatalogName", subCatalogInsertAndUpdate.SubCatalogName);
-            var Status = new SqlParameter("@Status", subCatalogInsertAndUpdate.Status);
-            var CatalogID = new SqlParameter("@CatalogID", subCatalogInsertAndUpdate.CatalogID);
+            var SubCatalogName = new SqlParameter("@SubCatalogName", SubCatalogInsert.SubCatalogName);
+            var Status = new SqlParameter("@Status", SubCatalogInsert.Status);
+            var CatalogID = new SqlParameter("@CatalogID", SubCatalogInsert.CatalogID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
 
             await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogName, Status, CatalogID, ErrorCode, ErrorMessage);
 
-            var error = new Error();
-            error.ErrorCode = ErrorCode.Value.ToString();
-            error.ErrorMessage = ErrorMessage.Value.ToString();
+            var error = new Error
+            {
+                ErrorCode = ErrorCode.Value.ToString(),
+                ErrorMessage = ErrorMessage.Value.ToString()
+            };
             return error;
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Error>> UpdateSubCatalog(int id, SubCatalogInsertAndUpdate subCatalogInsertAndUpdate)
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<ActionResult<IEnumerable<SubCatalogGetAndUpdate>>> GetById(int id)
+        {
+            string StoredProc = "exec SubCatalog_GetItemById @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var SubCatalogID = new SqlParameter("@SubCatalogID", id);
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<SubCatalogGetAndUpdate> subCatalogs;
+            try
+            {
+                subCatalogs = await _context.SubCatalogGetAndUpdate.FromSqlRaw(StoredProc, SubCatalogID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                subCatalogs = null;
+            }
+            return subCatalogs;
+        }
+
+        [HttpPut]
+        [Route("Update")]
+        public async Task<ActionResult<Error>> Update(SubCatalogGetAndUpdate SubCatalogGetAndUpdate)
         {
             string StoredProc = "exec SubCatalog_Update @SubCatalogID, @SubCatalogName, @Status, @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
-            var SubCatalogID = new SqlParameter("@SubCatalogID", id);
-            var SubCatalogName = new SqlParameter("@SubCatalogName", subCatalogInsertAndUpdate.SubCatalogName);
-            var Status = new SqlParameter("@Status", subCatalogInsertAndUpdate.Status);
-            var CatalogID = new SqlParameter("@CatalogID", subCatalogInsertAndUpdate.CatalogID);
+            var SubCatalogID = new SqlParameter("@SubCatalogID", SubCatalogGetAndUpdate.SubCatalogID);
+            var SubCatalogName = new SqlParameter("@SubCatalogName", SubCatalogGetAndUpdate.SubCatalogName);
+            var Status = new SqlParameter("@Status", SubCatalogGetAndUpdate.Status);
+            var CatalogID = new SqlParameter("@CatalogID", SubCatalogGetAndUpdate.CatalogID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
 
             await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogID, SubCatalogName, Status, CatalogID, ErrorCode, ErrorMessage);
 
-            var error = new Error();
-            error.ErrorCode = ErrorCode.Value.ToString();
-            error.ErrorMessage = ErrorMessage.Value.ToString();
+            var error = new Error
+            {
+                ErrorCode = ErrorCode.Value.ToString(),
+                ErrorMessage = ErrorMessage.Value.ToString()
+            };
             return error;
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Error>> DeleteSubCatalog(int id)
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public async Task<ActionResult<Error>> Delete(int id)
         {
             string StoredProc = "exec SubCatalog_Delete @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
             var SubCatalogID = new SqlParameter("@SubCatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
 
             await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogID, ErrorCode, ErrorMessage);
 
-            var error = new Error();
-            error.ErrorCode = ErrorCode.Value.ToString();
-            error.ErrorMessage = ErrorMessage.Value.ToString();
+            var error = new Error
+            {
+                ErrorCode = ErrorCode.Value.ToString(),
+                ErrorMessage = ErrorMessage.Value.ToString()
+            };
             return error;
         }
     }

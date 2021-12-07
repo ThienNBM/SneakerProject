@@ -16,15 +16,14 @@ namespace SneakerAPI
         public SneakerAPIDBContext(DbContextOptions<SneakerAPIDBContext> options) : base(options) { 
         
         }
-
         public DbSet<SneakerAPI.Models.CatalogGetAll> CatalogGetAll { get; set; }
         public DbSet<SneakerAPI.Models.CatalogGetById> CatalogGetById { get; set; }
         public DbSet<SneakerAPI.Models.CatalogInsert> CatalogInsert { get; set; }
         public DbSet<SneakerAPI.Models.CatalogUpdate> CatalogUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.SubCatalogGetAll> SubCatalogGetAll { get; set; }
-        public DbSet<SneakerAPI.Models.SubCatalogGetByID> SubCatalogGetByID { get; set; }
-        public DbSet<SneakerAPI.Models.SubCatalogInsertAndUpdate> SubCatalogInsertAndUpdate { get; set; }
+        public DbSet<SneakerAPI.Models.SubCatalogInsert> SubCatalogInsert { get; set; }
+        public DbSet<SneakerAPI.Models.SubCatalogGetAndUpdate> SubCatalogGetAndUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.ImageProductGetAll> ImageProductGetAll { get; set; }
         public DbSet<SneakerAPI.Models.ImageProductGetByID> ImageProductGetByID { get; set; }

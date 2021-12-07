@@ -1,38 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SneakerAPI.Models
+namespace SneakerInside.Models
 {
-    [Keyless]
     public class SubCatalogGetAll
     {
+        [DisplayName("ID")]
         public int SubCatalogID { get; set; }
 
+        [DisplayName("Tên loại giày")]
         public string SubCatalogName { get; set; }
 
+        [DisplayName("Trạng thái")]
         public int Status { get; set; }
 
+        [DisplayName("Hãng giày")]
         public string CatalogName { get; set; }
     }
 
-    [Keyless]
     public class SubCatalogInsert
     {
+        [Required, DisplayName("Tên loại giày")]
         public string SubCatalogName { get; set; }
 
+        [Required, DisplayName("Trạng thái")]
         public int Status { get; set; }
 
+        [Required, DisplayName("Hãng giày")]
         public int CatalogID { get; set; }
     }
 
-    [Keyless]
     public class SubCatalogGetAndUpdate
     {
         public int SubCatalogID { get; set; }
 
+        [Required, DisplayName("Tên loại giày")]
         public string SubCatalogName { get; set; }
 
+        [Required, DisplayName("Trạng thái")]
         public int Status { get; set; }
 
+        [Required, DisplayName("Hãng giày")]
         public int CatalogID { get; set; }
     }
 }

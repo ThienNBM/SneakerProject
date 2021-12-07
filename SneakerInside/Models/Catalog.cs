@@ -9,9 +9,10 @@ namespace SneakerInside.Models
 {
     public class Catalog
     {
+        [DisplayName("ID")]
         public int CatalogID { get; set; }
 
-        [Required, DisplayName("Tên danh mục")]
+        [Required, DisplayName("Tên hãng giày")]
         public string CatalogName { get; set; }
 
         [Required,DisplayName("Trạng thái")]
