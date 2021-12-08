@@ -120,3 +120,6 @@ D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Catalog\Edit
 D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\SubCatalog\Index.cshtml.g.cs
 D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\SubCatalog\Create.cshtml.g.cs
 D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\SubCatalog\Edit.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Product\Index.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Product\Create.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Product\Edit.cshtml.g.cs

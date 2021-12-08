@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class SubCatalogController : ControllerBase
