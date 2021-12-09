@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SneakerInside.Models.ImageProductGetAll>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Danh sách @ViewBag.Name</h3>
+    </div>
+    <div class="card-body">
+        <table id="subCatalogTable" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ImageID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th style="text-align: center">
+                        <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.ImageID
+                        </td>
+                        <td>
+                            <img src="@("~/Images/" + item.Image)" asp-append-version="true" width="300" />
+                        </td>
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td style="text-align: center">
+                            <a asp-action="Edit" asp-route-id="@item.ImageID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.ImageID" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

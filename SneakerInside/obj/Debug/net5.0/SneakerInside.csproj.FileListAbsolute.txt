@@ -123,3 +123,12 @@ D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\SubCatalog\E
 D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Product\Index.cshtml.g.cs
 D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Product\Create.cshtml.g.cs
 D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Product\Edit.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\ImageProduct\Index.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\ImageProduct\Create.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\ImageProduct\Edit.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Size\Index.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Size\Create.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\Size\Edit.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\ProductItem\Index.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\ProductItem\Create.cshtml.g.cs
+D:\Source\SneakerProject\SneakerInside\obj\Debug\net5.0\Razor\Views\ProductItem\Edit.cshtml.g.cs

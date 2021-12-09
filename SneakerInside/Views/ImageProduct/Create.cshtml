@@ -1,0 +1,45 @@
+﻿@model SneakerInside.Models.ImageProductInsert
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Thêm mới @ViewBag.Name</h3>
+        </div>
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="ImageFile" accept="image/*" class="custom-file-input" id="customFile" />
+                        <label class="custom-file-label" for="customFile">Chọn ảnh</label>
+                    </div>
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProductID" class="control-label"></label>
+                    <input asp-for="ProductID" class="form-control" />
+                    <span asp-validation-for="ProductID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Thêm mới" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}

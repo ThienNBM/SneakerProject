@@ -9,27 +9,9 @@ namespace SneakerAPI.Models
 
         public string ProductName { get; set; }
 
-        public string Image { get; set; }
-
         public string SizeName { get; set; }
 
         public int AmountStock { get; set; }
-
-        public int Status { get; set; }
-    }
-
-    [Keyless]
-    public class ProductItemGetById
-    { 
-        public int ProductItemID { get; set; }
-
-        public int ProductID { get; set; }
-
-        public int SizeID { get; set; }
-
-        public int AmountStock { get; set; }
-
-        public int Status { get; set; }
     }
 
     [Keyless]
@@ -40,13 +22,11 @@ namespace SneakerAPI.Models
         public int SizeID { get; set; }
 
         public int AmountStock { get; set; }
-
-        public int Status { get; set; }
     }
 
     [Keyless]
-    public class ProductItemUpdate
-    {
+    public class ProductItemGetAndUpdate
+    { 
         public int ProductItemID { get; set; }
 
         public int ProductID { get; set; }
@@ -54,7 +34,5 @@ namespace SneakerAPI.Models
         public int SizeID { get; set; }
 
         public int AmountStock { get; set; }
-
-        public int Status { get; set; }
     }
 }

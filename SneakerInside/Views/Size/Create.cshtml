@@ -1,0 +1,30 @@
+﻿@model SneakerInside.Models.SizeInsert
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Thêm mới @ViewBag.Name</h3>
+        </div>
+        <form asp-action="Create">
+            <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="SizeName" class="control-label"></label>
+                    <input asp-for="SizeName" class="form-control" />
+                    <span asp-validation-for="SizeName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Thêm mới" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

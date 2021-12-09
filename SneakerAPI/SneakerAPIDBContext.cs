@@ -30,19 +30,13 @@ namespace SneakerAPI
         public DbSet<SneakerAPI.Models.ProductGetAndUpdate> ProductGetAndUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.ImageProductGetAll> ImageProductGetAll { get; set; }
-        public DbSet<SneakerAPI.Models.ImageProductGetByID> ImageProductGetByID { get; set; }
-        public DbSet<SneakerAPI.Models.ImageProductInsert> ImageProductInsert { get; set; }
-        public DbSet<SneakerAPI.Models.ImageProductUpdate> ImageProductUpdate { get; set; }
+        public DbSet<SneakerAPI.Models.ImageProductGetAndUpdate> ImageProductGetAndUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.SizeGetAll> SizeGetAll { get; set; }
-        public DbSet<SneakerAPI.Models.SizeGetById> SizeGetById { get; set; }
-        public DbSet<SneakerAPI.Models.SizeInsert> SizeInsert { get; set; }
-        public DbSet<SneakerAPI.Models.SizeUpdate> SizeUpdate { get; set; }
+        public DbSet<SneakerAPI.Models.SizeGetAndUpdate> SizeGetAndUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.ProductItemGetAll> ProductItemGetAll { get; set; }
-        public DbSet<SneakerAPI.Models.ProductItemGetById> ProductItemGetById { get; set; }
-        public DbSet<SneakerAPI.Models.ProductItemInsert> ProductItemInsert { get; set; }
-        public DbSet<SneakerAPI.Models.ProductItemUpdate> ProductItemUpdate { get; set; }
+        public DbSet<SneakerAPI.Models.ProductItemGetAndUpdate> ProductItemGetAndUpdate { get; set; }
 
         public DbSet<SneakerAPI.Models.OrderGetAll> OrderGetAll { get; set; }
 

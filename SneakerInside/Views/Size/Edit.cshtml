@@ -1,0 +1,33 @@
+﻿@model SneakerInside.Models.SizeGetAndUpdate
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-6">
+    <div class="card card-warning">
+        <div class="card-header">
+            <h3 class="card-title">Chỉnh sửa @ViewBag.Name</h3>
+        </div>
+        <form asp-action="Edit">
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="hidden" asp-for="SizeID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="SizeName" class="control-label"></label>
+                    <input asp-for="SizeName" class="form-control" />
+                    <span asp-validation-for="SizeName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="submit" value="Chỉnh sửa" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
