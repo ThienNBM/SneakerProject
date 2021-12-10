@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SneakerInside.Models.OrderDetailGetAll>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Danh sách @ViewBag.Name</h3>
+    </div>
+    <div class="card-body">
+        <table id="subCatalogTable" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SizeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PriceBuy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AmountBuy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Total)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Image)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SizeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PriceBuy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AmountBuy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

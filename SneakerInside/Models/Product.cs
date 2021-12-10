@@ -12,7 +12,7 @@ namespace SneakerInside.Models
         public string ProductName { get; set; }
 
         [DisplayName("Giá")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [DisplayName("Trạng thái")]
         public int Status { get; set; }
@@ -33,7 +33,7 @@ namespace SneakerInside.Models
         public string Description { get; set; }
 
         [Required, DisplayName("Giá")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Required, DisplayName("Trạng thái")]
         public int Status { get; set; }
@@ -56,7 +56,7 @@ namespace SneakerInside.Models
         public string Description { get; set; }
 
         [Required, DisplayName("Giá")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Required, DisplayName("Trạng thái")]
         public int Status { get; set; }

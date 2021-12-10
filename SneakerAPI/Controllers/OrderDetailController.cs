@@ -19,16 +19,24 @@ namespace SneakerAPI.Controllers
             _context = context;
         }
 
-        [HttpGet("GetAll/{id}")]
+        [HttpGet]
+        [Route("GetAll/{id}")]
         public async Task<ActionResult<IEnumerable<OrderDetailGetAll>>> GetAll(int id)
         {
             string StoredProc = "exec OrderDetail_GetAll @OrderID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-
             var OrderID = new SqlParameter("@OrderID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            return await _context.OrderDetailGetAll.FromSqlRaw(StoredProc, OrderID, ErrorCode, ErrorMessage).ToListAsync();
+            List<OrderDetailGetAll> orderDetails;
+            try
+            {
+                orderDetails = await _context.OrderDetailGetAll.FromSqlRaw(StoredProc, OrderID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                orderDetails = null;
+            }
+            return orderDetails;
         }
     }
 }

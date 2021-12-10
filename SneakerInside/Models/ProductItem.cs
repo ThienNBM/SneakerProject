@@ -18,7 +18,7 @@ namespace SneakerInside.Models
         [DisplayName("Size")]
         public string SizeName { get; set; }
 
-        [DisplayName("Số lượng")]
+        [DisplayName("Số lượng tồn")]
         public int AmountStock { get; set; }
     }
 
@@ -30,7 +30,7 @@ namespace SneakerInside.Models
         [Required, DisplayName("Size")]
         public int SizeID { get; set; }
 
-        [Required, DisplayName("Số lượng")]
+        [Required, DisplayName("Số lượng tồn")]
         public int AmountStock { get; set; }
     }
 
@@ -44,7 +44,7 @@ namespace SneakerInside.Models
         [Required, DisplayName("Size")]
         public int SizeID { get; set; }
 
-        [Required, DisplayName("Số lượng")]
+        [Required, DisplayName("Số lượng tồn")]
         public int AmountStock { get; set; }
     }
 }

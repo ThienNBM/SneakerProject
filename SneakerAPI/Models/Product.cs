@@ -9,7 +9,7 @@ namespace SneakerAPI.Models
 
         public string ProductName { get; set; }
 
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         public int Status { get; set; }
 
@@ -25,7 +25,7 @@ namespace SneakerAPI.Models
 
         public string Description { get; set; }
 
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         public int Status { get; set; }
 
@@ -43,7 +43,7 @@ namespace SneakerAPI.Models
 
         public string Description { get; set; }
 
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         public int Status { get; set; }
 
