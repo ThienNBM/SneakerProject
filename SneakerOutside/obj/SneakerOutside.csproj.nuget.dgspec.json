@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Source\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj": {}
+    "D:\\project\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj": {}
   },
   "projects": {
-    "D:\\Source\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj": {
+    "D:\\project\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Source\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj",
+        "projectUniqueName": "D:\\project\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj",
         "projectName": "SneakerOutside",
-        "projectPath": "D:\\Source\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj",
-        "packagesPath": "C:\\Users\\THIENNBM\\.nuget\\packages\\",
-        "outputPath": "D:\\Source\\SneakerProject\\SneakerOutside\\obj\\",
+        "projectPath": "D:\\project\\SneakerProject\\SneakerOutside\\SneakerOutside.csproj",
+        "packagesPath": "C:\\Users\\trinh\\.nuget\\packages\\",
+        "outputPath": "D:\\project\\SneakerProject\\SneakerOutside\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\THIENNBM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\trinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,6 +39,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -57,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
