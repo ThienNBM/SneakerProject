@@ -5,31 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SneakerOutside</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,800,900,bold">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/owl-carousel/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/lib/owl-carousel/css/owl.theme.default.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/slide.css" />
+    <link rel="stylesheet" href="~/css/list_products.css" />
+    <link rel="stylesheet" href="~/css/produc_detail.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 </head>
 <body>
+    <div id="main">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="menu-main navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow ">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SneakerOutside</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img itemprop="logo" data-src="https://file.hstatic.net/200000123907/file/logo-02_881dc34f505d4a108cc1d0196188bb02.png" alt="Collectors" class="logo ls-is-cached lazyloaded" src="https://file.hstatic.net/200000123907/file/logo-02_881dc34f505d4a108cc1d0196188bb02.png">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between menu-header">
+                    <ul class="navbar-nav flex-grow-1 uk-flex uk-flex-center">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <div class="dropdown nav-link text-dark ">
+                                Sản phẩm 
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                <div class="dropdown-content">
+                                    <a nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">New Arrivals</a>
+                                    <a nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Polo</a>
+                                    <a href="#">Link 3</a>
+                                </div>
+                            </div>
                         </li>
+                         <li class="nav-item">
+                            <div class="dropdown nav-link text-dark ">
+                                Collections
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                <div class="dropdown-content">
+                                    <a nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Link 1</a>
+                                    <a nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Link 2</a>
+                                    <a href="#">Link 3</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                  <div class="justify-content-between ">
+                    <ul class="navbar-nav flex-grow-1 uk-flex-right header-wrap-icon menu-header">
+                        <div class="action-account hidden-xs hidden-sm">
+                            <a href="/account" class="account-info text-dark">
+                            <span class="ico_action "><svg class="svg-account" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 488.9 488.9" style="enable-background:new 0 0 488.9 488.9;" xml:space="preserve">
+                                <g>
+                                <path d="M477.7,454.8v-26c0-26.5-12.4-52-33.1-68.1c-48.2-37.4-97.3-63.5-114.5-72.2v-29.7c3.5-7.8,6.4-16.3,8.6-25.5   c12.8-4.6,19.8-23.4,24.5-40c6.3-22.1,5.6-37.6-1.8-46.2c7.8-42.5,4.3-73.8-10.3-93.1c-7.7-10.1-16.7-14.4-22.7-16.3   c-4.3-6-13-16.1-27.7-24.2C285.5,4.5,268.4,0,249.6,0c-3.4,0-6.8,0.2-9.8,0.4c-8.4,0.4-16.7,2-24.9,4.7c-0.1,0-0.2,0.1-0.3,0.1   c-9,3.1-17.8,7.6-26.3,13.4c-9.7,6.2-18.6,13.6-26.3,21.8c-15.1,15.5-25.1,33-29.4,51.7c-4.1,15.5-4.4,31.1-1,46.4   c-1.8,1.3-3.4,2.8-4.8,4.6c-6.9,9.1-7.2,23.4-1.1,45.1c4.2,15,9.8,30.3,19.3,37.2c2.8,14.4,7.5,27.5,13.8,39.1v24.1   c-17.2,8.7-66.3,34.7-114.5,72.2c-20.7,16.1-33.1,41.5-33.1,68.1v26c0,18.8,15.3,34,34,34h398.5   C462.4,488.9,477.7,473.6,477.7,454.8z M35.6,454.8v-26c0-19,8.8-37.2,23.6-48.7c52-40.3,104.9-66.9,115-71.8   c5.6-2.7,9.1-8.3,9.1-14.6v-32.5c0-2.2-0.6-4.3-1.7-6.2c-6.6-11.2-11.2-24.6-13.5-39.9c-0.8-4.9-4.4-8.8-9.1-10   c-1.3-1.5-5-6.9-9.7-23.6c-3.9-13.8-3.6-20.2-3.2-22.5c3.9,0.2,7.8-1.6,10.3-4.7c2.6-3.3,3.3-7.7,1.9-11.6   c-5.2-14.5-5.8-29.4-1.8-44.6c3.4-14.6,11.2-28.2,23.3-40.6c6.5-7,14-13.1,22-18.2c0.1-0.1,0.3-0.2,0.4-0.3   c6.7-4.7,13.7-8.2,20.6-10.6c0.1,0,0.2-0.1,0.2-0.1c5.9-2,12-3.1,18.4-3.4c17.5-1.5,33.2,1.8,47.1,9.9   c15.2,8.4,21.4,19.4,21.4,19.4c1.9,3.9,5.3,6.2,9.7,6.5c0.3,0,6.8,1,12.4,8.9c5.9,8.4,14.3,30,3.8,80.4c-1.2,5.6,1.7,11.2,6.8,13.6   c0.5,1.8,1.3,7.9-3,23.1c-3.8,13.4-6.9,19.5-8.7,22.2c-2.3-0.4-4.7-0.2-6.9,0.8c-3.8,1.6-6.6,5.1-7.3,9.1c-2.1,12-5.5,22.8-9.9,32   c-0.8,1.7-1.2,3.5-1.2,5.3v37.6c0,6.3,3.5,11.8,9.1,14.6c10.1,4.9,63,31.6,114.9,71.8c14.8,11.5,23.6,29.7,23.6,48.7v26   c0,5.2-4.3,9.5-9.5,9.5H45.2C39.9,464.4,35.6,460.1,35.6,454.8z"></path>
+                                </g>
+                                </svg>
+                            </span> 
+                            <span class="text">Đăng nhập/Đăng ký</span>
+                            </a>
+                        </div>
+                        <div id="sidebarCollapse" data-toggle="modal" data-target="#myModalCart" class=" action-cart" aria-label="Open cart" title="Giỏ hàng">
+                            <a href="#" class="cart-infor text-dark">
+                            <span class="ico_action ">
+                                <svg class="svg-cart" xmlns="http://www.w3.org/2000/svg" viewBox="0 -13 456.75885 456">
+                                <path d="m150.355469 322.332031c-30.046875 0-54.402344 24.355469-54.402344 54.402344 0 30.042969 24.355469 54.398437 54.402344 54.398437 30.042969 0 54.398437-24.355468 54.398437-54.398437-.03125-30.03125-24.367187-54.371094-54.398437-54.402344zm0 88.800781c-19 0-34.402344-15.402343-34.402344-34.398437 0-19 15.402344-34.402344 34.402344-34.402344 18.996093 0 34.398437 15.402344 34.398437 34.402344 0 18.996094-15.402344 34.398437-34.398437 34.398437zm0 0"></path>
+                                <path d="m446.855469 94.035156h-353.101563l-7.199218-40.300781c-4.4375-24.808594-23.882813-44.214844-48.699219-48.601563l-26.101563-4.597656c-5.441406-.96875-10.632812 2.660156-11.601562 8.097656-.964844 5.441407 2.660156 10.632813 8.101562 11.601563l26.199219 4.597656c16.53125 2.929688 29.472656 15.871094 32.402344 32.402344l35.398437 199.699219c4.179688 23.894531 24.941406 41.324218 49.199219 41.300781h210c22.0625.066406 41.546875-14.375 47.902344-35.5l47-155.800781c.871093-3.039063.320312-6.3125-1.5-8.898438-1.902344-2.503906-4.859375-3.980468-8-4zm-56.601563 162.796875c-3.773437 12.6875-15.464844 21.367188-28.699218 21.300781h-210c-14.566407.039063-27.035157-10.441406-29.5-24.800781l-24.699219-139.398437h336.097656zm0 0"></path>
+                                <path d="m360.355469 322.332031c-30.046875 0-54.402344 24.355469-54.402344 54.402344 0 30.042969 24.355469 54.398437 54.402344 54.398437 30.042969 0 54.398437-24.355468 54.398437-54.398437-.03125-30.03125-24.367187-54.371094-54.398437-54.402344zm0 88.800781c-19 0-34.402344-15.402343-34.402344-34.398437 0-19 15.402344-34.402344 34.402344-34.402344 18.996093 0 34.398437 15.402344 34.398437 34.402344 0 18.996094-15.402344 34.398437-34.398437 34.398437zm0 0"></path>
+                                </svg>
+                            </span>
+                            <span class="cart-menu"  aria-hidden="true">
+                                <span class="text hidden-xs">Giỏ hàng</span>
+                                <span class="count-holder"><span class="count">0</span></span>
+                            </span>
+                            </a>
+                        </div>
+                        <div id="site-menu-handle" class="hamburger-menu visible-sm visible-xs" aria-hidden="true">
+                            <span class="bar"></span>
+                        </div>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container1">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -37,11 +100,85 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - SneakerOutside - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+				<div class="col-sm-7 ">
+					<div class="footer-col footer-content1">
+						<h4 class="footer-title">
+							COLLECTORS
+						</h4>
+						<div class="footer-content">
+							<p><strong>Collectors</strong> luôn hướng tới sự đơn giản. 
+                                Và chúng tôi hiện thực hóa nó để mọi người có thể nhìn thấy,<br />
+                               <p> chạm thấy cái ngưỡng tinh tế của sự đơn giản qua từng sản phẩm mà <strong>Collectors</strong> mang lại.</p>
+						</div>
+                        <div class="footer-content footer-contact">
+							<ul class="uk-list">
+								<li class="contact-2">096 110 56 56</li>								
+								<li class="contact-4">hello@collectors.vn</li>
+							</ul>	
+						</div>
+					</div>
+				</div>
+                <div class="col-sm-5">
+                    <h4 class="text-center">Theo dõi chúng tôi</h4>
+                    <div class="w3-xlarge w3-section uk-flex uk-flex-center uk-flex-middle">
+                        <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                        <i class="fa fa-instagram w3-hover-opacity"></i>
+                        <i class="fa fa-snapchat w3-hover-opacity"></i>
+                        <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+                        <i class="fa fa-twitter w3-hover-opacity"></i>
+                        <i class="fa fa-linkedin w3-hover-opacity"></i>
+                    </div>
+			    </div>  
+			</div>
         </div>
+
+        <section class="end-footer">
+             <p id="scroll-to-top" class="w3-button w3-light-grey">
+                 <i class="fa fa-arrow-up w3-margin-right"></i>
+             </p>
+            <div class="container">
+            <div class="uk-flex uk-flex-space-between mt-3">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img itemprop="logo" data-src="https://file.hstatic.net/200000123907/file/logo-02_881dc34f505d4a108cc1d0196188bb02.png" alt="Collectors" class="logo ls-is-cached lazyloaded" src="https://file.hstatic.net/200000123907/file/logo-02_881dc34f505d4a108cc1d0196188bb02.png">
+                </a>  
+                <span class="mt-3">© 2021 Colector. All rights reserved.</span>
+            </div>
+            </div>
+        </section>
     </footer>
+</div>
+<!-- Modal -->
+	<div class="modal right fade" id="myModalCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel2">Giỏ hàng</h4>
+				</div>
+
+				<div class="modal-body cart-view">
+					<table id="cart-view"><tbody><tr><td>Hiện chưa có sản phẩm</td></tr></tbody></table>
+                    <span class="line"></span>
+                    <table class="table-total">
+					<tbody><tr>
+						<td class="text-left">TỔNG TIỀN:</td>
+						<td class="text-right" id="total-view-cart">0₫</td>
+					</tr>
+					<tr>
+						<td><a href="/cart" class="linktocart button dark">Xem giỏ hàng</a></td>
+						<td><a href="/checkout" class="linktocheckout button red">Thanh toán</a></td>
+					</tr>
+				</tbody></table>
+				</div>
+			</div><!-- modal-content -->
+		</div><!-- modal-dialog -->
+	</div>
+<!-- modal -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/owl-carousel/js/owl.carousel.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
