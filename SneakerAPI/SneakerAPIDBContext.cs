@@ -41,6 +41,7 @@ namespace SneakerAPI
         public DbSet<SneakerAPI.Models.UserGetAll> UserGetAll { get; set; }
 
         public DbSet<SneakerAPI.Models.OrderGetAll> OrderGetAll { get; set; }
+        public DbSet<SneakerAPI.Models.OrderGetByUserId> OrderGetByUserId { get; set; }
 
         public DbSet<SneakerAPI.Models.OrderDetailGetAll> OrderDetailGetAll { get; set; }
 

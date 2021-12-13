@@ -11,14 +11,10 @@ namespace SneakerInside.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ILogger<OrderController> _logger;
-        private readonly IConfiguration _Configure;
         private readonly string apiBaseUrl;
-        public OrderController(ILogger<OrderController> logger, IConfiguration configuration)
+        public OrderController(IConfiguration configuration)
         {
-            _logger = logger;
-            _Configure = configuration;
-            apiBaseUrl = _Configure.GetValue<string>("SneakerAPIUrl");
+            apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
         readonly string Name = "đơn hàng";
@@ -34,6 +30,24 @@ namespace SneakerInside.Controllers
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         orders = JsonConvert.DeserializeObject<List<OrderGetAll>>(apiResponse);
+                    }
+                }
+            }
+            ViewBag.Name = Name;
+            return View(orders);
+        }
+        
+        public async Task<IActionResult> IndexByUserId(int id)
+        {
+            List<OrderGetByUserId> orders = new List<OrderGetByUserId>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/Order/GetByUserId/{id}"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        orders = JsonConvert.DeserializeObject<List<OrderGetByUserId>>(apiResponse);
                     }
                 }
             }

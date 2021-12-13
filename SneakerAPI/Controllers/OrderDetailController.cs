@@ -23,7 +23,7 @@ namespace SneakerAPI.Controllers
         [Route("GetAll/{id}")]
         public async Task<ActionResult<IEnumerable<OrderDetailGetAll>>> GetAll(int id)
         {
-            string StoredProc = "exec OrderDetail_GetAll @OrderID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec OrderDetail_GetByOrderId @OrderID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var OrderID = new SqlParameter("@OrderID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
