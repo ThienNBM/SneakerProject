@@ -1,9 +1,199 @@
-﻿
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+<section class="section ">
+    <div class="title-collection">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pd5  ">
+                    <ol class="breadcrumb breadcrumb-arrows" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+                        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                            <a href="/" target="_self" itemprop="item"><span itemprop="name">Trang chủ</span></a>
+                            <meta itemprop="position" content="1">
+                        </li>
+                        <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                            <a href="/collections" target="_self" itemprop="item">
+                                <span itemprop="name"> Giỏ Hàng </span>
+                            </a>
+                            <meta itemprop="position" content="2">
+                        </li>
+                        <li class="active" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                            <span itemprop="item" content="https://collectors.vn/collections/new-arrival">
+                                <span itemprop="name">Thanh Toán</span>
+
+                            </span>
+                            <meta itemprop="position" content="3">
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <section id="payment">
     <div class="container">
-
+        <div class="content">
+            <div class="wrap">
+                <div class="sidebar">
+						<div class="sidebar-content">
+							<div class="order-summary order-summary-is-collapsed">
+								<h2 class="visually-hidden">Thông tin đơn hàng</h2>
+								<div class="order-summary-sections">
+									<div class="order-summary-section order-summary-section-product-list" data-order-summary-section="line-items">
+										<table class="product-table">
+											<thead>
+												<tr>
+													<th scope="col"><span class="visually-hidden">Hình ảnh</span></th>
+													<th scope="col"><span class="visually-hidden">Mô tả</span></th>
+													<th scope="col"><span class="visually-hidden">Số lượng</span></th>
+													<th scope="col"><span class="visually-hidden">Giá</span></th>
+												</tr>
+											</thead>
+											<tbody>
+													<tr class="product" data-product-id="1026081513" data-variant-id="1062121750">
+														<td class="product-image">
+															<div class="product-thumbnail">
+																<div class="product-thumbnail-wrapper">
+																	<img class="product-thumbnail-image" alt="Dr.Bon Black Tee ''Liberty''" src="//product.hstatic.net/200000123907/product/5ea5a8a613a642d59c1a0e140b606705_9bc55b657af44157bcdf05ea32450a47_small.jpeg">
+																</div>
+																@*<span class="product-thumbnail-quantity" aria-hidden="true">3</span>*@
+															</div>
+														</td>
+														<td class="product-description">
+															<span class="product-description-name order-summary-emphasis">Dr.Bon Black Tee ''Liberty''</span>
+																	
+																<span class="product-description-variant order-summary-small-text">
+																	4
+																</span>
+																	
+														</td>
+														<td class="product-quantity visually-hidden">3</td>
+														<td class="product-price">
+															<span class="order-summary-emphasis">1,350,000₫</span>
+														</td>
+													</tr>
+											</tbody>
+										</table>
+									</div>
+										<div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
+											<form id="form_discount_add" accept-charset="UTF-8" method="post">
+											<input name="utf8" type="hidden" value="✓">
+												<div class="fieldset">
+													<div class="field">
+														<div class="field-input-btn-wrapper">
+															<div class="field-input-wrapper">
+																<label class="field-label" for="discount.code">Mã giảm giá</label>
+																<input placeholder="Mã giảm giá" class="field-input" data-discount-field="true" autocomplete="false" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code" name="discount.code" value="">
+															</div>
+															<button type="submit" class="field-input-btn btn btn-default btn-disabled">
+																<span class="btn-content button dark">Sử dụng</span>
+																<i class="btn-spinner icon icon-button-spinner"></i>
+															</button>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									<div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
+										<table class="total-line-table">
+											
+											<tbody>
+												<tr class="total-line total-line-subtotal">
+													<td class="total-line-name">Tạm tính</td>
+													<td class="total-line-price">
+														<span class="order-summary-emphasis" data-checkout-subtotal-price-target="135000000">
+															1,350,000₫
+														</span>
+													</td>
+												</tr>
+												<tr class="total-line total-line-shipping">
+													<td class="total-line-name">Phí vận chuyển</td>
+													<td class="total-line-price">
+														<span class="order-summary-emphasis" data-checkout-total-shipping-target="0">
+																—
+														</span>
+													</td>
+												</tr>
+											</tbody>
+											<tfoot class="total-line-table-footer">
+												<tr class="total-line">
+													<td class="total-line-name payment-due-label">
+														<span class="payment-due-label-total">Tổng cộng</span>
+													</td>
+													<td class="total-line-name payment-due">
+														<span class="payment-due-currency">VND</span>
+														<span class="payment-due-price" data-checkout-payment-due-target="135000000">
+															1,350,000₫
+														</span>
+														<span class="checkout_version" display:none="" data_checkout_version="0">
+														</span>
+													</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="main">
+					<div class="section">
+						<div class="section-header">
+							<h2 class="section-title">Thông tin giao hàng</h2>
+						</div>
+						<div class="section-content section-customer-information no-mb">
+															
+								<input name="utf8" type="hidden" value="✓">
+								<div class="inventory_location_data">
+																	
+										<input name="customer_shipping_country" type="hidden" value="241">
+										<input name="customer_shipping_province" type="hidden" value="">
+										<input name="customer_shipping_district" type="hidden" value="">
+										<input name="customer_shipping_ward" type="hidden" value="">
+																	
+								</div>			
+								<input type="hidden" name="checkout_user[email]" value="trinhhuong29071999@gmail.com">
+								@*<div class="logged-in-customer-information">&nbsp; 
+									<div class="logged-in-customer-information-avatar-wrapper">
+										<div class="logged-in-customer-information-avatar gravatar" style="background-image: url(//www.gravatar.com/avatar/7035b2d5a109dc170d079acfc1ef9a5b.jpg?s=100&amp;d=blank);filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//www.gravatar.com/avatar/7035b2d5a109dc170d079acfc1ef9a5b.jpg?s=100&amp;d=blank', sizingMethod='scale')"></div>
+									</div>
+									<p class="logged-in-customer-information-paragraph">
+										Trịnh Hương (trinhhuong29071999@gmail.com)
+										<br>
+										<a href="/account/logout?return_url=%2Fcheckouts%2Fd0b9234701f54b879cf9c7846c71a66d%3Fstep%3D1">Đăng xuất</a>
+									</p>
+								</div>*@
+															
+							<div class="fieldset">
+									<div class="field field-required  ">
+										<div class="field-input-wrapper">
+											<label class="field-label" for="billing_address_full_name">Họ và tên</label>
+											<input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_full_name" name="billing_address[full_name]" value="" autocomplete="false">
+										</div>
+																		
+									</div>
+									<div class="field field-required  field-error ">
+										<div class="field-input-wrapper">
+											<label class="field-label" for="billing_address_phone">Số điện thoại</label>
+											<input autocomplete="false" placeholder="Số điện thoại" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="15" type="tel" id="billing_address_phone" name="billing_address[phone]" value="">
+										</div>						
+									</div>		
+									<div class="field field-required  field-error ">
+										<div class="field-input-wrapper">
+											<label class="field-label" for="billing_address_phone">Địa chỉ</label>
+											<input autocomplete="false" placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input" size="30" maxlength="15" type="tel" id="billing_address_phone" name="billing_address[phone]" value="">
+										</div>						
+									</div>		
+							</div>
+							<div class="button_view_all hidden-xs">
+								<a href="/collections/new-arrival" class="button dark">ĐẶT HÀNG</a>
+							</div>
+						</div>
+					
+					
+					</div>
+				</div>
+            </div>
+        </div>
     </div>
 </section>
