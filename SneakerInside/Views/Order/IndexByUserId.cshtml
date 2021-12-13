@@ -1,7 +1,7 @@
-﻿@model IEnumerable<SneakerInside.Models.UserGetAll>
+﻿@model IEnumerable<SneakerInside.Models.OrderGetByUserId>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "IndexByUserId";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -14,10 +14,10 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.UserID)
+                        @Html.DisplayNameFor(model => model.OrderID)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Email)
+                        @Html.DisplayNameFor(model => model.DateCreate)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.FullName)
@@ -29,7 +29,16 @@
                         @Html.DisplayNameFor(model => model.Address)
                     </th>
                     <th>
-                        Danh sách đơn hàng
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TotalMoney)
+                    </th>
+                    <th>
+                        Đơn hàng chi tiết
                     </th>
                 </tr>
             </thead>
@@ -38,10 +47,10 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.UserID)
+                            @Html.DisplayFor(modelItem => item.OrderID)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Email)
+                            @Html.DisplayFor(modelItem => item.DateCreate)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FullName)
@@ -52,8 +61,17 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalMoney)
+                        </td>
                         <td style="text-align: center">
-                            <a asp-controller="Order" asp-action="IndexByUserId" asp-route-id="@item.UserID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a asp-controller="OrderDetail" asp-action="Index" asp-route-id="@item.OrderID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                 }
