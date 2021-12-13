@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -46,8 +47,38 @@ namespace SneakerInside.Controllers
             return View(productItems);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            List<ListProduct> listProducts = new List<ListProduct>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Product/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listProducts = JsonConvert.DeserializeObject<List<ListProduct>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownProduct = new SelectList(listProducts, "ProductID", "ProductName");
+            
+            List<ListSize> listSizes = new List<ListSize>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Size/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listSizes = JsonConvert.DeserializeObject<List<ListSize>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownSize = new SelectList(listSizes, "SizeID", "SizeName");
+
+            ViewBag.dropDownProduct = dropDownProduct;
+            ViewBag.dropDownSize = dropDownSize;
             ViewBag.Name = Name;
             return View();
         }
@@ -86,6 +117,37 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
+
+            List<ListProduct> listProducts = new List<ListProduct>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Product/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listProducts = JsonConvert.DeserializeObject<List<ListProduct>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownProduct = new SelectList(listProducts, "ProductID", "ProductName");
+
+            List<ListSize> listSizes = new List<ListSize>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Size/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listSizes = JsonConvert.DeserializeObject<List<ListSize>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownSize = new SelectList(listSizes, "SizeID", "SizeName");
+
+            ViewBag.dropDownProduct = dropDownProduct;
+            ViewBag.dropDownSize = dropDownSize;
             ViewBag.Name = Name;
             return View(productItem);
         }

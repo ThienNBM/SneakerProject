@@ -17,12 +17,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ProductID" class="control-label"></label>
-                    <input asp-for="ProductID" class="form-control" />
+                    <select asp-for="ProductID" class="form-control" asp-items="@ViewBag.dropDownProduct"></select>
                     <span asp-validation-for="ProductID" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="SizeID" class="control-label"></label>
-                    <input asp-for="SizeID" class="form-control" />
+                    <select asp-for="SizeID" class="form-control" asp-items="@ViewBag.dropDownSize"></select>
                     <span asp-validation-for="SizeID" class="text-danger"></span>
                 </div>
                 <div class="form-group">

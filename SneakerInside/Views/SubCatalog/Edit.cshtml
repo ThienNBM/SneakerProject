@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CatalogID" class="control-label"></label>
-                    <input asp-for="CatalogID" class="form-control" />
+                    <select asp-for="CatalogID" class="form-control" asp-items="@ViewBag.dropDownCatalog"></select>
                     <span asp-validation-for="CatalogID" class="text-danger"></span>
                 </div>
             </div>
