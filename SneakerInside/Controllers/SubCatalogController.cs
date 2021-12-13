@@ -13,14 +13,10 @@ namespace SneakerInside.Controllers
 {
     public class SubCatalogController : Controller
     {
-        private readonly ILogger<SubCatalogController> _logger;
-        private readonly IConfiguration _Configure;
         private readonly string apiBaseUrl;
-        public SubCatalogController(ILogger<SubCatalogController> logger, IConfiguration configuration)
+        public SubCatalogController(IConfiguration configuration)
         {
-            _logger = logger;
-            _Configure = configuration;
-            apiBaseUrl = _Configure.GetValue<string>("SneakerAPIUrl");
+            apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
         Error _error = new Error();
@@ -51,8 +47,23 @@ namespace SneakerInside.Controllers
             return View(_subCatalogs);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            List<ListCatalog> listCatalogs = new List<ListCatalog>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Catalog/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listCatalogs = JsonConvert.DeserializeObject<List<ListCatalog>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownCatalog = new SelectList(listCatalogs, "CatalogID", "CatalogName");
+            
+            ViewBag.dropDownCatalog = dropDownCatalog;
             ViewBag.Name = Name;
             ViewBag.status = status;
             return View();
@@ -92,6 +103,22 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
+
+            List<ListCatalog> listCatalogs = new List<ListCatalog>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Catalog/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listCatalogs = JsonConvert.DeserializeObject<List<ListCatalog>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownCatalog = new SelectList(listCatalogs, "CatalogID", "CatalogName");
+
+            ViewBag.dropDownCatalog = dropDownCatalog;
             ViewBag.Name = Name;
             ViewBag.status = status;
             return View(_subCatalog);

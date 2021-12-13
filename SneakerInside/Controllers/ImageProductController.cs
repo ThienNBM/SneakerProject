@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -49,8 +50,23 @@ namespace SneakerInside.Controllers
             return View(imageProducts);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            List<ListProduct> listProducts = new List<ListProduct>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Product/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listProducts = JsonConvert.DeserializeObject<List<ListProduct>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownProduct = new SelectList(listProducts, "ProductID", "ProductName");
+
+            ViewBag.dropDownProduct = dropDownProduct;
             ViewBag.Name = Name;
             return View();
         }
@@ -98,6 +114,22 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
+
+            List<ListProduct> listProducts = new List<ListProduct>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Product/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        listProducts = JsonConvert.DeserializeObject<List<ListProduct>>(apiResponse);
+                    }
+                }
+            }
+            var dropDownProduct = new SelectList(listProducts, "ProductID", "ProductName");
+
+            ViewBag.dropDownProduct = dropDownProduct;
             ViewBag.Name = Name;
             return View(imageProduct);
         }

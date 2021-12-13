@@ -13,14 +13,10 @@ namespace SneakerInside.Controllers
 {
     public class CatalogController : Controller
     {
-        private readonly ILogger<CatalogController> _logger;
-        private readonly IConfiguration _Configure;
         private readonly string apiBaseUrl;
-        public CatalogController(ILogger<CatalogController> logger, IConfiguration configuration)
+        public CatalogController(IConfiguration configuration)
         {
-            _logger = logger;
-            _Configure = configuration;
-            apiBaseUrl = _Configure.GetValue<string>("SneakerAPIUrl");
+            apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
         Catalog _catalog = new Catalog();
