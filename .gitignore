@@ -4,7 +4,3 @@ obj/
 node_modules/
 *.LICENSE.txt
 *.user
-SneakerOutside/obj
-SneakerInside/obj
-SneakerAPI/obj
-.vs
