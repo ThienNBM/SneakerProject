@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using SneakerAPI.InsideModels;
-using SneakerAPI.OutsideModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SneakerAPI
+namespace SneakerOutside2
 {
     public class Startup
     {
@@ -22,21 +23,10 @@ namespace SneakerAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Register SQL database configuration context as services.
-            services.AddDbContext<ISdbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DevConnection"));
-            });
-            
-            services.AddDbContext<OSdbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("DevConnection"));
-            });
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SneakerAPI", Version = "v1" });
+            services.AddControllersWithViews();
+            services.AddDistributedMemoryCache();  
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
         }
 
@@ -46,11 +36,18 @@ namespace SneakerAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SneakerAPI v1"));
             }
-
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
@@ -58,7 +55,10 @@ namespace SneakerAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    //pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Product}/{action=Index}/{id?}");
             });
         }
     }
