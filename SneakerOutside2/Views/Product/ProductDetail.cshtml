@@ -1,0 +1,51 @@
+﻿@model SneakerOutside2.Models.ProductGetInfo
+@{
+    ViewData["Title"] = "ProductDetail";
+}
+
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-6">
+            @foreach (var item in ViewBag.listImages)
+            {
+                <img class="card-img-top" src="@("https://localhost:44344/Images/" + item.Image)" asp-append-version="true">
+            }
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <input type="hidden" asp-for="ProductID" />
+                @Html.HiddenFor(Model => Model.ProductID)
+                <h5 class="card-title">@Model.ProductName</h5>
+                <p class="card-text">@Model.Description</p>
+                <p class="card-text">@Model.Price</p>
+                <select id="sizeID" asp-items="@ViewBag.dropDownSize"></select>
+                <a  class="btn btn bg-success" id="add-to-card">Thêm vào giỏ</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#add-to-card").click(function () {
+                const ProductID = $("#ProductID").val();
+                const SizeID = $("#sizeID").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Cart/AddToCart",
+                    data: {
+                        ProductID: ProductID,
+                        SizeID: SizeID
+                    },
+                    success: function (res) {
+                        console.log(res)
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                });
+            });
+        });
+    </script>
+}

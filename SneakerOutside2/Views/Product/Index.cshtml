@@ -1,0 +1,19 @@
+﻿@model IEnumerable<SneakerOutside2.Models.ProductGetAll>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card-columns">
+    @foreach (var item in Model)
+    {
+        <div class="card text-center">
+            <img class="card-img-top" src="@("https://localhost:44344/Images/" + item.Image)" asp-append-version="true">
+            <div class="card-body">
+                <h5 class="card-title">@item.ProductName</h5>
+                <p class="card-text">@item.Price</p>
+                <a asp-action="ProductDetail" asp-route-id="@item.ProductID" class="stretched-link"></a>
+            </div>
+        </div>
+    }
+</div>
