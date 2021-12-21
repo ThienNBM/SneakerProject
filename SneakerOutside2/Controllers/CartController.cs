@@ -19,12 +19,10 @@ namespace SneakerOutside2.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        readonly Error error = new Error();
 
-        public async Task<IActionResult> AddToCart(int ProductID, int SizeID)
+        //Thêm sản phẩm vào giỏ hàng
+        public async Task<IActionResult> AddCart(int ProductID, int SizeID)
         {
             //Lấy thông tin hàng theo productID và sizeID
             var productInfo = new CartProductInfo();
@@ -39,18 +37,12 @@ namespace SneakerOutside2.Controllers
                     }
                 }
             }
-
             //Xử lý giỏ hàng
             var sessionCart = HttpContext.Session.GetString("Cart");
-            List<CartItem> CartList = new List<CartItem>();
+            List<CartItem> cartList = new List<CartItem>();
             if (sessionCart != null)
             {
-                CartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
-            }
-
-            if (CartList.Any(x => x.ProductID == ProductID && x.SizeID == SizeID))
-            {
-                ViewBag.errormessage = "Sản phẩm đã tồn tại";
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
             }
 
             CartItem cartItem = new CartItem()
@@ -66,11 +58,76 @@ namespace SneakerOutside2.Controllers
                 AmountBuy = 1
             };
 
-            CartList.Add(cartItem);
+            var cartitem = cartList.Find(x => x.ProductID == ProductID && x.SizeID == SizeID);
+            if (cartitem == null)
+            {
+                error.ErrorCode = "0";
+                error.ErrorMessage = "Thêm sản phẩm vào giỏ hàng thành công";
+                cartList.Add(cartItem);
+            }
+            else
+            {
+                error.ErrorCode = "1";
+                error.ErrorMessage = "Sản phẩm đã được thêm vào giỏ hàng";
+            }
 
-            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(CartList));
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartList));
+
+            return Json(error);
+        }
+
+        //Hiển thị giỏ hàng
+        public IActionResult Index()
+        {
+            List<CartItem> cartList = new List<CartItem>();
+            var sessionCart = HttpContext.Session.GetString("Cart");
+            if (sessionCart != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+            }
+            return View(cartList);
+        }
+
+        //Cập nhật số lượng sản phẩm trong giỏ hàng
+        public IActionResult UpdateCart(int productItemId, int amountBuy)
+        {
+            List<CartItem> cartList = new List<CartItem>();
+            var sessionCart = HttpContext.Session.GetString("Cart");
+            if (sessionCart != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+            }
+
+            var cartitem = cartList.Find(x => x.ProductItemID == productItemId);
+            if (cartitem != null)
+            {
+                cartitem.AmountBuy = amountBuy;
+            }
+
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartList));
 
             return Ok();
+        }
+
+        //Xóa sản phẩm trong giỏ hàng
+        public IActionResult RemoveCart(int productItemId)
+        {
+            List<CartItem> cartList = new List<CartItem>();
+            var sessionCart = HttpContext.Session.GetString("Cart");
+            if (sessionCart != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+            }
+
+            var cartitem = cartList.Find(x => x.ProductItemID == productItemId);
+            if (cartitem != null)
+            {
+                cartList.Remove(cartitem);
+            }
+
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartList));
+
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

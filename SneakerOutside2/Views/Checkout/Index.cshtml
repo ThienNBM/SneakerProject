@@ -1,0 +1,115 @@
+﻿@model SneakerOutside2.Models.CheckOutView
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (ViewBag.success != null)
+{
+    <p class="alert alert-success">Thanh toán thành công</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Ảnh
+                </th>
+                <th>
+                    Tên sản phẩm
+                </th>
+                <th>
+                    Size
+                </th>
+                <th>
+                    Đơn giá
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Thành tiền
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int total = 0; }
+            @foreach (var item in Model.CartList)
+            {
+                var thanhtien = item.AmountBuy * item.Price;
+                total += thanhtien;
+                <tr>
+                    <td style="display:none">
+                        @item.ProductItemID
+                    </td>
+                    <td style="display:none">
+                        @Html.DisplayFor(modelItem => item.AmountStock)
+                    </td>
+                    <td>
+                        <img width="200" src="@("https://localhost:44344/Images/" + item.Image)" asp-append-version="true">
+                    </td>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        @item.SizeName
+                    </td>
+                    <td>
+                        @item.Price.ToString("n0")
+                    </td>
+                    <td>
+                        <input asp-for="@item.AmountBuy" id="@($"amountBuy-{item.ProductItemID}")" />
+                    </td>
+                    <td>
+                        @(thanhtien.ToString("n0"))
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-right">Tổng tiền</td>
+                <td>@(total.ToString("n0"))</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <h4>Thông tin người mua</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Index">
+                <div class="form-group">
+                    <label asp-for="UserInfo.FullName" class="control-label"></label>
+                    <input asp-for="UserInfo.FullName" class="form-control" />
+                    <span asp-validation-for="UserInfo.FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserInfo.Phone" class="control-label"></label>
+                    <input asp-for="UserInfo.Phone" class="form-control" />
+                    <span asp-validation-for="UserInfo.Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserInfo.Email" class="control-label"></label>
+                    <input asp-for="UserInfo.Email" class="form-control" />
+                    <span asp-validation-for="UserInfo.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserInfo.Address" class="control-label"></label>
+                    <input asp-for="UserInfo.Address" class="form-control" />
+                    <span asp-validation-for="UserInfo.Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OrderInfo.Note" class="control-label"></label>
+                    <input asp-for="OrderInfo.Note" class="form-control" />
+                    <span asp-validation-for="OrderInfo.Note" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Thanh toán" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+}
