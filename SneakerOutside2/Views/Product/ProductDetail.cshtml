@@ -28,22 +28,28 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#add-to-card").click(function () {
+            $("#add-to-card").click(function (e) {
+                e.preventDefault();
                 const ProductID = $("#ProductID").val();
                 const SizeID = $("#sizeID").val();
                 $.ajax({
                     type: "POST",
-                    url: "/Cart/AddToCart",
+                    url: "/Cart/AddCart",
                     data: {
                         ProductID: ProductID,
                         SizeID: SizeID
                     },
-                    success: function (res) {
-                        console.log(res)
-                    },
-                    error: function (err) {
-                        console.log(err)
-                    }
+                    success: function (response) {
+                        switch (response.errorCode)
+                        {
+                            case 1:
+                                console.log(response.errorMessage);
+                                break;
+                            default:
+                                console.log(response.errorMessage);
+                                break;
+                        };
+                    };
                 });
             });
         });

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.OutsideControllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class OSproductController : Controller
