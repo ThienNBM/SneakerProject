@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SneakerAPI.InsideModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace SneakerAPI.InsideControllers
             {
                 orderDetails = await _context.OrderDetailGetAll.FromSqlRaw(StoredProc, OrderID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
                 orderDetails = null;
             }

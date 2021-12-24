@@ -1,8 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<SneakerOutside2.Models.ProductGetAll>
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section id="hero"></section>
+
+<section id="product1" class="section-p1">
+    <h2>Danh sách sản phẩm</h2>
+    <div class="pro-container">
+        @foreach (var item in Model)
+        {
+            <div class="pro">
+                <a asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.ProductID">
+                    <img src="@("https://localhost:44344/Images/" + item.Image)" alt="" />
+                </a>
+                <div class="des">
+                    <h5>@item.ProductName</h5>
+                    <h4>VNĐ @item.Price.ToString("n0")</h4>
+                </div>
+            </div>
+        }
+    </div>
+</section>

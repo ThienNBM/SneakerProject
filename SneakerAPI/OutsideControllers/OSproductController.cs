@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SneakerAPI.OutsideModel;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace SneakerAPI.OutsideControllers
             {
                 products = await context.ProductGetInfo.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch(Exception ex)
             {
                 products = null;
             }

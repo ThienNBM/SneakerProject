@@ -20,7 +20,7 @@ namespace SneakerAPI.InsideModels
 
         public int Status { get; set; }
 
-        public int TotalMoney { get; set; }
+        public int Total { get; set; }
     }
 
     [Keyless]
@@ -40,6 +40,6 @@ namespace SneakerAPI.InsideModels
 
         public int Status { get; set; }
 
-        public int TotalMoney { get; set; }
+        public int Total { get; set; }
     }
 }
