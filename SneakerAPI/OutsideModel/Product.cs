@@ -24,6 +24,8 @@ namespace SneakerAPI.OutsideModel
         public string Description { get; set; }
 
         public int Price { get; set; }
+
+        public string Image { get; set; }
     }
 
     [Keyless]

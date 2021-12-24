@@ -3,30 +3,45 @@
     ViewData["Title"] = "ProductDetail";
 }
 
-<div class="card">
-    <div class="row no-gutters">
-        <div class="col-md-6">
-            @foreach (var item in ViewBag.listImages)
-            {
-                <img class="card-img-top" src="@("https://localhost:44344/Images/" + item.Image)" asp-append-version="true">
-            }
-        </div>
-        <div class="col-md-6">
-            <div class="card-body">
-                <input type="hidden" asp-for="ProductID" />
-                @Html.HiddenFor(Model => Model.ProductID)
-                <h5 class="card-title">@Model.ProductName</h5>
-                <p class="card-text">@Model.Description</p>
-                <p class="card-text">@Model.Price</p>
-                <select id="sizeID" asp-items="@ViewBag.dropDownSize"></select>
-                <a  class="btn btn bg-success" id="add-to-card">Thêm vào giỏ</a>
+
+<section class="container sproduct my-5 pt-5">
+    <div class="row mt-5">
+        <div class="col-lg-5 col-md-12 col-12">
+            <img id="MainImg" class="img-fluid w-100 pb-1" src="@("https://localhost:44344/Images/" + Model.Image)" alt="" />
+            <div class="small-img-group">
+                @foreach (var item in ViewBag.listImages)
+                {
+                    <div class="small-img-col">
+                        <img src="@("https://localhost:44344/Images/" + item.Image)" width="100%" class="small-img" alt="" />
+                    </div>
+                }
             </div>
         </div>
+        <div class="col-lg-6 col-md-12 col-12">
+            <input type="hidden" asp-for="ProductID" />
+            <h3 class="py-4">@Model.ProductName</h3>
+            <h2>VNĐ @Model.Price.ToString("n0")</h2>
+            <select id="sizeID" class="my-3" asp-items="@ViewBag.dropDownSize"></select>
+            <button class="btn btn-dark" id="add-to-card">Thêm vào giỏ hàng</button>
+            <h4 class="mt-5 mb-5">Thông tin sản phẩm</h4>
+            <span>@Model.Description</span>
+        </div>
     </div>
-</div>
+</section>
+
 
 @section Scripts {
     <script type="text/javascript">
+        var mainimg = document.getElementById("MainImg");
+        var smallimg = document.getElementsByClassName("small-img");
+
+        smallimg[0].onclick = function () {
+            mainimg.src = smallimg[0].src;
+        }
+        smallimg[1].onclick = function () {
+            mainimg.src = smallimg[1].src;
+        }
+
         $(document).ready(function () {
             $("#add-to-card").click(function (e) {
                 e.preventDefault();
@@ -40,16 +55,15 @@
                         SizeID: SizeID
                     },
                     success: function (response) {
-                        switch (response.errorCode)
-                        {
+                        switch (response.errorCode) {
                             case 1:
                                 console.log(response.errorMessage);
                                 break;
                             default:
                                 console.log(response.errorMessage);
                                 break;
-                        };
-                    };
+                        }
+                    }
                 });
             });
         });

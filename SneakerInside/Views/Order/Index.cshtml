@@ -35,7 +35,7 @@
                         @Html.DisplayNameFor(model => model.Status)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.TotalMoney)
+                        @Html.DisplayNameFor(model => model.Total)
                     </th>
                     <th>
                         Đơn hàng chi tiết
@@ -68,7 +68,7 @@
                             @Html.DisplayFor(modelItem => item.Status)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TotalMoney)
+                            @Html.DisplayFor(modelItem => item.Total)
                         </td>
                         <td style="text-align: center">
                             <a asp-controller="OrderDetail" asp-action="Index" asp-route-id="@item.OrderID" class="btn btn-warning"><i class="fas fa-edit"></i></a>

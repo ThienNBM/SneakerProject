@@ -31,7 +31,7 @@ namespace SneakerInside.Models
         public int Status { get; set; }
 
         [DisplayName("Tổng hóa đơn")]
-        public double TotalMoney { get; set; }
+        public double Total { get; set; }
     }
     
     public class OrderGetByUserId
@@ -58,6 +58,6 @@ namespace SneakerInside.Models
         public int Status { get; set; }
 
         [DisplayName("Tổng hóa đơn")]
-        public double TotalMoney { get; set; }
+        public double Total { get; set; }
     }
 }
