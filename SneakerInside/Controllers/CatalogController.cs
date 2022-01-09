@@ -24,7 +24,7 @@ namespace SneakerInside.Controllers
         Error _error = new Error();
 
         readonly string Name = "hãng giày";
-        
+
         List<SelectListItem> status = new List<SelectListItem>()
         {
             new SelectListItem { Value = "1", Text = "Hoạt động" },
@@ -49,6 +49,23 @@ namespace SneakerInside.Controllers
             return View(_catalogs);
         }
 
+        public async Task<ActionResult> GetAll()
+        {
+            List<Catalog> catalogs = new List<Catalog>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Catalog/GetAll"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        catalogs = JsonConvert.DeserializeObject<List<Catalog>>(apiResponse);
+                    }
+                }
+            }
+            return Json(catalogs);
+        }
+
         public IActionResult Create()
         {
             ViewBag.Name = Name;
@@ -59,18 +76,21 @@ namespace SneakerInside.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Catalog catalog)
         {
-            _error = new Error();
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Catalog/Insert", content))
+                _error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Catalog/Insert", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            _error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                            string errorCode = _error.ErrorCode;
+                            string errorMesage = _error.ErrorMessage;
+                        }
                     }
                 }
             }

@@ -12,7 +12,8 @@ namespace SneakerInside.Models
         [DisplayName("ID")]
         public int CatalogID { get; set; }
 
-        [Required, DisplayName("Tên hãng giày")]
+        [DisplayName("Tên hãng giày")]
+        [Required(ErrorMessage ="Tên hãng giày không được để trống")]
         public string CatalogName { get; set; }
 
         [Required,DisplayName("Trạng thái")]
