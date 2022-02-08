@@ -66,11 +66,12 @@ namespace SneakerInside.Controllers
             return Json(catalogs);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.Name = Name;
             ViewBag.status = status;
-            return View();
+            return View(new Catalog());
         }
 
         [HttpPost]
@@ -93,8 +94,9 @@ namespace SneakerInside.Controllers
                         }
                     }
                 }
+                return Json(new { isValid=true, _error });
             }
-            return RedirectToAction("Index");
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Create", catalog) });
         }
 
         public async Task<IActionResult> Edit(int id)
