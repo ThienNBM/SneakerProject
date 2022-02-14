@@ -31,22 +31,9 @@ namespace SneakerInside.Controllers
             new SelectListItem { Value = "0", Text = "Không hoạt động" },
         };
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            _catalogs = new List<Catalog>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Catalog/GetAll"))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _catalogs = JsonConvert.DeserializeObject<List<Catalog>>(apiResponse);
-                    }
-                }
-            }
-            ViewBag.Name = Name;
-            return View(_catalogs);
+            return View();
         }
 
         public async Task<ActionResult> GetAll()
