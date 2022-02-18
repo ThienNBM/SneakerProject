@@ -25,10 +25,9 @@
                         @Html.DisplayNameFor(model => model.Status)
                     </th>
                     <th style="text-align: center">
-                        <button type="button" class="btn btn-success" onclick="createCatalog()"><i class="fas fa-plus"></i></button>
-                        @*<a onclick="showCatalogModal('@Url.Action("Create","Catalog",null,Context.Request.Scheme)', 'Thêm mới danh mục',)" class="btn btn-success">
+                        <button type="button" class="btn btn-success" onclick="showModal('@Url.Action("Create","Catalog",null,Context.Request.Scheme)','Thêm mới hãng giày')">
                             <i class="fas fa-plus"></i>
-                        </a>*@
+                        </button>
                     </th>
                 </tr>
             </thead>
@@ -63,17 +62,27 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="catalogModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" id="catalogModalBody">
+<!-- Modal thêm, sửa-->
+<div class="modal fade" id="commonModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
 
+            </div>
         </div>
     </div>
 </div>
 
+
 @section Scripts{
     <script type="text/javascript">
+        //Lấy dữ liệu lên bảng
         $(document).ready(function () {
             $('#catalogTable').DataTable({
                 processing: true,
@@ -100,24 +109,25 @@
             });
         });
 
-        function createCatalog() {
+        //Hàm hiện modal thêm, sửa
+        function showModal(url, title) {
             $.ajax({
                 type: "GET",
-                url: "/Catalog/Create",
+                url: url,
                 success: function (res) {
-                    $("#catalogModalBody").html(res);
-                    $("#catalogModal").modal('show');
+                    $("#commonModal .modal-body").html(res);
+                    $("#commonModal .modal-title").html(title);
+                    $("#commonModal").modal('show');
                 }
             })
         }
 
-        //showCatalogModal = (url, title) => {
+        //function createCatalog() {
         //    $.ajax({
         //        type: "GET",
-        //        url: url,
+        //        url: "/Catalog/Create",
         //        success: function (res) {
-        //            $("#catalogModal .modal-body").html(res);
-        //            $("#catalogModal .modal-title").html(title);
+        //            $("#catalogModalBody").html(res);
         //            $("#catalogModal").modal('show');
         //        }
         //    })
