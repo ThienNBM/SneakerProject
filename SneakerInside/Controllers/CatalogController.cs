@@ -81,9 +81,9 @@ namespace SneakerInside.Controllers
                         }
                     }
                 }
-                return Json(new { isValid=true, _error });
+                return Json(new { isValid = true, _error });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Create", catalog) });
+            return Json(new { isValid = false });
         }
 
         public async Task<IActionResult> Edit(int id)

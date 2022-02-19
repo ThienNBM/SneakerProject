@@ -83,8 +83,9 @@
 @section Scripts{
     <script type="text/javascript">
         //Lấy dữ liệu lên bảng
+        var dataTable;
         $(document).ready(function () {
-            $('#catalogTable').DataTable({
+            dataTable = $('#catalogTable').DataTable({
                 processing: true,
                 ajax: {
                     url: '/Catalog/GetAll',
@@ -100,9 +101,9 @@
                         }
                     },
                     {
-                        data: null,
-                        render: function (data, type, row) {
-                            return '<button id="' + row.catalogID + '" type="button" class="btn btn-danger getID" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash-alt"></i></button>';
+                        data: 'catalogID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-warning" onclick="showModal(' + @Url.Action("Edit", "Catalog",data,Context.Request.Scheme) + ')"><i class="fas fa-edit"></i></button>';
                         }
                     }
                 ]
@@ -122,62 +123,35 @@
             })
         }
 
-        //function createCatalog() {
-        //    $.ajax({
-        //        type: "GET",
-        //        url: "/Catalog/Create",
-        //        success: function (res) {
-        //            $("#catalogModalBody").html(res);
-        //            $("#catalogModal").modal('show');
-        //        }
-        //    })
-        //}
-
-        //createCatalog = form => {
-        //    try {
-        //        $.ajax({
-        //            type: "POST",
-        //            url: form.action,
-        //            data: new FormData(form),
-        //            contentType: false,
-        //            processData: false,
-        //            success: function (res) {
-        //                if (res.isValid) {
-        //                    $("#catalogModal .modal-body").html('');
-        //                    $("#catalogModal .modal-title").html('');
-        //                    $("#catalogModal").modal('hide');
-        //                }
-        //                else {
-        //                    $("#catalogModal .modal-body").html(res.html);
-        //                }
-        //            },
-        //            error: function (err) {
-        //                console.log(err);
-        //            }
-        //        })
-        //    }
-        //    catch (e) {
-        //        console.log(e);
-        //    }
-        //    return false;
-        //}
-
-        //function create() {
-        //    var modal = $("catalogModal");
-        //    var form = $('form[name="catalogForm"]');
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/Catalog/Create",
-        //        data: form.serialize(),
-        //        success: function (res) {
-        //            if (res) {
-        //                modal.modal('hide');
-        //            }
-        //        },
-        //        error: function (err) {
-        //            console.log(err);
-        //        }
-        //    })
-        //}
+        //Hàm thực hiện thêm mới
+        function create(form) {
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: new FormData(form),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.isValid) {
+                            $("#commonModal .modal-body").html('');
+                            $("#commonModal .modal-title").html('');
+                            $("#commonModal").modal('hide');
+                            dataTable.ajax.reload();
+                        }
+                        else {
+                            $("#commonModal .modal-body").html(res.html);
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+            catch (e) {
+                console.log(e);
+            }
+            return false;
+        }
     </script>
 }
