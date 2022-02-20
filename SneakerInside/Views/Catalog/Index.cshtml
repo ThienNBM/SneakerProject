@@ -15,19 +15,16 @@
         <table id="catalogTable" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CatalogID)
+                    <th style="text-align: center">
+                        <button type="button" class="btn btn-success" onclick="showModal('@Url.Action("Create","Catalog")','Thêm mới hãng giày')">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CatalogName)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Status)
-                    </th>
-                    <th style="text-align: center">
-                        <button type="button" class="btn btn-success" onclick="showModal('@Url.Action("Create","Catalog",null,Context.Request.Scheme)','Thêm mới hãng giày')">
-                            <i class="fas fa-plus"></i>
-                        </button>
                     </th>
                 </tr>
             </thead>
@@ -86,24 +83,28 @@
         var dataTable;
         $(document).ready(function () {
             dataTable = $('#catalogTable').DataTable({
-                processing: true,
                 ajax: {
                     url: '/Catalog/GetAll',
-                    dataSrc: ''
+                    type: 'GET',
+                    datatype: 'json'
                 },
                 columns: [
-                    { data: 'catalogID' },
-                    { data: 'catalogName' },
+                    {
+                        data: 'catalogID',
+                        render: function (data) {
+                            return "<button type='button' class='btn btn-warning' onclick='showModal('@Url.Action("Edit", "Catalog")/" + data + "'," + "'Chỉnh sửa hãng giày'" + ")><i class='fas fa-edit'></i></button >";
+                            //< button type = 'button' class='btn btn-danger' style = "margin-left:5px" onclick = "showModal()" > <i class="fas fa-trash-alt"></i></button >
+                        },
+                        ordering: false,
+                        width: '100px'
+                    },
+                    {
+                        data: 'catalogName'
+                    },
                     {
                         data: 'status',
                         render: function (data) {
                             return data ? "Hoạt động" : "Không hoạt động";
-                        }
-                    },
-                    {
-                        data: 'catalogID',
-                        render: function (data) {
-                            return '<button type="button" class="btn btn-warning" onclick="showModal(' + @Url.Action("Edit", "Catalog",data,Context.Request.Scheme) + ')"><i class="fas fa-edit"></i></button>';
                         }
                     }
                 ]

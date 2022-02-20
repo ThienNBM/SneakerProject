@@ -50,7 +50,7 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            return Json(catalogs);
+            return Json(new { data = catalogs } ) ;
         }
 
         [HttpGet]
