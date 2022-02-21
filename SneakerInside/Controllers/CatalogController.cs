@@ -146,7 +146,7 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { isValid = true, _error });
         }
     }
 }
