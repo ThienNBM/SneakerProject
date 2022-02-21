@@ -50,7 +50,7 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            return Json(new { data = catalogs } ) ;
+            return Json(new { data = catalogs });
         }
 
         [HttpGet]
@@ -58,7 +58,7 @@ namespace SneakerInside.Controllers
         {
             ViewBag.Name = Name;
             ViewBag.status = status;
-            return View(new Catalog());
+            return View();
         }
 
         [HttpPost]
@@ -88,13 +88,6 @@ namespace SneakerInside.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            List<SelectListItem> status = new List<SelectListItem>()
-            {
-                new SelectListItem { Value = "1", Text = "Hoạt động" },
-                new SelectListItem { Value = "0", Text = "Không hoạt động" },
-            };
-            ViewBag.status = status;
-
             _catalog = new Catalog();
             using (var httpClient = new HttpClient())
             {
@@ -108,28 +101,33 @@ namespace SneakerInside.Controllers
                 }
             }
             ViewBag.Name = Name;
+            ViewBag.status = status;
             return View(_catalog);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Catalog catalog)
         {
-            _error = new Error();
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Catalog/Update", content))
+                _error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Catalog/Update", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            _error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                            string errorCode = _error.ErrorCode;
+                            string errorMesage = _error.ErrorMessage;
+                        }
                     }
                 }
+                return Json(new { isValid = true, _error});
             }
-            return RedirectToAction("Index");
+            return Json(new { isValid = false});
         }
 
         public async Task<IActionResult> Delete(int id)

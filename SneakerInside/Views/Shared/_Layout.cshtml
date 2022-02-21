@@ -181,8 +181,13 @@
     <script src="~/adminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/adminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/adminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <!-- AdminLTE App -->
     <script src="~/adminLTE/dist/js/adminlte.min.js"></script>
+    <!--Custom JS-->
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

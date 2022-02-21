@@ -2,36 +2,28 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<div class="col-md-6">
-    <div class="card card-warning">
-        <div class="card-header">
-            <h3 class="card-title">Chỉnh sửa @ViewBag.Name</h3>
-        </div>
-        <form asp-action="Edit">
-            <div class="card-body">
-                <div class="form-group">
-                    <input type="hidden" asp-for="CatalogID" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="CatalogName" class="control-label"></label>
-                    <input asp-for="CatalogName" class="form-control" />
-                    <span asp-validation-for="CatalogName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Status" class="control-label"></label>
-                    <select asp-for="Status" class="form-control" asp-items="@ViewBag.status"></select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="card-footer">
-                <input type="submit" value="Chỉnh sửa" class="btn btn-warning" />
-            </div>
-        </form>
+<form asp-action="Edit" onsubmit="return submitForm(this);" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <input type="hidden" asp-for="CatalogID" class="form-control" />
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="CatalogName" class="control-label"></label>
+        <input asp-for="CatalogName" class="form-control" />
+        <span asp-validation-for="CatalogName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Status" class="control-label"></label>
+        <select asp-for="Status" class="form-control" asp-items="@ViewBag.status"></select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Chỉnh sửa" class="btn btn-info btn-block"/>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

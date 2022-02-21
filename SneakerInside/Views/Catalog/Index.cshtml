@@ -7,16 +7,16 @@
     //ListCatalog = ViewBag.ListCatalog;
 }
 
-<div class="card card-info">
+<div class="card card-secondary">
     <div class="card-header">
         <h3 class="card-title">Danh sách hãng giày</h3>
     </div>
     <div class="card-body">
-        <table id="catalogTable" class="table table-bordered table-hover">
+        <table id="catalogTable" class="table table-bordered table-hover" width="100%">
             <thead>
                 <tr>
                     <th style="text-align: center">
-                        <button type="button" class="btn btn-success" onclick="showModal('@Url.Action("Create","Catalog")','Thêm mới hãng giày')">
+                        <button type="button" class="btn btn-success" onclick="showCreateModal()">
                             <i class="fas fa-plus"></i>
                         </button>
                     </th>
@@ -59,8 +59,24 @@
     </div>
 </div>
 
-<!-- Modal thêm, sửa-->
+<!-- Modal -->
 <div class="modal fade" id="commonModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,7 +100,7 @@
         $(document).ready(function () {
             dataTable = $('#catalogTable').DataTable({
                 ajax: {
-                    url: '/Catalog/GetAll',
+                    url: '@Url.Action("GetAll", "Catalog")',
                     type: 'GET',
                     datatype: 'json'
                 },
@@ -92,10 +108,9 @@
                     {
                         data: 'catalogID',
                         render: function (data) {
-                            return "<button type='button' class='btn btn-warning' onclick='showModal('@Url.Action("Edit", "Catalog")/" + data + "'," + "'Chỉnh sửa hãng giày'" + ")><i class='fas fa-edit'></i></button >";
-                            //< button type = 'button' class='btn btn-danger' style = "margin-left:5px" onclick = "showModal()" > <i class="fas fa-trash-alt"></i></button >
+                            return '<button type="button" class="btn btn-info" onclick="showEditModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "showModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
                         },
-                        ordering: false,
+                        orderable: false,
                         width: '100px'
                     },
                     {
@@ -111,22 +126,36 @@
             });
         });
 
-        //Hàm hiện modal thêm, sửa
-        function showModal(url, title) {
+        //Hàm hiện modal thêm
+        function showCreateModal() {
             $.ajax({
                 type: "GET",
-                url: url,
+                url: '@Url.Action("Create", "Catalog")',
                 success: function (res) {
+                    $("#commonModal .modal-title").html("Thêm mới hãng giày");
                     $("#commonModal .modal-body").html(res);
-                    $("#commonModal .modal-title").html(title);
                     $("#commonModal").modal('show');
                 }
             })
         }
 
-        //Hàm thực hiện thêm mới
-        function create(form) {
-            try {
+        //Hàm hiện modal sửa
+        function showEditModal(data) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Edit", "Catalog")/' + data,
+                success: function (res) {
+                    $("#commonModal .modal-title").html("Chỉnh sửa hãng giày");
+                    $("#commonModal .modal-body").html(res);
+                    $("#commonModal").modal('show');
+                }
+            })
+        }
+
+        //Hàm thực hiện
+        function submitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
                 $.ajax({
                     type: "POST",
                     url: form.action,
@@ -141,16 +170,10 @@
                             dataTable.ajax.reload();
                         }
                         else {
-                            $("#commonModal .modal-body").html(res.html);
+                            alert(res.isValid);
                         }
-                    },
-                    error: function (err) {
-                        console.log(err);
                     }
-                })
-            }
-            catch (e) {
-                console.log(e);
+                });
             }
             return false;
         }
