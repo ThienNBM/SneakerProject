@@ -19,10 +19,6 @@ namespace SneakerInside.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        Catalog _catalog = new Catalog();
-        List<Catalog> _catalogs = new List<Catalog>();
-        Error _error = new Error();
-
         readonly string Name = "hãng giày";
 
         List<SelectListItem> status = new List<SelectListItem>()
@@ -33,6 +29,7 @@ namespace SneakerInside.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Name = Name;
             return View();
         }
 
@@ -56,7 +53,6 @@ namespace SneakerInside.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Name = Name;
             ViewBag.status = status;
             return View();
         }
@@ -66,7 +62,7 @@ namespace SneakerInside.Controllers
         {
             if (ModelState.IsValid)
             {
-                _error = new Error();
+                Error error = new Error();
                 using (var httpClient = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
@@ -75,20 +71,21 @@ namespace SneakerInside.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
-                            _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                            string errorCode = _error.ErrorCode;
-                            string errorMesage = _error.ErrorMessage;
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
                         }
                     }
                 }
-                return Json(new { isValid = true, _error });
+                return Json(new { isValid = true, error });
             }
-            return Json(new { isValid = false });
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            _catalog = new Catalog();
+            Catalog catalog = new Catalog();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/Catalog/GetById/{id}"))
@@ -96,13 +93,12 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _catalog = JsonConvert.DeserializeObject<List<Catalog>>(apiResponse)[0];
+                        catalog = JsonConvert.DeserializeObject<List<Catalog>>(apiResponse)[0];
                     }
                 }
             }
-            ViewBag.Name = Name;
             ViewBag.status = status;
-            return View(_catalog);
+            return View(catalog);
         }
 
         [HttpPost]
@@ -110,7 +106,7 @@ namespace SneakerInside.Controllers
         {
             if (ModelState.IsValid)
             {
-                _error = new Error();
+                Error error = new Error();
                 using (var httpClient = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
@@ -119,20 +115,21 @@ namespace SneakerInside.Controllers
                         if (response.IsSuccessStatusCode)
                         {
                             string apiResponse = await response.Content.ReadAsStringAsync();
-                            _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                            string errorCode = _error.ErrorCode;
-                            string errorMesage = _error.ErrorMessage;
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
                         }
                     }
                 }
-                return Json(new { isValid = true, _error});
+                return Json(new { isValid = true, error });
             }
-            return Json(new { isValid = false});
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            _error = new Error();
+            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.DeleteAsync(apiBaseUrl + $"/api/Catalog/Delete/{id}"))
@@ -140,13 +137,11 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
                     }
                 }
             }
-            return Json(new { isValid = true, _error });
+            return Json(new { error });
         }
     }
 }

@@ -3,14 +3,11 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //List<Catalog> ListCatalog = new List<Catalog>();
-    //ListCatalog = ViewBag.ListCatalog;
 }
 
 <div class="card card-secondary">
     <div class="card-header">
         <h3 class="card-title">Danh sách hãng giày</h3>
-        <button type="button" class="btn btn-danger" onclick="grown()">Ấn</button>
     </div>
     <div class="card-body">
         <table id="catalogTable" class="table table-bordered table-hover" width="100%">
@@ -33,175 +30,88 @@
     </div>
 </div>
 
-<!-- Modal thêm, sửa-->
-<div class="modal fade" id="commonModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Modal xóa-->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Xóa hãng giày</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Bạn có muốn xóa hãng giày ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-danger" onclick="deleteForm()">Xóa</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 @section Scripts{
-    <script type="text/javascript">
-        function grown() {
-            $.bootstrapGrowl("This is a test.");
-
-            setTimeout(function () {
-                $.bootstrapGrowl("This is another test.", { type: 'success' });
-            }, 1000);
-
-            setTimeout(function () {
-                $.bootstrapGrowl("Danger, Danger!", {
-                    type: 'danger',
-                    align: 'center',
-                    width: 'auto',
-                    allow_dismiss: false
-                });
-            }, 2000);
-
-            setTimeout(function () {
-                $.bootstrapGrowl("Danger, Danger!", {
-                    type: 'info',
-                    align: 'left',
-                    stackup_spacing: 30
-                });
-            }, 3000);
-        } 
-
-        //Lấy dữ liệu lên bảng
-        var dataTable, tempId;
-        $(document).ready(function () {
-            dataTable = $('#catalogTable').DataTable({
-                ajax: {
-                    url: '@Url.Action("GetAll", "Catalog")',
-                    type: 'GET',
-                    datatype: 'json'
+<script type="text/javascript">
+    //Lấy dữ liệu lên bảng
+    var dataTable, tempId;
+    $(document).ready(function () {
+        dataTable = $('#catalogTable').DataTable({
+            ajax: {
+                url: '@Url.Action("GetAll", "Catalog")',
+                type: 'GET',
+                datatype: 'json'
+            },
+            columns: [
+                {
+                    data: 'catalogID',
+                    render: function (data) {
+                        return '<button type="button" class="btn btn-info" onclick="showEditModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "showDeleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
+                    },
+                    orderable: false,
+                    width: '100px'
                 },
-                columns: [
-                    {
-                        data: 'catalogID',
-                        render: function (data) {
-                            return '<button type="button" class="btn btn-info" onclick="showEditModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "showDeleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
-                        },
-                        orderable: false,
-                        width: '100px'
-                    },
-                    {
-                        data: 'catalogName'
-                    },
-                    {
-                        data: 'status',
-                        render: function (data) {
-                            return data ? "Hoạt động" : "Không hoạt động";
-                        }
+                {
+                    data: 'catalogName'
+                },
+                {
+                    data: 'status',
+                    render: function (data) {
+                        return data ? "Hoạt động" : "Không hoạt động";
                     }
-                ]
-            });
+                }
+            ]
         });
+    });
 
-        //Hàm hiện modal thêm
-        function showCreateModal() {
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("Create", "Catalog")',
-                success: function (res) {
-                    $("#commonModal .modal-title").html("Thêm mới hãng giày");
-                    $("#commonModal .modal-body").html(res);
-                    $("#commonModal").modal('show');
+    //Hàm hiện modal thêm
+    function showCreateModal() {
+        url = "@Url.Action("Create", "Catalog")";
+        name = "Thêm mới " + "@ViewBag.Name";
+        showModal(url, name);
+    }
+
+    //Hàm hiện modal sửa
+    function showEditModal(data) {
+        url = "@Url.Action("Edit", "Catalog")/" + data;
+        name = "Chỉnh sửa " + "@ViewBag.Name";
+        showModal(url, name);
+    }
+
+    //Hàm hiện modal xóa
+    function showDeleteModal(data) {
+        tempId = data;
+        $("#deleteModal").modal('show');
+    }
+
+    //Hàm thực hiện thêm
+    function submitCreateForm(form) {
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            submitForm(form);
+        }
+        return false;
+    }
+
+    //Hàm thực hiện xóa
+    function deleteForm() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Delete", "Catalog")/" + tempId,
+            success: function (res) {
+                if (res.error.errorMessage == "") {
+                    $.bootstrapGrowl("Thực hiện thành công", {
+                        type: 'success'
+                    });
+                    $("#deleteModal").modal('hide');
+                    dataTable.ajax.reload();
                 }
-            })
-        }
-
-        //Hàm hiện modal sửa
-        function showEditModal(data) {
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("Edit", "Catalog")/' + data,
-                success: function (res) {
-                    $("#commonModal .modal-title").html("Chỉnh sửa hãng giày");
-                    $("#commonModal .modal-body").html(res);
-                    $("#commonModal").modal('show');
+                else {
+                    $.bootstrapGrowl(res.error.errorMessage, {
+                        type: 'danger'
+                    });
                 }
-            })
-        }
-
-        //Hàm hiện modal xóa
-        function showDeleteModal(data) {
-            tempId = data;
-            $("#deleteModal").modal('show');
-        }
-
-        //Hàm thực hiện thêm, sửa
-        function submitForm(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: new FormData(form),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        if (res.isValid) {
-                            $("#commonModal .modal-body").html('');
-                            $("#commonModal .modal-title").html('');
-                            $("#commonModal").modal('hide');
-                            dataTable.ajax.reload();
-                        }
-                        else {
-                            alert(res.isValid);
-                        }
-                    }
-                });
             }
-            return false;
-        }
-
-        //Hàm thực hiện xóa
-        function deleteForm() {
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("Delete", "Catalog")/" + tempId,
-                success: function (res) {
-                    if (res.isValid) {
-                        $("#deleteModal").modal('hide');
-                        dataTable.ajax.reload();
-                    }
-                    else {
-                        alert(res.isValid);
-                    }
-                }
-            });
-        }
-    </script>
+        });
+    }
+</script>
 }
