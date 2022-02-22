@@ -10,6 +10,7 @@
 <div class="card card-secondary">
     <div class="card-header">
         <h3 class="card-title">Danh sách hãng giày</h3>
+        <button type="button" class="btn btn-danger" onclick="grown()">Ấn</button>
     </div>
     <div class="card-body">
         <table id="catalogTable" class="table table-bordered table-hover" width="100%">
@@ -28,38 +29,11 @@
                     </th>
                 </tr>
             </thead>
-            @*<tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @item.CatalogID
-                            </td>
-                            <td>
-                                @item.CatalogName
-                            </td>
-                            <td>
-                                @if (item.Status == 1)
-                                {
-                                    <p>Hoạt động</p>
-                                }
-                                else
-                                {
-                                    <p>Không hoạt động</p>
-                                }
-                            </td>
-                            <td style="text-align: center">
-                                <a asp-action="Edit" asp-route-id="@item.CatalogID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                <a asp-action="Delete" asp-route-id="@item.CatalogID" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>*@
         </table>
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal thêm, sửa-->
 <div class="modal fade" id="commonModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -76,6 +50,7 @@
     </div>
 </div>
 
+<!--Modal xóa-->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -96,9 +71,33 @@
     </div>
 </div>
 
-
 @section Scripts{
     <script type="text/javascript">
+        function grown() {
+            $.bootstrapGrowl("This is a test.");
+
+            setTimeout(function () {
+                $.bootstrapGrowl("This is another test.", { type: 'success' });
+            }, 1000);
+
+            setTimeout(function () {
+                $.bootstrapGrowl("Danger, Danger!", {
+                    type: 'danger',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: false
+                });
+            }, 2000);
+
+            setTimeout(function () {
+                $.bootstrapGrowl("Danger, Danger!", {
+                    type: 'info',
+                    align: 'left',
+                    stackup_spacing: 30
+                });
+            }, 3000);
+        } 
+
         //Lấy dữ liệu lên bảng
         var dataTable, tempId;
         $(document).ready(function () {
