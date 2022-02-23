@@ -1,11 +1,10 @@
 ﻿@model SneakerInside.Models.Catalog
 
 @{
-    ViewData["Title"] = "Edit";
     Layout = null;
 }
 
-<form asp-action="Edit" onsubmit="return submitForm(this);" autocomplete="off">
+<form asp-action="Update" onsubmit="return submitUpdate(this);" autocomplete="off">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <input type="hidden" asp-for="CatalogID" class="form-control" />
@@ -24,7 +23,3 @@
         <input type="submit" value="Chỉnh sửa" class="btn btn-info btn-block"/>
     </div>
 </form>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

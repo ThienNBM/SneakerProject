@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<SneakerInside.Models.Catalog>
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <div class="card card-secondary">
     <div class="card-header">
@@ -14,7 +12,7 @@
             <thead>
                 <tr>
                     <th style="text-align: center">
-                        <button type="button" class="btn btn-success" onclick="showCreateModal()">
+                        <button type="button" class="btn btn-success" onclick="createModal()">
                             <i class="fas fa-plus"></i>
                         </button>
                     </th>
@@ -31,87 +29,82 @@
 </div>
 
 @section Scripts{
-<script type="text/javascript">
-    //Lấy dữ liệu lên bảng
-    var dataTable, tempId;
-    $(document).ready(function () {
-        dataTable = $('#catalogTable').DataTable({
-            ajax: {
-                url: '@Url.Action("GetAll", "Catalog")',
-                type: 'GET',
-                datatype: 'json'
-            },
-            columns: [
-                {
-                    data: 'catalogID',
-                    render: function (data) {
-                        return '<button type="button" class="btn btn-info" onclick="showEditModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "showDeleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
+    <script type="text/javascript">
+        var dataTable, tempId;
+        var createStr = "Thêm mới " + "@ViewBag.Name";
+        var updateStr = "Chỉnh sửa " + "@ViewBag.Name";
+        var deleteStr = "Xóa " + "@ViewBag.Name";
+
+        //Lấy dữ liệu lên bảng
+        $(document).ready(function () {
+            dataTable = $('#catalogTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetAll", "Catalog")',
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'catalogID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-info" onclick="editModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "deleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
+                        },
+                        orderable: false,
+                        width: '100px'
                     },
-                    orderable: false,
-                    width: '100px'
-                },
-                {
-                    data: 'catalogName'
-                },
-                {
-                    data: 'status',
-                    render: function (data) {
-                        return data ? "Hoạt động" : "Không hoạt động";
+                    {
+                        data: 'catalogName',
+                    },
+                    {
+                        data: 'status',
+                        render: function (data) {
+                            return data ? "Hoạt động" : "Không hoạt động";
+                        }
                     }
-                }
-            ]
+                ]
+            });
         });
-    });
 
-    //Hàm hiện modal thêm
-    function showCreateModal() {
-        url = "@Url.Action("Create", "Catalog")";
-        name = "Thêm mới " + "@ViewBag.Name";
-        showModal(url, name);
-    }
-
-    //Hàm hiện modal sửa
-    function showEditModal(data) {
-        url = "@Url.Action("Edit", "Catalog")/" + data;
-        name = "Chỉnh sửa " + "@ViewBag.Name";
-        showModal(url, name);
-    }
-
-    //Hàm hiện modal xóa
-    function showDeleteModal(data) {
-        tempId = data;
-        $("#deleteModal").modal('show');
-    }
-
-    //Hàm thực hiện thêm
-    function submitCreateForm(form) {
-        $.validator.unobtrusive.parse(form);
-        if ($(form).valid()) {
-            submitForm(form);
+        //Hàm hiện modal thêm
+        function createModal() {
+            url = "@Url.Action("Create", "Catalog")";
+            showCommonModal(url, createStr);
         }
-        return false;
-    }
 
-    //Hàm thực hiện xóa
-    function deleteForm() {
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("Delete", "Catalog")/" + tempId,
-            success: function (res) {
-                if (res.error.errorMessage == "") {
-                    $.bootstrapGrowl("Thực hiện thành công", {
-                        type: 'success'
-                    });
-                    $("#deleteModal").modal('hide');
-                    dataTable.ajax.reload();
-                }
-                else {
-                    $.bootstrapGrowl(res.error.errorMessage, {
-                        type: 'danger'
-                    });
-                }
+        //Hàm hiện modal sửa
+        function editModal(data) {
+            url = "@Url.Action("Update", "Catalog")/" + data;
+            showCommonModal(url, updateStr);
+        }
+
+        //Hàm hiện modal xóa
+        function deleteModal(data) {
+            tempId = data;
+            showDeleteModal();
+        }
+
+        //Hàm thực hiện thêm
+        function submitCreate(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                submitForm(form, createStr);
             }
-        });
-    }
-</script>
+            return false;
+        }
+
+        //Hàm thực hiện sửa
+        function submitUpdate(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                submitForm(form, updateStr);
+            }
+            return false;
+        }
+
+        //Hàm thực hiện xóa
+        function submitDelete() {
+            url = "@Url.Action("Delete", "Catalog")/" + tempId,
+            submitDeleteForm(url, deleteStr);
+        }
+    </script>
 }

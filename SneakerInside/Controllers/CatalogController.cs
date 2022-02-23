@@ -83,7 +83,7 @@ namespace SneakerInside.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Update(int id)
         {
             Catalog catalog = new Catalog();
             using (var httpClient = new HttpClient())
@@ -102,7 +102,7 @@ namespace SneakerInside.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Catalog catalog)
+        public async Task<IActionResult> Update(Catalog catalog)
         {
             if (ModelState.IsValid)
             {

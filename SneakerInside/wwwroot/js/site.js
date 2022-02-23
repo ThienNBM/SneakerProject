@@ -4,20 +4,25 @@
 // Write your JavaScript code.
 
 //Hàm hiện modal thêm, sửa
-function showModal(url, name) {
+function showCommonModal(url, title) {
     $.ajax({
         type: "GET",
         url: url,
         success: function (res) {
-            $("#commonModal .modal-title").html(name);
+            $("#commonModal .modal-title").html(title);
             $("#commonModal .modal-body").html(res);
             $("#commonModal").modal('show');
         }
     })
 }
 
+//Hàm hiện modal xóa
+function showDeleteModal() {
+    $("#deleteModal").modal('show');
+}
+
 //Hàm thực hiện thêm, sửa
-function submitForm(form) {
+function submitForm(form, title) {
     $.ajax({
         type: "POST",
         url: form.action,
@@ -27,11 +32,9 @@ function submitForm(form) {
         success: function (res) {
             if (res.isValid) {
                 if (res.error.errorMessage == "") {
-                    $.bootstrapGrowl("Thực hiện thành công", {
+                    $.bootstrapGrowl(title + " thành công" , {
                         type: 'success'
                     });
-                    $("#commonModal .modal-body").html('');
-                    $("#commonModal .modal-title").html('');
                     $("#commonModal").modal('hide');
                     dataTable.ajax.reload();
                 }
@@ -43,6 +46,28 @@ function submitForm(form) {
             }
             else {
                 $.bootstrapGrowl("Dữ liệu không hợp lệ", {
+                    type: 'danger'
+                });
+            }
+        }
+    });
+}
+
+//Hàm thực hiện xóa
+function submitDeleteForm(url, title) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function (res) {
+            if (res.error.errorMessage == "") {
+                $.bootstrapGrowl(title + " thành công", {
+                    type: 'success'
+                });
+                $("#deleteModal").modal('hide');
+                dataTable.ajax.reload();
+            }
+            else {
+                $.bootstrapGrowl(res.error.errorMessage, {
                     type: 'danger'
                 });
             }
