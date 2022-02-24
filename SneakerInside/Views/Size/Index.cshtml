@@ -1,46 +1,101 @@
 ﻿@model IEnumerable<SneakerInside.Models.SizeGetAll>
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewData["Title"] = "Danh sách " + @ViewBag.Name;
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-<div class="card card-info">
+<div class="card card-secondary">
     <div class="card-header">
         <h3 class="card-title">Danh sách @ViewBag.Name</h3>
     </div>
     <div class="card-body">
-        <table id="subCatalogTable" class="table table-bordered table-hover">
+        <table id="mainTable" class="table table-bordered table-hover" width="100%">
             <thead>
                 <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SizeID)
+                    <th style="text-align: center">
+                        <button type="button" class="btn btn-success" onclick="createModal()">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.SizeName)
                     </th>
-                    <th style="text-align: center">
-                        <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i></a>
-                    </th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SizeID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SizeName)
-                        </td>
-                        <td style="text-align: center">
-                            <a asp-action="Edit" asp-route-id="@item.SizeID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.SizeID" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
         </table>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var dataTable, tempId;
+        var createStr = "Thêm mới " + "@ViewBag.Name";
+        var updateStr = "Chỉnh sửa " + "@ViewBag.Name";
+        var deleteStr = "Xóa " + "@ViewBag.Name";
+
+        //Lấy dữ liệu lên bảng
+        $(document).ready(function () {
+            dataTable = $('#mainTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetAll", "Size")',
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'sizeID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-info" onclick="updateModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "deleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
+                        },
+                        orderable: false,
+                        width: '100px'
+                    },
+                    {
+                        data: 'sizeName'
+                    }
+                ]
+            });
+        });
+
+        //Hàm hiện modal thêm
+        function createModal() {
+            url = "@Url.Action("Create", "Size")";
+            showCommonModal(url, createStr);
+        }
+
+        //Hàm hiện modal sửa
+        function updateModal(data) {
+            url = "@Url.Action("Update", "Size")/" + data;
+            showCommonModal(url, updateStr);
+        }
+
+        //Hàm hiện modal xóa
+        function deleteModal(data) {
+            tempId = data;
+            showDeleteModal();
+        }
+
+        //Hàm thực hiện thêm
+        function submitCreate(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                submitForm(form, createStr);
+            }
+            return false;
+        }
+
+        //Hàm thực hiện sửa
+        function submitUpdate(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                submitForm(form, updateStr);
+            }
+            return false;
+        }
+
+        //Hàm thực hiện xóa
+        function submitDelete() {
+            url = "@Url.Action("Delete", "Size")/" + tempId,
+            submitDeleteForm(url, deleteStr);
+        }
+    </script>
+}

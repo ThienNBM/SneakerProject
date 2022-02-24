@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SneakerInside.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,19 +11,21 @@ namespace SneakerInside.Controllers
 {
     public class SizeController : Controller
     {
-        private readonly ILogger<SizeController> _logger;
-        private readonly IConfiguration _Configure;
         private readonly string apiBaseUrl;
-        public SizeController(ILogger<SizeController> logger, IConfiguration configuration)
+        public SizeController(IConfiguration configuration)
         {
-            _logger = logger;
-            _Configure = configuration;
-            apiBaseUrl = _Configure.GetValue<string>("SneakerAPIUrl");
+            apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
         readonly string Name = "size";
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            ViewBag.Name = Name;
+            return View();
+        }
+
+        public async Task<ActionResult> GetAll()
         {
             List<SizeGetAll> sizes = new List<SizeGetAll>();
             using (var httpClient = new HttpClient())
@@ -41,38 +39,41 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            ViewBag.Name = Name;
-            return View(sizes);
+            return Json(new { data = sizes });
         }
 
         public IActionResult Create()
         {
-            ViewBag.Name = Name;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(SizeInsert model)
         {
-            Error error = new Error();
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Size/Insert", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Size/Insert", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = error.ErrorCode;
-                        string errorMesage = error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Update(int id)
         {
             SizeGetAndUpdate size = new SizeGetAndUpdate();
             using (var httpClient = new HttpClient())
@@ -86,29 +87,33 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            ViewBag.Name = Name;
             return View(size);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SizeGetAndUpdate model)
+        public async Task<IActionResult> Update(SizeGetAndUpdate model)
         {
-            Error error = new Error();
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Size/Update", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Size/Update", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = error.ErrorCode;
-                        string errorMesage = error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -122,12 +127,10 @@ namespace SneakerInside.Controllers
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = error.ErrorCode;
-                        string errorMesage = error.ErrorMessage;
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { error });
         }
     }
 }
