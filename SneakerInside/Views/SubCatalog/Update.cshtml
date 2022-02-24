@@ -1,10 +1,13 @@
-﻿@model SneakerInside.Models.SubCatalogInsert
+﻿@model SneakerInside.Models.SubCatalogGetAndUpdate
 
 @{
     Layout = null;
 }
 
-<form asp-action="Create" onsubmit="return submitCreate(this);" autocomplete="off">
+<form asp-action="Update" onsubmit="return submitUpdate(this);" autocomplete="off">
+    <div class="form-group">
+        <input type="hidden" asp-for="SubCatalogID" class="form-control" />
+    </div>
     <div class="form-group">
         <label asp-for="SubCatalogName" class="control-label"></label>
         <input asp-for="SubCatalogName" class="form-control" />
@@ -21,6 +24,6 @@
         <span asp-validation-for="Status" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Thêm mới" class="btn btn-success btn-block" />
+        <input type="submit" value="Chỉnh sửa" class="btn btn-info btn-block" />
     </div>
 </form>

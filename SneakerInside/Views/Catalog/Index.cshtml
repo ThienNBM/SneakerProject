@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<SneakerInside.Models.Catalog>
 
-@{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewData["Title"] = "Danh sách " + @ViewBag.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
 
 <div class="card card-secondary">
     <div class="card-header">
-        <h3 class="card-title">Danh sách hãng giày</h3>
+        <h3 class="card-title">Danh sách @ViewBag.Name</h3>
     </div>
     <div class="card-body">
-        <table id="catalogTable" class="table table-bordered table-hover" width="100%">
+        <table id="mainTable" class="table table-bordered table-hover" width="100%">
             <thead>
                 <tr>
                     <th style="text-align: center">
@@ -37,7 +39,7 @@
 
         //Lấy dữ liệu lên bảng
         $(document).ready(function () {
-            dataTable = $('#catalogTable').DataTable({
+            dataTable = $('#mainTable').DataTable({
                 ajax: {
                     url: '@Url.Action("GetAll", "Catalog")',
                     type: 'GET',
@@ -47,7 +49,7 @@
                     {
                         data: 'catalogID',
                         render: function (data) {
-                            return '<button type="button" class="btn btn-info" onclick="editModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "deleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
+                            return '<button type="button" class="btn btn-info" onclick="updateModal(' + data + ')"><i class="fas fa-edit"></i></button ><button type = "button" class="btn btn-danger" style = "margin-left:5px" onclick = "deleteModal(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
                         },
                         orderable: false,
                         width: '100px'
@@ -72,7 +74,7 @@
         }
 
         //Hàm hiện modal sửa
-        function editModal(data) {
+        function updateModal(data) {
             url = "@Url.Action("Update", "Catalog")/" + data;
             showCommonModal(url, updateStr);
         }

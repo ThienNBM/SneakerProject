@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SneakerInside.Models;
 using System.Collections.Generic;
@@ -19,9 +18,7 @@ namespace SneakerInside.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        Error _error = new Error();
-
-        readonly string Name = "loại giày";
+        readonly string Name = "mẫu giày";
 
         List<SelectListItem> status = new List<SelectListItem>()
         {
@@ -29,9 +26,15 @@ namespace SneakerInside.Controllers
             new SelectListItem { Value = "0", Text = "Không hoạt động" },
         };
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            List<SubCatalogGetAll> _subCatalogs = new List<SubCatalogGetAll>();
+            ViewBag.Name = Name;
+            return View();
+        }
+
+        public async Task<ActionResult> GetAll()
+        {
+            List<SubCatalogGetAll> subCatalogs = new List<SubCatalogGetAll>();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/SubCatalog/GetAll"))
@@ -39,12 +42,11 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _subCatalogs = JsonConvert.DeserializeObject<List<SubCatalogGetAll>>(apiResponse);
+                        subCatalogs = JsonConvert.DeserializeObject<List<SubCatalogGetAll>>(apiResponse);
                     }
                 }
             }
-            ViewBag.Name = Name;
-            return View(_subCatalogs);
+            return Json(new { data = subCatalogs });
         }
 
         public async Task<IActionResult> Create()
@@ -62,9 +64,7 @@ namespace SneakerInside.Controllers
                 }
             }
             var dropDownCatalog = new SelectList(listCatalogs, "CatalogID", "CatalogName");
-            
             ViewBag.dropDownCatalog = dropDownCatalog;
-            ViewBag.Name = Name;
             ViewBag.status = status;
             return View();
         }
@@ -72,26 +72,32 @@ namespace SneakerInside.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SubCatalogInsert SubCatalogInsert)
         {
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(SubCatalogInsert), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/SubCatalog/Insert", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(SubCatalogInsert), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/SubCatalog/Insert", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            SubCatalogGetAndUpdate _subCatalog = new SubCatalogGetAndUpdate();
+            SubCatalogGetAndUpdate subCatalog = new SubCatalogGetAndUpdate();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/SubCatalog/GetById/{id}"))
@@ -99,7 +105,7 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _subCatalog = JsonConvert.DeserializeObject<List<SubCatalogGetAndUpdate>>(apiResponse)[0];
+                        subCatalog = JsonConvert.DeserializeObject<List<SubCatalogGetAndUpdate>>(apiResponse)[0];
                     }
                 }
             }
@@ -117,36 +123,40 @@ namespace SneakerInside.Controllers
                 }
             }
             var dropDownCatalog = new SelectList(listCatalogs, "CatalogID", "CatalogName");
-
             ViewBag.dropDownCatalog = dropDownCatalog;
-            ViewBag.Name = Name;
             ViewBag.status = status;
-            return View(_subCatalog);
+            return View(subCatalog);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SubCatalogGetAndUpdate SubCatalogGetAndUpdate)
+        public async Task<IActionResult> Update(SubCatalogGetAndUpdate SubCatalogGetAndUpdate)
         {
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(SubCatalogGetAndUpdate), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/SubCatalog/Update", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(SubCatalogGetAndUpdate), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/SubCatalog/Update", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            _error = new Error();
+            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.DeleteAsync(apiBaseUrl + $"/api/SubCatalog/Delete/{id}"))
@@ -154,13 +164,11 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { error });
         }
     }
 }
