@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SneakerInside.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +18,6 @@ namespace SneakerInside.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        Error _error = new Error();
-
         readonly string Name = "sản phẩm";
 
         List<SelectListItem> status = new List<SelectListItem>()
@@ -31,7 +26,14 @@ namespace SneakerInside.Controllers
             new SelectListItem { Value = "0", Text = "Không hoạt động" },
         };
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            ViewBag.Name = Name;
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
         {
             List<ProductGetAll> products = new List<ProductGetAll>();
             using (var httpClient = new HttpClient())
@@ -45,12 +47,14 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            ViewBag.Name = Name;
-            return View(products);
+            return Json(new { data = products });
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ProductInsert ProductInsert = new ProductInsert();
+
             List<ListCatalog> listCatalogs = new List<ListCatalog>();
             using (var httpClient = new HttpClient())
             {
@@ -81,32 +85,38 @@ namespace SneakerInside.Controllers
 
             ViewBag.dropDownCatalog = dropDownCatalog;
             ViewBag.dropDownSubCatalog = dropDownSubCatalog;
-            ViewBag.Name = Name;
             ViewBag.status = status;
-            return View();
+            return View(ProductInsert);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(ProductInsert productInsert)
         {
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(productInsert), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Product/Insert", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(productInsert), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/Product/Insert", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
         {
             ProductGetAndUpdate product = new ProductGetAndUpdate();
             using (var httpClient = new HttpClient())
@@ -151,34 +161,39 @@ namespace SneakerInside.Controllers
 
             ViewBag.dropDownCatalog = dropDownCatalog;
             ViewBag.dropDownSubCatalog = dropDownSubCatalog;
-            ViewBag.Name = Name;
             ViewBag.status = status;
             return View(product);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ProductGetAndUpdate productGetAndUpdate)
+        public async Task<IActionResult> Update(ProductGetAndUpdate productGetAndUpdate)
         {
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(productGetAndUpdate), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Product/Update", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(productGetAndUpdate), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PutAsync(apiBaseUrl + "/api/Product/Update", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            _error = new Error();
+            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.DeleteAsync(apiBaseUrl + $"/api/Product/Delete/{id}"))
@@ -186,13 +201,11 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { error });
         }
     }
 }

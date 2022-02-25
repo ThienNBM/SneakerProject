@@ -32,9 +32,6 @@ namespace SneakerInside.Models
         [DisplayName("Mô tả")]
         public string Description { get; set; }
 
-        [Required, DisplayName("Giá")]
-        public int Price { get; set; }
-
         [Required, DisplayName("Trạng thái")]
         public int Status { get; set; }
 

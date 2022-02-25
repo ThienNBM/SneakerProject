@@ -22,7 +22,7 @@ namespace SneakerAPI.InsideControllers
         [Route("GetAll")]
         public async Task<ActionResult<IEnumerable<SizeGetAll>>> GetAll()
         {
-            string StoredProc = "exec Size_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_Size_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
             List<SizeGetAll> sizes;
@@ -41,7 +41,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Insert")]
         public async Task<ActionResult<Error>> Insert(SizeInsert model)
         {
-            string StoredProc = "exec Size_Insert @SizeName, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_Size_Insert @SizeName, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SizeName = new SqlParameter("@SizeName", model.SizeName);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
@@ -60,7 +60,7 @@ namespace SneakerAPI.InsideControllers
         [Route("GetById/{id}")]
         public async Task<ActionResult<IEnumerable<SizeGetAndUpdate>>> GetById(int id)
         {
-            string StoredProc = "exec Size_GetItemById @SizeID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_Size_GetItemById @SizeID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SizeID = new SqlParameter("@SizeID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
@@ -80,7 +80,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Update")]
         public async Task<ActionResult<Error>> Update(SizeGetAndUpdate model)
         {
-            string StoredProc = "exec Size_Update @SizeID, @SizeName, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_Size_Update @SizeID, @SizeName, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SizeID = new SqlParameter("@SizeID", model.SizeID);
             var SizeName = new SqlParameter("@SizeName", model.SizeName);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
@@ -100,7 +100,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Delete/{id}")]
         public async Task<ActionResult<Error>> Delete(int id)
         {
-            string StoredProc = "exec Size_Delete @SizeID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_Size_Delete @SizeID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SizeID = new SqlParameter("@SizeID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };

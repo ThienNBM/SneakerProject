@@ -23,7 +23,7 @@ namespace SneakerAPI.InsideControllers
         [Route("GetAll")]
         public async Task<ActionResult<IEnumerable<SubCatalogGetAll>>> GetAll()
         {
-            string StoredProc = "exec SubCatalog_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_SubCatalog_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
             List<SubCatalogGetAll> subCatalogs;
@@ -42,7 +42,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Insert")]
         public async Task<ActionResult<Error>> Insert(SubCatalogInsert SubCatalogInsert)
         {
-            string StoredProc = "exec SubCatalog_Insert @SubCatalogName, @Status, @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_SubCatalog_Insert @SubCatalogName, @Status, @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SubCatalogName = new SqlParameter("@SubCatalogName", SubCatalogInsert.SubCatalogName);
             var Status = new SqlParameter("@Status", SubCatalogInsert.Status);
             var CatalogID = new SqlParameter("@CatalogID", SubCatalogInsert.CatalogID);
@@ -63,7 +63,7 @@ namespace SneakerAPI.InsideControllers
         [Route("GetById/{id}")]
         public async Task<ActionResult<IEnumerable<SubCatalogGetAndUpdate>>> GetById(int id)
         {
-            string StoredProc = "exec SubCatalog_GetItemById @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_SubCatalog_GetItemById @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SubCatalogID = new SqlParameter("@SubCatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
@@ -83,7 +83,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Update")]
         public async Task<ActionResult<Error>> Update(SubCatalogGetAndUpdate SubCatalogGetAndUpdate)
         {
-            string StoredProc = "exec SubCatalog_Update @SubCatalogID, @SubCatalogName, @Status, @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_SubCatalog_Update @SubCatalogID, @SubCatalogName, @Status, @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SubCatalogID = new SqlParameter("@SubCatalogID", SubCatalogGetAndUpdate.SubCatalogID);
             var SubCatalogName = new SqlParameter("@SubCatalogName", SubCatalogGetAndUpdate.SubCatalogName);
             var Status = new SqlParameter("@Status", SubCatalogGetAndUpdate.Status);
@@ -105,7 +105,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Delete/{id}")]
         public async Task<ActionResult<Error>> Delete(int id)
         {
-            string StoredProc = "exec SubCatalog_Delete @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_SubCatalog_Delete @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var SubCatalogID = new SqlParameter("@SubCatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
