@@ -1,17 +1,23 @@
-﻿@model SneakerInside.Models.ImageProductInsert
+﻿@model SneakerInside.Models.ImageProductGetAndUpdate
 
 @{
     Layout = null;
 }
 
-<form asp-action="Create" enctype="multipart/form-data" onsubmit="return submitCreate(this);">
+<form asp-action="Update" enctype="multipart/form-data" onsubmit="return submitUpdate(this);">
+    <div class="form-group">
+        <input type="hidden" asp-for="ImageID" class="form-control" />
+    </div>
     <div class="form-group">
         <label asp-for="ImageFile" class="control-label"></label>
         <div class="custom-file">
             <input asp-for="ImageFile" accept="image/*" class="custom-file-input" id="customFile" />
-            <label class="custom-file-label" for="customFile">Chọn ảnh</label>
+            <label class="custom-file-label" for="customFile">@Model.Image</label>
         </div>
         <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <img src="@("~/Images/" + Model.Image)" asp-append-version="true" width="300" />
     </div>
     <div class="form-group">
         <label asp-for="ProductID" class="control-label"></label>
@@ -19,7 +25,7 @@
         <span asp-validation-for="ProductID" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Thêm mới" class="btn btn-success btn-block" />
+        <input type="submit" value="Chỉnh sửa" class="btn btn-info btn-block" />
     </div>
 </form>
 

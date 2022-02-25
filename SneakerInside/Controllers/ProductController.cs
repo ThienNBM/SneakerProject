@@ -53,8 +53,6 @@ namespace SneakerInside.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ProductInsert ProductInsert = new ProductInsert();
-
             List<ListCatalog> listCatalogs = new List<ListCatalog>();
             using (var httpClient = new HttpClient())
             {
@@ -86,7 +84,7 @@ namespace SneakerInside.Controllers
             ViewBag.dropDownCatalog = dropDownCatalog;
             ViewBag.dropDownSubCatalog = dropDownSubCatalog;
             ViewBag.status = status;
-            return View(ProductInsert);
+            return View();
         }
 
         [HttpPost]

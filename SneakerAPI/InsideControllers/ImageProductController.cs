@@ -2,12 +2,13 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SneakerAPI.InsideModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SneakerAPI.InsideControllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class ImageProductController : ControllerBase
@@ -31,7 +32,7 @@ namespace SneakerAPI.InsideControllers
             {
                 imageProducts = await _context.ImageProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
                 imageProducts = null;
             }
@@ -47,14 +48,18 @@ namespace SneakerAPI.InsideControllers
             var ProductID = new SqlParameter("@ProductID", imageProductInsert.ProductID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            await _context.Database.ExecuteSqlRawAsync(StoredProc, Image, ProductID, ErrorCode, ErrorMessage);
-
-            var error = new Error
+            Error error = new Error();
+            try
             {
-                ErrorCode = ErrorCode.Value.ToString(),
-                ErrorMessage = ErrorMessage.Value.ToString()
-            };
+                await _context.Database.ExecuteSqlRawAsync(StoredProc, Image, ProductID, ErrorCode, ErrorMessage);
+                error.ErrorCode = ErrorCode.Value.ToString();
+                error.ErrorMessage = ErrorMessage.Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                error.ErrorCode = "API_ERROR";
+                error.ErrorMessage = ex.Message;
+            }
             return error;
         }
 
@@ -71,7 +76,7 @@ namespace SneakerAPI.InsideControllers
             {
                 imageProducts = await _context.ImageProductGetAndUpdate.FromSqlRaw(StoredProc, ImageID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
                 imageProducts = null;
             }
@@ -88,14 +93,18 @@ namespace SneakerAPI.InsideControllers
             var ProductID = new SqlParameter("@ProductID", imageProductGetAndUpdate.ProductID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            await _context.Database.ExecuteSqlRawAsync(StoredProc, ImageID, Image, ProductID, ErrorCode, ErrorMessage);
-
-            var error = new Error
+            Error error = new Error();
+            try
             {
-                ErrorCode = ErrorCode.Value.ToString(),
-                ErrorMessage = ErrorMessage.Value.ToString()
-            };
+                await _context.Database.ExecuteSqlRawAsync(StoredProc, ImageID, Image, ProductID, ErrorCode, ErrorMessage);
+                error.ErrorCode = ErrorCode.Value.ToString();
+                error.ErrorMessage = ErrorMessage.Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                error.ErrorCode = "API_ERROR";
+                error.ErrorMessage = ex.Message;
+            }
             return error;
         }
 
@@ -107,14 +116,18 @@ namespace SneakerAPI.InsideControllers
             var ImageID = new SqlParameter("@ImageID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            await _context.Database.ExecuteSqlRawAsync(StoredProc, ImageID, ErrorCode, ErrorMessage);
-
-            var error = new Error
+            Error error = new Error();
+            try
             {
-                ErrorCode = ErrorCode.Value.ToString(),
-                ErrorMessage = ErrorMessage.Value.ToString()
-            };
+                await _context.Database.ExecuteSqlRawAsync(StoredProc, ImageID, ErrorCode, ErrorMessage);
+                error.ErrorCode = ErrorCode.Value.ToString();
+                error.ErrorMessage = ErrorMessage.Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                error.ErrorCode = "API_ERROR";
+                error.ErrorMessage = ex.Message;
+            }
             return error;
         }
     }

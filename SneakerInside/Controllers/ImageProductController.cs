@@ -16,23 +16,24 @@ namespace SneakerInside.Controllers
 {
     public class ImageProductController : Controller
     {
-        private readonly ILogger<ImageProductController> _logger;
-        private readonly IConfiguration _Configure;
         private readonly IWebHostEnvironment hostEnvironment;
         private readonly string apiBaseUrl;
-        public ImageProductController(ILogger<ImageProductController> logger, IConfiguration configuration, IWebHostEnvironment hostEnvironment)
+        public ImageProductController(IConfiguration configuration, IWebHostEnvironment hostEnvironment)
         {
-            _logger = logger;
-            _Configure = configuration;
             this.hostEnvironment = hostEnvironment;
-            apiBaseUrl = _Configure.GetValue<string>("SneakerAPIUrl");
+            apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
-
-        Error _error = new Error();
 
         readonly string Name = "ảnh sản phẩm";
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            ViewBag.Name = Name;
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
         {
             List<ImageProductGetAll> imageProducts = new List<ImageProductGetAll>();
             using (var httpClient = new HttpClient())
@@ -46,10 +47,10 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            ViewBag.Name = Name;
-            return View(imageProducts);
+            return Json(new { data = imageProducts });
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             List<ListProduct> listProducts = new List<ListProduct>();
@@ -67,7 +68,6 @@ namespace SneakerInside.Controllers
             var dropDownProduct = new SelectList(listProducts, "ProductID", "ProductName");
 
             ViewBag.dropDownProduct = dropDownProduct;
-            ViewBag.Name = Name;
             return View();
         }
 
@@ -83,6 +83,7 @@ namespace SneakerInside.Controllers
             }
             model.Image = imageFileName;
 
+            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
@@ -91,16 +92,15 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { isValid = true, error });
         }
 
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
         {
             ImageProductGetAndUpdate imageProduct = new ImageProductGetAndUpdate();
             using (var httpClient = new HttpClient())
@@ -130,13 +130,13 @@ namespace SneakerInside.Controllers
             var dropDownProduct = new SelectList(listProducts, "ProductID", "ProductName");
 
             ViewBag.dropDownProduct = dropDownProduct;
-            ViewBag.Name = Name;
             return View(imageProduct);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ImageProductGetAndUpdate imageProductGetAndUpdate)
+        public async Task<IActionResult> Update(ImageProductGetAndUpdate imageProductGetAndUpdate)
         {
+            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(imageProductGetAndUpdate), Encoding.UTF8, "application/json");
@@ -145,17 +145,16 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { isValid = true, error });
         }
 
         public async Task<IActionResult> Delete(int id)
         {
+            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.DeleteAsync(apiBaseUrl + $"/api/ImageProduct/Delete/{id}"))
@@ -163,13 +162,11 @@ namespace SneakerInside.Controllers
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
                     }
                 }
             }
-            return RedirectToAction("Index");
+            return Json(new { error });
         }
     }
 }
