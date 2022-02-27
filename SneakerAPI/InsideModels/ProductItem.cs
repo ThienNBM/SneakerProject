@@ -12,6 +12,8 @@ namespace SneakerAPI.InsideModels
         public string SizeName { get; set; }
 
         public int AmountStock { get; set; }
+
+        public int Price { get; set; }
     }
 
     [Keyless]
@@ -22,6 +24,8 @@ namespace SneakerAPI.InsideModels
         public int SizeID { get; set; }
 
         public int AmountStock { get; set; }
+
+        public int Price { get; set; }
     }
 
     [Keyless]
@@ -34,5 +38,7 @@ namespace SneakerAPI.InsideModels
         public int SizeID { get; set; }
 
         public int AmountStock { get; set; }
+
+        public int Price { get; set; }
     }
 }

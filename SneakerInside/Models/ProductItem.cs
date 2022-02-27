@@ -20,6 +20,9 @@ namespace SneakerInside.Models
 
         [DisplayName("Số lượng tồn")]
         public int AmountStock { get; set; }
+
+        [DisplayName("Giá sản phẩm")]
+        public int Price { get; set; }
     }
 
     public class ProductItemInsert
@@ -32,6 +35,9 @@ namespace SneakerInside.Models
 
         [Required, DisplayName("Số lượng tồn")]
         public int AmountStock { get; set; }
+
+        [Required, DisplayName("Giá sản phẩm")]
+        public int Price { get; set; }
     }
 
     public class ProductItemGetAndUpdate
@@ -46,5 +52,8 @@ namespace SneakerInside.Models
 
         [Required, DisplayName("Số lượng tồn")]
         public int AmountStock { get; set; }
+
+        [Required, DisplayName("Giá sản phẩm")]
+        public int Price { get; set; }
     }
 }
