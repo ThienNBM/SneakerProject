@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.InsideControllers
 {
-    //[ApiExplorerSettings(IgnoreApi = true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductItemController : ControllerBase
@@ -24,7 +24,7 @@ namespace SneakerAPI.InsideControllers
         [Route("GetAll")]
         public async Task<ActionResult<IEnumerable<ProductItemGetAll>>> GetAll()
         {
-            string StoredProc = "exec ProductItem_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_ProductItem_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
             List<ProductItemGetAll> productItems;
@@ -43,7 +43,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Insert")]
         public async Task<ActionResult<Error>> Insert(ProductItemInsert model)
         {
-            string StoredProc = "exec ProductItem_Insert @ProductID, @SizeID, @AmountStock, @Price, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_ProductItem_Insert @ProductID, @SizeID, @AmountStock, @Price, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ProductID = new SqlParameter("@ProductID", model.ProductID);
             var SizeID = new SqlParameter("@SizeID", model.SizeID);
             var AmountStock = new SqlParameter("@AmountStock", model.AmountStock);
@@ -69,7 +69,7 @@ namespace SneakerAPI.InsideControllers
         [Route("GetById/{id}")]
         public async Task<ActionResult<IEnumerable<ProductItemGetAndUpdate>>> GetById(int id)
         {
-            string StoredProc = "exec ProductItem_GetItemById @ProductItemID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_ProductItem_GetItemById @ProductItemID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ProductItemID = new SqlParameter("@ProductItemID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
@@ -89,7 +89,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Update")]
         public async Task<ActionResult<Error>> Update(ProductItemGetAndUpdate model)
         {
-            string StoredProc = "exec ProductItem_Update @ProductItemID, @ProductID, @SizeID, @AmountStock, @Price, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_ProductItem_Update @ProductItemID, @ProductID, @SizeID, @AmountStock, @Price, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ProductItemID = new SqlParameter("@ProductItemID", model.ProductItemID);
             var ProductID = new SqlParameter("@ProductID", model.ProductID);
             var SizeID = new SqlParameter("@SizeID", model.SizeID);
@@ -116,7 +116,7 @@ namespace SneakerAPI.InsideControllers
         [Route("Delete/{id}")]
         public async Task<ActionResult<Error>> Delete(int id)
         {
-            string StoredProc = "exec ProductItem_Delete @ProductItemID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            string StoredProc = "exec IS_ProductItem_Delete @ProductItemID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ProductItemID = new SqlParameter("@ProductItemID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };

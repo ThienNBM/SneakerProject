@@ -9,55 +9,35 @@ namespace SneakerInside.Models
 {
     public class OrderGetAll
     {
-        [DisplayName("ID")]
         public int OrderID { get; set; }
 
-        [DisplayName("Ngày tạo")]
         public DateTime DateCreate { get; set; }
 
-        [DisplayName("Họ tên")]
         public string FullName { get; set; }
 
-        [DisplayName("Số điện thoại")]
         public string Phone { get; set; }
 
-        [DisplayName("Địa chỉ")]
         public string Address { get; set; }
 
-        [DisplayName("Ghi chú")]
         public string Note { get; set; }
 
-        [DisplayName("Trạng thái")]
         public int Status { get; set; }
 
-        [DisplayName("Tổng hóa đơn")]
         public double Total { get; set; }
     }
-    
-    public class OrderGetByUserId
+
+    public class OrderGetOrderDetailById
     {
-        [DisplayName("ID")]
-        public int OrderID { get; set; }
+        public string Image { get; set; }
 
-        [DisplayName("Ngày tạo")]
-        public DateTime DateCreate { get; set; }
+        public string ProductName { get; set; }
 
-        [DisplayName("Họ tên")]
-        public string FullName { get; set; }
+        public string SizeName { get; set; }
 
-        [DisplayName("Số điện thoại")]
-        public string Phone { get; set; }
+        public int? PriceBuy { get; set; }
 
-        [DisplayName("Địa chỉ")]
-        public string Address { get; set; }
+        public int AmountBuy { get; set; }
 
-        [DisplayName("Ghi chú")]
-        public string Note { get; set; }
-
-        [DisplayName("Trạng thái")]
-        public int Status { get; set; }
-
-        [DisplayName("Tổng hóa đơn")]
-        public double Total { get; set; }
+        public int Total { get; set; }
     }
 }

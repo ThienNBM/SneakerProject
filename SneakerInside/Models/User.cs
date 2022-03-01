@@ -8,7 +8,6 @@ namespace SneakerInside.Models
 {
     public class UserGetAll
     {
-        [DisplayName("ID")]
         public int UserID { get; set; }
 
         [DisplayName("Email")]
@@ -22,5 +21,22 @@ namespace SneakerInside.Models
 
         [DisplayName("Địa chỉ")]
         public string Address { get; set; }
+    }
+
+    public class UserGetOrderById
+    {
+        public int OrderID { get; set; }
+
+        [DisplayName("Ngày tạo")]
+        public DateTime DateCreate { get; set; }
+
+        [DisplayName("Ghi chú")]
+        public string Note { get; set; }
+
+        [DisplayName("Trạng thái")]
+        public int Status { get; set; }
+
+        [DisplayName("Tổng hóa đơn")]
+        public double Total { get; set; }
     }
 }

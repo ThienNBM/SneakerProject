@@ -41,10 +41,9 @@ namespace SneakerAPI.InsideModels
         public DbSet<ProductItemGetAndUpdate> ProductItemGetAndUpdate { get; set; }
 
         public DbSet<UserGetAll> UserGetAll { get; set; }
+        public DbSet<UserGetOrderById> UserGetOrderById { get; set; }
 
         public DbSet<OrderGetAll> OrderGetAll { get; set; }
-        public DbSet<OrderGetByUserId> OrderGetByUserId { get; set; }
-
-        public DbSet<OrderDetailGetAll> OrderDetailGetAll { get; set; }
+        public DbSet<OrderGetOrderDetailById> OrderGetOrderDetailById { get; set; }
     }
 }

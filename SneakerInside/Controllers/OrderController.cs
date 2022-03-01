@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SneakerInside.Models;
 using System.Collections.Generic;
@@ -17,9 +16,13 @@ namespace SneakerInside.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        readonly string Name = "đơn hàng";
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult> GetAll()
         {
             List<OrderGetAll> orders = new List<OrderGetAll>();
             using (var httpClient = new HttpClient())
@@ -33,26 +36,25 @@ namespace SneakerInside.Controllers
                     }
                 }
             }
-            ViewBag.Name = Name;
-            return View(orders);
+            return Json(new { data = orders });
         }
-        
-        public async Task<IActionResult> IndexByUserId(int id)
+
+        [HttpGet]
+        public async Task<ActionResult> GetOrderDetailById(int id)
         {
-            List<OrderGetByUserId> orders = new List<OrderGetByUserId>();
+            List<OrderGetOrderDetailById> orderDetails = new List<OrderGetOrderDetailById>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/Order/GetByUserId/{id}"))
+                using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/Order/GetOrderDetailById/{id}"))
                 {
                     if (response.IsSuccessStatusCode)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        orders = JsonConvert.DeserializeObject<List<OrderGetByUserId>>(apiResponse);
+                        orderDetails = JsonConvert.DeserializeObject<List<OrderGetOrderDetailById>>(apiResponse);
                     }
                 }
             }
-            ViewBag.Name = Name;
-            return View(orders);
+            return Json(new { data = orderDetails });
         }
     }
 }

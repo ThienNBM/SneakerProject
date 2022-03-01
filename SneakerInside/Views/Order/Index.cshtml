@@ -1,81 +1,160 @@
-﻿@model IEnumerable<SneakerInside.Models.OrderGetAll>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Danh sách đơn hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card card-info">
-    <div class="card-header">
-        <h3 class="card-title">Danh sách @ViewBag.Name</h3>
+<div class="row">
+    <div class="col-6">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách đơn hàng</h3>
+            </div>
+            <div class="card-body">
+                <table id="orderTable" class="table table-bordered table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Ngày tạo
+                            </th>
+                            <th>
+                                Họ tên
+                            </th>
+                            <th>
+                                Điện thoại
+                            </th>
+                            <th>
+                                Địa chỉ
+                            </th>
+                            <th>
+                                Ghi chú
+                            </th>
+                            <th>
+                                Tổng đơn hàng
+                            </th>
+                            <th>
+                                Trạng thái
+                            </th>
+                            <th>
+                                Chi tiết đơn hàng
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <table id="subCatalogTable" class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.OrderID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DateCreate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FullName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Phone)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Address)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Note)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Status)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Total)
-                    </th>
-                    <th>
-                        Đơn hàng chi tiết
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OrderID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateCreate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Phone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Address)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Note)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Total)
-                        </td>
-                        <td style="text-align: center">
-                            <a asp-controller="OrderDetail" asp-action="Index" asp-route-id="@item.OrderID" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="col-6">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Chi tiết đơn hàng</h3>
+            </div>
+            <div class="card-body">
+                <table id="orderDetailTable" class="table table-bordered table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Ảnh
+                            </th>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Size
+                            </th>
+                            <th>
+                                Giá mua
+                            </th>
+                            <th>
+                                Số lượng mua
+                            </th>
+                            <th>
+                                Tổng
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        //Lấy dữ liệu lên bảng
+        $(document).ready(function () {
+            $('#orderTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetAll", "Order")',
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'dateCreate'
+                    },
+                    {
+                        data: 'fullName'
+                    },
+                    {
+                        data: 'phone'
+                    },
+                    {
+                        data: 'address'
+                    },
+                    {
+                        data: 'note'
+                    },
+                    {
+                        data: 'total'
+                    },
+                    {
+                        data: 'status'
+                    },
+                    {
+                        data: 'orderID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-info" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
+                        },
+                        orderable: false
+                    }
+                ]
+            });
+        });
+
+        //Hàm lấy danh sách chi tiết đơn hàng theo đơn hàng
+        function getOrderDetailTable(data) {
+            $('#orderDetailTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetOrderDetailById", "Order")/' + data,
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'image',
+                        render: function (data) {
+                            return '<img src="/Images/' + data + '" asp-append-version="true" width="100" />';
+                        },
+                        orderable: false,
+                    },
+                    {
+                        data: 'productName'
+                    },
+                    {
+                        data: 'sizeName'
+                    },
+                    {
+                        data: 'priceBuy'
+                    },
+                    {
+                        data: 'amountBuy'
+                    },
+                    {
+                        data: 'total'
+                    },
+                ],
+                destroy: true
+            });
+        }
+    </script>
+}

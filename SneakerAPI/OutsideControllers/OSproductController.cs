@@ -32,7 +32,7 @@ namespace SneakerAPI.OutsideControllers
             {
                 products = await context.ProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
                 products = null;
             }

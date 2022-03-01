@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.InsideControllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -32,7 +32,7 @@ namespace SneakerAPI.InsideControllers
             {
                 orders = await _context.OrderGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
                 orders = null;
             }
@@ -40,23 +40,23 @@ namespace SneakerAPI.InsideControllers
         }
 
         [HttpGet]
-        [Route("GetByUserId/{id}")]
-        public async Task<ActionResult<IEnumerable<OrderGetByUserId>>> GetByUserId(int id)
+        [Route("GetOrderDetailById/{id}")]
+        public async Task<ActionResult<IEnumerable<OrderGetOrderDetailById>>> GetOrderDetailById(int id)
         {
-            string StoredProc = "exec Order_GetByUserId @UserID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-            var UserID = new SqlParameter("@UserID", id);
+            string StoredProc = "exec Order_GetOrderDetailById @OrderID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var OrderID = new SqlParameter("@OrderID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<OrderGetByUserId> orders;
+            List<OrderGetOrderDetailById> orderDetails;
             try
             {
-                orders = await _context.OrderGetByUserId.FromSqlRaw(StoredProc, UserID, ErrorCode, ErrorMessage).ToListAsync();
+                orderDetails = await _context.OrderGetOrderDetailById.FromSqlRaw(StoredProc, OrderID, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch (Exception ex)
             {
-                orders = null;
+                orderDetails = null;
             }
-            return orders;
+            return orderDetails;
         }
     }
 }
