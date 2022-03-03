@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SneakerInside.Models
 {
-    public class OrderGetAll
+    public class Order
     {
         public int OrderID { get; set; }
 

@@ -3,37 +3,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-6">
-        <div class="card card-secondary">
-            <div class="card-header">
-                <h3 class="card-title">Danh sách khách hàng</h3>
-            </div>
-            <div class="card-body">
-                <table id="userTable" class="table table-bordered table-hover" width="100%">
-                    <thead>
-                        <tr>
-                            <th>
-                                Email
-                            </th>
-                            <th>
-                                Họ và tên
-                            </th>
-                            <th>
-                                Số điện thoại
-                            </th>
-                            <th>
-                                Địa chỉ
-                            </th>
-                            <th>
-                                Danh sách đơn hàng
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
+<div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">Danh sách khách hàng</h3>
     </div>
+    <div class="card-body">
+        <table id="userTable" class="table table-bordered table-hover" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        Danh sách đơn hàng
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Họ và tên
+                    </th>
+                    <th>
+                        Số điện thoại
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="row">
     <div class="col-6">
         <div class="card card-secondary">
             <div class="card-header">
@@ -43,6 +41,9 @@
                 <table id="orderTable" class="table table-bordered table-hover" width="100%">
                     <thead>
                         <tr>
+                            <th>
+                                Chi tiết đơn hàng
+                            </th>
                             <th>
                                 Ngày tạo
                             </th>
@@ -55,16 +56,13 @@
                             <th>
                                 Trạng thái
                             </th>
-                            <th>
-                                Chi tiết đơn hàng
-                            </th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
-    <div class="col-12">
+    <div class="col-6">
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Chi tiết đơn hàng</h3>
@@ -111,6 +109,13 @@
                 },
                 columns: [
                     {
+                        data: 'userID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-info" onclick="getOrderTable(' + data + ')"><i class="fas fa-edit"></i></button >';
+                        },
+                        orderable: false
+                    },
+                    {
                         data: 'email'
                     },
                     {
@@ -121,13 +126,6 @@
                     },
                     {
                         data: 'address'
-                    },
-                    {
-                        data: 'userID',
-                        render: function (data) {
-                            return '<button type="button" class="btn btn-info" onclick="getOrderTable(' + data + ')"><i class="fas fa-edit"></i></button >';
-                        },
-                        orderable: false
                     }
                 ]
             });
@@ -143,6 +141,13 @@
                 },
                 columns: [
                     {
+                        data: 'orderID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-info" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
+                        },
+                        orderable: false
+                    },
+                    {
                         data: 'dateCreate'
                     },
                     {
@@ -153,13 +158,6 @@
                     },
                     {
                         data: 'status'
-                    },
-                    {
-                        data: 'orderID',
-                        render: function (data) {
-                            return '<button type="button" class="btn btn-info" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
-                        },
-                        orderable: false
                     }
                 ],
                 destroy: true

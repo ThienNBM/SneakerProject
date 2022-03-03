@@ -38,4 +38,18 @@ namespace SneakerAPI.InsideModels
 
         public int Total { get; set; }
     }
+
+    [Keyless]
+    public class OrderChangeStatus
+    {
+        public int OrderID { get; set; }
+
+        public int Status { get; set; }
+    }
+
+    [Keyless]
+    public class OrderDestroy
+    {
+        public int OrderID { get; set; }
+    }
 }

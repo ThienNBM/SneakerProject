@@ -4,7 +4,7 @@
 }
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-12">
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Danh sách đơn hàng</h3>
@@ -13,6 +13,9 @@
                 <table id="orderTable" class="table table-bordered table-hover" width="100%">
                     <thead>
                         <tr>
+                            <th>
+                                Chi tiết đơn hàng
+                            </th>
                             <th>
                                 Ngày tạo
                             </th>
@@ -35,7 +38,7 @@
                                 Trạng thái
                             </th>
                             <th>
-                                Chi tiết đơn hàng
+                                Hủy đơn hàng
                             </th>
                         </tr>
                     </thead>
@@ -43,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-12">
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Chi tiết đơn hàng</h3>
@@ -78,17 +81,68 @@
     </div>
 </div>
 
+<!--Modal hủy-->
+<div class="modal fade" id="destroyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hủy đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có muốn hủy đơn hàng ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="submitDestroy()">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal thay đổi trạng thái-->
+<div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thay đổi trạng thái đơn hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có muốn thay đổi trạng thái đơn hàng ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" onclick="submitChangeStatus()">Thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script type="text/javascript">
+        var dataTable, tempId, tempStatus;
+
         //Lấy dữ liệu lên bảng
         $(document).ready(function () {
-            $('#orderTable').DataTable({
+            dataTable = $('#orderTable').DataTable({
                 ajax: {
                     url: '@Url.Action("GetAll", "Order")',
                     type: 'GET',
                     datatype: 'json'
                 },
                 columns: [
+                    {
+                        data: 'orderID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-info" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
+                        },
+                        orderable: false
+                    },
                     {
                         data: 'dateCreate'
                     },
@@ -105,15 +159,36 @@
                         data: 'note'
                     },
                     {
-                        data: 'total'
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                     {
-                        data: 'status'
+                        data: null,
+                        render: function (row) {
+                            if (row.status == 1) {
+                                return '<button type="button" class="btn btn-primary" onclick="changeStatusModal(' + row.orderID + ',2)">Đang chờ duyệt</button >';
+                            }
+                            else if (row.status == 2) {
+                                return '<button type="button" class="btn btn-warning" onclick="changeStatusModal(' + row.orderID + ',3)">Đang giao hàng</button >';
+                            }
+                            else if (row.status == 3) {
+                                return '<button type="button" class="btn btn-success">Đã hoàn thành</button >';
+                            }
+                            else if (row.status == 4) {
+                                return '<button type="button" class="btn btn-danger">Đã hủy</button >';
+                            }
+                        },
+                        orderable: false
                     },
                     {
-                        data: 'orderID',
-                        render: function (data) {
-                            return '<button type="button" class="btn btn-info" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
+                        data: null,
+                        render: function (row) {
+                            if (row.status == 1 || row.status == 2) {
+                                return '<button type="button" class="btn btn-danger" onclick="destroyModal(' + row.orderID + ')"><i class="fas fa-trash-alt"></i></button >';
+                            }
+                            else {
+                                return null
+                            }
                         },
                         orderable: false
                     }
@@ -144,16 +219,82 @@
                         data: 'sizeName'
                     },
                     {
-                        data: 'priceBuy'
+                        data: 'priceBuy',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                     {
                         data: 'amountBuy'
                     },
                     {
-                        data: 'total'
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                 ],
                 destroy: true
+            });
+        }
+
+        //Hàm hiện modal hủy đơn hàng
+        function destroyModal(id) {
+            tempId = id;
+            $("#destroyModal").modal('show');
+        }
+
+        //Hàm thực hiện hủy đơn hàng
+        function submitDestroy() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Destroy", "Order")",
+                data: {
+                    OrderID: tempId
+                },
+                success: function (res) {
+                    if (res.error.errorMessage == "") {
+                        $.bootstrapGrowl("Hủy đơn hàng thành công", {
+                            type: 'success'
+                        });
+                        $("#destroyModal").modal('hide');
+                        dataTable.ajax.reload();
+                    }
+                    else {
+                        $.bootstrapGrowl(res.error.errorMessage, {
+                            type: 'danger'
+                        });
+                    }
+                }
+            });
+        }
+
+        //Hàm hiện modal thay đổi trạng thái
+        function changeStatusModal(id,status) {
+            tempId = id;
+            tempStatus = status;
+            $("#changeStatusModal").modal('show');
+        }
+
+        //Hàm thực hiện thay đổi trạng thái
+        function submitChangeStatus() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ChangeStatus", "Order")",
+                data: {
+                    OrderID: tempId,
+                    Status: tempStatus
+                },
+                success: function (res) {
+                    if (res.error.errorMessage == "") {
+                        $.bootstrapGrowl("Thay đổi trạng thái thành công", {
+                            type: 'success'
+                        });
+                        $("#changeStatusModal").modal('hide');
+                        dataTable.ajax.reload();
+                    }
+                    else {
+                        $.bootstrapGrowl(res.error.errorMessage, {
+                            type: 'danger'
+                        });
+                    }
+                }
             });
         }
     </script>
