@@ -1,0 +1,78 @@
+﻿@model IEnumerable<SneakerInside.Models.ReportAmountStock>
+
+@{
+    ViewData["Title"] = "Danh sách hàng tồn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">Danh sách hàng tồn</h3>
+    </div>
+    <div class="card-body">
+        <table id="mainTable" class="table table-bordered table-hover" width="100%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CatalogName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SubCatalogName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SizeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AmountStock)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        //Lấy dữ liệu lên bảng
+        $(document).ready(function () {
+            $('#mainTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetAmountStock", "Report")',
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                searching: false,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                columns: [
+                    {
+                        data: 'productName'
+                    },
+                    {
+                        data: 'catalogName'
+                    },
+                    {
+                        data: 'subCatalogName'
+                    },
+                    {
+                        data: 'sizeName'
+                    },
+                    {
+                        data: 'amountStock'
+                    },
+                    {
+                        data: 'price'
+                    }
+                ]
+            });
+        });
+    </script>
+}

@@ -1,3 +1,172 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
+<div class="row">
+    <div class="col-3">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>@ViewBag.countOrderStatus.WaitConfirm</h3>
+                <p>Đơn hàng chờ duyệt</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>@ViewBag.countOrderStatus.Shipping</h3>
+                <p>Đơn hàng đang giao</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@ViewBag.countOrderStatus.Complete</h3>
+                <p>Đơn hàng đã hoàn thành</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>@ViewBag.countOrderStatus.Destroy</h3>
+                <p>Đơn hàng đã hủy</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <figure class="highcharts-figure">
+            <div id="chartCountCatalogProduct"></div>
+        </figure>
+    </div>
+    <div class="col-6">
+        <figure class="highcharts-figure">
+            <div id="TopSellProduct"></div>
+        </figure>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Biểu đồ số lượng sản phẩm theo hãng giày
+            $.ajax({
+                url: 'Home/CountCatalogProduct',
+                type: "GET",
+                dataType: "json",
+                success: function (res) {
+                    dataPieChart = res.map(function (item) {
+                        return {
+                            name: item.catalogName,
+                            y: item.totalProduct
+                        }
+                    });
+
+                    Highcharts.chart('chartCountCatalogProduct', {
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false,
+                            type: 'pie'
+                        },
+                        title: {
+                            text: 'Số lượng sản phẩm theo hãng giày'
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.y}</b>'
+                        },
+                        accessibility: {
+                            point: {
+                                valueSuffix: '%'
+                            }
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '<b>{point.name}</b>: {point.y}'
+                                }
+                            }
+                        },
+                        series: [{
+                            name: 'Số lượng',
+                            colorByPoint: true,
+                            data: dataPieChart
+                        }]
+                    });
+                }
+            });
+
+            //Biểu đồ top 10 sản phẩm bán nhiều nhất
+            $.ajax({
+                url: 'Home/TopSellProduct',
+                type: "GET",
+                dataType: "json",
+                success: function (res) {
+                    dataColumnChart = res.map(function (item) {
+                        return {
+                            name: item.productName,
+                            y: item.totalBuy
+                        }
+                    });
+
+                    Highcharts.chart('TopSellProduct', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Top 10 sản phẩm bán nhiều nhất'
+                        },
+                        accessibility: {
+                            announceNewData: {
+                                enabled: true
+                            }
+                        },
+                        xAxis: {
+                            type: 'category'
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Số lượng'
+                            }
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.y}'
+                                }
+                            }
+                        },
+
+                        tooltip: {
+                            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b>'
+                        },
+
+                        series: [
+                            {
+                                name: "Số lượng",
+                                colorByPoint: true,
+                                data: dataColumnChart
+                            }
+                        ]
+                    });
+
+
+                }
+            });
+        });
+    </script>
+}

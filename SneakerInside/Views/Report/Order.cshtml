@@ -1,0 +1,135 @@
+﻿@model IEnumerable<SneakerInside.Models.ReportOrder>
+
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-2">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Khoảng thời gian tìm kiếm</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="reservation">
+                </div>
+                <button type="button" class="btn btn-info btn-block" onclick="searchOrder()">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-secondary col-10">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách đơn hàng</h3>
+        </div>
+        <div class="card-body">
+            <table id="mainTable" class="table table-bordered table-hover" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DateCreate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Note)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Total)
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var tempStartDate, tempEndDate;
+
+        $(document).ready(function () {
+
+            //Date range picker
+            $('#reservation').daterangepicker({
+                "startDate": "03/01/2022",
+                "endDate": "03/01/2022"
+            }, function (start, end, label) {
+                tempStartDate = start.format('YYYY-MM-DD');
+                tempEndDate = end.format('YYYY-MM-DD');
+            });
+
+        });
+
+        //Lấy dữ liệu lên bảng
+        function searchOrder() {
+            $('#mainTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetOrder", "Report")',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        StartDate: tempStartDate,
+                        EndDate: tempEndDate
+                    }
+                },
+                searching: false,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                columns: [
+                    {
+                        data: 'dateCreate'
+                    },
+                    {
+                        data: 'fullName'
+                    },
+                    {
+                        data: 'phone'
+                    },
+                    {
+                        data: 'address'
+                    },
+                    {
+                        data: 'note'
+                    },
+                    {
+                        data: 'status',
+                        render: function (data) {
+                            if (data == 1) {
+                                return 'Đang chờ duyệt';
+                            }
+                            else if (data == 2) {
+                                return 'Đang giao hàng';
+                            }
+                            else if (data == 3) {
+                                return 'Đã hoàn thành';
+                            }
+                            else if (data == 4) {
+                                return 'Đã hủy';
+                            }
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: 'total'
+                    }
+                ],
+                destroy: true
+            });
+        }
+    </script>
+}
