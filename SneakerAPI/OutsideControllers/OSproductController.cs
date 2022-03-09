@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.OutsideControllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class OSproductController : Controller
@@ -27,16 +27,16 @@ namespace SneakerAPI.OutsideControllers
             string StoredProc = "exec OS_Product_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ProductGetAll> products;
+            List<ProductGetAll> result;
             try
             {
-                products = await context.ProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+                result = await context.ProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch (Exception ex)
             {
-                products = null;
+                result = null;
             }
-            return products;
+            return result;
         }
 
         [HttpGet]

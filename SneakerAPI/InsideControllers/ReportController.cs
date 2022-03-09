@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.InsideControllers
 {
-    //[ApiExplorerSettings(IgnoreApi = true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportController : ControllerBase

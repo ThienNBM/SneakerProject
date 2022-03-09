@@ -9,7 +9,9 @@ namespace SneakerAPI.OutsideModel
 
         public string ProductName { get; set; }
 
-        public int Price { get; set; }
+        public int? MinPrice { get; set; }
+
+        public int? TotalStock { get; set; }
 
         public string Image { get; set; }
     }
@@ -22,8 +24,6 @@ namespace SneakerAPI.OutsideModel
         public string ProductName { get; set; }
 
         public string Description { get; set; }
-
-        public int Price { get; set; }
 
         public string Image { get; set; }
     }

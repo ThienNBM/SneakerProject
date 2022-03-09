@@ -20,7 +20,7 @@
         <div class="col-lg-6 col-md-12 col-12">
             <input type="hidden" asp-for="ProductID" />
             <h3 class="py-4">@Model.ProductName</h3>
-            <h2>VNĐ @Model.Price.ToString("n0")</h2>
+            @*<h2>VNĐ @Model.Price.ToString("n0")</h2>*@
             <select id="sizeID" class="my-3" asp-items="@ViewBag.dropDownSize"></select>
             <button class="btn btn-dark" id="add-to-card">Thêm vào giỏ hàng</button>
             <h4 class="mt-5 mb-5">Thông tin sản phẩm</h4>
