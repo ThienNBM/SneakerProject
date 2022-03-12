@@ -4,115 +4,246 @@
     ViewData["Title"] = "Index";
 }
 
-<section class="container">
-    @if (ViewBag.success != null)
-    {
-        <p class="alert alert-success">Thanh toán thành công</p>
-    }
-    else
-    {
-        <h2 class="font-weight-bold py-5">Thanh toán</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <h4>Thông tin người mua</h4>
-                <form asp-action="Index">
-                    <div class="form-group">
-                        <label asp-for="UserInfo.FullName" class="control-label"></label>
-                        <input asp-for="UserInfo.FullName" class="form-control" />
-                        <span asp-validation-for="UserInfo.FullName" class="text-danger"></span>
+<div class="container-fluid p-5">
+    <div class="row">
+        @if (ViewBag.success != null)
+        {
+            <p class="alert alert-success">Thanh toán thành công</p>
+        }
+        else
+        {
+            <div class="col-5">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h3>Thông tin vận chuyển</h3>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="UserInfo.Phone" class="control-label"></label>
-                        <input asp-for="UserInfo.Phone" class="form-control" />
-                        <span asp-validation-for="UserInfo.Phone" class="text-danger"></span>
+                    <div class="card-body">
+                        <form id="checkoutForm" asp-action="Checkout" autocomplete="off">
+                            <div class="form-group">
+                                <label asp-for="UserInfo.FullName" class="control-label"></label>
+                                <input asp-for="UserInfo.FullName" class="form-control" />
+                                <span asp-validation-for="UserInfo.FullName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserInfo.Phone" class="control-label"></label>
+                                <input asp-for="UserInfo.Phone" class="form-control" />
+                                <span asp-validation-for="UserInfo.Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserInfo.Email" class="control-label"></label>
+                                <input asp-for="UserInfo.Email" class="form-control" />
+                                <span asp-validation-for="UserInfo.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="UserInfo.Address" class="control-label"></label>
+                                <input asp-for="UserInfo.Address" class="form-control" />
+                                <span asp-validation-for="UserInfo.Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OrderInfo.Note" class="control-label"></label>
+                                <textarea asp-for="OrderInfo.Note" rows="3" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group pt-3">
+                                <input type="submit" value="Thanh toán" class="btn btn-dark col-12" />
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="UserInfo.Email" class="control-label"></label>
-                        <input asp-for="UserInfo.Email" class="form-control" />
-                        <span asp-validation-for="UserInfo.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="UserInfo.Address" class="control-label"></label>
-                        <input asp-for="UserInfo.Address" class="form-control" />
-                        <span asp-validation-for="UserInfo.Address" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="OrderInfo.Note" class="control-label"></label>
-                        <input asp-for="OrderInfo.Note" class="form-control" />
-                        <span asp-validation-for="OrderInfo.Note" class="text-danger"></span>
-                    </div>
-                    <div class="form-group pt-3">
-                        <input type="submit" value="Thanh toán" class="btn btn-success" style="width: 100%"/>
-                    </div>
-                </form>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>Giỏ hàng</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Ảnh
-                            </th>
-                            <th>
-                                Tên sản phẩm
-                            </th>
-                            <th>
-                                Size
-                            </th>
-                            <th>
-                                Đơn giá
-                            </th>
-                            <th>
-                                Số lượng
-                            </th>
-                            <th>
-                                Thành tiền
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int total = 0; }
-                        @foreach (var item in Model.CartList)
-                        {
-                            var thanhtien = item.AmountBuy * item.Price;
-                            total += thanhtien;
-                            <tr>
-                                <td style="display:none">
-                                    @item.ProductItemID
-                                </td>
-                                <td style="display:none">
-                                    @Html.DisplayFor(modelItem => item.AmountStock)
-                                </td>
-                                <td>
-                                    <img width="200" src="@("https://localhost:44344/Images/" + item.Image)" asp-append-version="true">
-                                </td>
-                                <td>
-                                    @item.ProductName
-                                </td>
-                                <td>
-                                    @item.SizeName
-                                </td>
-                                <td>
-                                    @item.Price.ToString("n0")
-                                </td>
-                                <td>
-                                    @item.AmountBuy
-                                </td>
-                                <td>
-                                    @(thanhtien.ToString("n0"))
-                                </td>
-                            </tr>
+            <div class="col-7">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h3>Giỏ hàng</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <table id="cartTable" class="table table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Ảnh
+                                    </th>
+                                    <th>
+                                        Tên sản phẩm
+                                    </th>
+                                    <th>
+                                        Size
+                                    </th>
+                                    <th>
+                                        Đơn giá
+                                    </th>
+                                    <th>
+                                        Số lượng
+                                    </th>
+                                    <th>
+                                        Thành tiền
+                                    </th>
+                                    <th>
+                                        Xóa
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5" style="text-align: right">Tổng tiền:</th>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var dataTable;
+        $(function () {
+            //Load danh sách giỏ hàng
+            dataTable = $('#cartTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetCartList", "Checkout")',
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'image',
+                        render: function (data) {
+                            return '<img src="https://localhost:44344/Images/' + data + '" asp-append-version="true" width="300" />';
                         }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" class="text-right">Tổng tiền</td>
-                            <td>@(total.ToString("n0"))</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    }
-</section>
+                    },
+                    {
+                        data: 'productName'
+                    },
+                    {
+                        data: 'sizeName'
+                    },
+                    {
+                        data: 'price',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
+                    },
+                    {
+                        data: null,
+                        render: function (row) {
+                            return '<input type="number" min="1" max="' + row.amountStock + '" id="amountBuy-' + row.productItemID + '" value="' + row.amountBuy + '" onchange="changeAmountBuy(' + row.productItemID + ',' + row.amountStock + ')" />';
+                        }
+                    },
+                    {
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
+                    },
+                    {
+                        data: 'productItemID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-danger" onclick="deleteFromCart(' + data + ')"><i class="fas fa-trash-alt"></i></button >';
+                        }
+                    }
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(5)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(5).footer()).html($.fn.dataTable.render.number(',', '.', 0, '').display(total) + ' VNĐ');
+                },
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                destroy: true
+            });
+
+            //Hàm thực hiện thanh toán
+            $("#checkoutForm").submit(function (e) {
+                $.ajax({
+                    type: "POST",
+                    url: this.action,
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.isValid) {
+                            if (res.error.errorMessage == "") {
+                                $.bootstrapGrowl("Thanh toán thành công", {
+                                    type: 'success'
+                                });
+                                dataTable.ajax.reload();
+                                setTimeout(function () {
+                                        window.location.replace("Home/Index");
+                                    }, 3000
+                                );
+                            }
+                            else {
+                                $.bootstrapGrowl(res.error.errorMessage, {
+                                    type: 'danger'
+                                });
+                            }
+                        }
+                        else {
+                            $.bootstrapGrowl("Dữ liệu không hợp lệ", {
+                                type: 'danger'
+                            });
+                        }
+                    }
+                });
+                e.preventDefault();
+            });
+        });
+
+        //Hàm thay đổi số lượng mua
+        function changeAmountBuy(ProductItemID, AmountStock) {
+            var AmountBuy = $("#amountBuy-" + ProductItemID).val();
+            if (AmountBuy > AmountStock || AmountBuy < 0) {
+                $.bootstrapGrowl("Số lượng bạn mua hiện không dủ, vui lòng thử lại", {
+                    type: 'danger'
+                });
+                $("#amountBuy-" + ProductItemID).val(1);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Checkout/UpdateCart",
+                    data: {
+                        productItemId: ProductItemID,
+                        amountBuy: AmountBuy
+                    },
+                    success: function (res) {
+                        dataTable.ajax.reload();
+                    }
+                });
+            }
+        }
+
+        //Hàm thực hiện xóa khỏi giỏ hàng
+        function deleteFromCart(ProductItemID) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RemoveCart", "Checkout")",
+                data: {
+                    productItemId: ProductItemID
+                },
+                success: function (res) {
+                    dataTable.ajax.reload();
+                }
+            });
+        }
+    </script>
+}

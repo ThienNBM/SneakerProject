@@ -19,6 +19,6 @@ namespace SneakerAPI.OutsideModel
         public DbSet<ProductGetSize> ProductGetSize { get; set; }
         public DbSet<ProductGetImage> ProductGetImage { get; set; }
 
-        public DbSet<CartProductInfo> CartProductInfo { get; set; }
+        public DbSet<ProductGetProductItem> ProductGetProductItem { get; set; }
     }
 }

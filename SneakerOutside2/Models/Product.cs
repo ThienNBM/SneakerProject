@@ -11,9 +11,9 @@ namespace SneakerOutside2.Models
 
         public string ProductName { get; set; }
 
-        public int? MinPrice { get; set; }
+        public int MinPrice { get; set; }
 
-        public int? TotalStock { get; set; }
+        public int TotalStock { get; set; }
 
         public string Image { get; set; }
     }
@@ -25,8 +25,6 @@ namespace SneakerOutside2.Models
         public string ProductName { get; set; }
 
         public string Description { get; set; }
-
-        public string Image { get; set; }
     }
 
     public class ProductGetSize
@@ -34,10 +32,31 @@ namespace SneakerOutside2.Models
         public int SizeID { get; set; }
 
         public string SizeName { get; set; }
+
+        public int Price { get; set; }
     }
 
     public class ProductGetImage
     {
         public string Image { get; set; }
+    }
+
+    public class ProductGetProductItem
+    {
+        public int ProductItemID { get; set; }
+
+        public string Image { get; set; }
+
+        public int ProductID { get; set; }
+
+        public string ProductName { get; set; }
+
+        public int SizeID { get; set; }
+
+        public string SizeName { get; set; }
+
+        public int Price { get; set; }
+
+        public int AmountStock { get; set; }
     }
 }

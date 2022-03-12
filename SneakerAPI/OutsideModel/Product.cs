@@ -9,9 +9,9 @@ namespace SneakerAPI.OutsideModel
 
         public string ProductName { get; set; }
 
-        public int? MinPrice { get; set; }
+        public int MinPrice { get; set; }
 
-        public int? TotalStock { get; set; }
+        public int TotalStock { get; set; }
 
         public string Image { get; set; }
     }
@@ -24,8 +24,6 @@ namespace SneakerAPI.OutsideModel
         public string ProductName { get; set; }
 
         public string Description { get; set; }
-
-        public string Image { get; set; }
     }
 
     [Keyless]
@@ -34,11 +32,33 @@ namespace SneakerAPI.OutsideModel
         public int SizeID { get; set; }
 
         public string SizeName { get; set; }
+
+        public int Price { get; set; }
     }
 
     [Keyless]
     public class ProductGetImage
     { 
         public string Image { get; set; }
+    }
+
+    [Keyless]
+    public class ProductGetProductItem
+    {
+        public int ProductItemID { get; set; }
+
+        public string Image { get; set; }
+
+        public int ProductID { get; set; }
+
+        public string ProductName { get; set; }
+
+        public int SizeID { get; set; }
+
+        public string SizeName { get; set; }
+
+        public int Price { get; set; }
+
+        public int AmountStock { get; set; }
     }
 }

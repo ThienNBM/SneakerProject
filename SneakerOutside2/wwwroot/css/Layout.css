@@ -5,29 +5,6 @@
     font-family: Arial,Helvetica,sans-serif;
 }
 
-/*Product detail*/
-.small-img-group {
-    display:flex;
-    justify-content: space-between;
-}
-
-.small-img-col {
-    flex-basis: auto;
-    cursor:pointer;
-}
-
-.sproduct select {
-    display: block;
-    padding: 5px 10px;
-}
-
-
- 
-
-
-
-
-
 .highlight {
     display: flex;
     justify-content: center;

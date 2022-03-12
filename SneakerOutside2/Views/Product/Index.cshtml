@@ -119,7 +119,7 @@
                                 <img src="@("https://localhost:44344/Images/" + item.Image)" class="card-img-top">
                                 <div class="card-body">
                                     <h5 class="card-title">@item.ProductName</h5>
-                                    <p class="card-text">@item.MinPrice</p>
+                                    <p class="card-text">@String.Format("{0:n0}", item.MinPrice) VNĐ</p>
                                 </div>
                             </a>
                         </div>

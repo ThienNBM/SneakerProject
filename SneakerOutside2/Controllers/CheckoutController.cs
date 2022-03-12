@@ -17,7 +17,6 @@ namespace SneakerOutside2.Controllers
         {
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
-        Error _error = new Error();
 
         public IActionResult Index()
         {
@@ -38,8 +37,9 @@ namespace SneakerOutside2.Controllers
             return View(checkoutView);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(CheckOutView checkOutView)
+        //Lấy danh sách giỏ hàng từ session
+        [HttpGet]
+        public IActionResult GetCartList()
         {
             List<CartItem> cartList = new List<CartItem>();
             var sessionCart = HttpContext.Session.GetString("Cart");
@@ -47,8 +47,64 @@ namespace SneakerOutside2.Controllers
             {
                 cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
             }
-            var userInfo = checkOutView.UserInfo;
-            var orderInfo = checkOutView.OrderInfo;
+            return Json(new { data = cartList });
+        }
+
+        //Cập nhật số lượng sản phẩm trong giỏ hàng
+        [HttpPost]
+        public IActionResult UpdateCart(int productItemId, int amountBuy)
+        {
+            List<CartItem> cartList = new List<CartItem>();
+            var sessionCart = HttpContext.Session.GetString("Cart");
+            if (sessionCart != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+            }
+
+            var cartitem = cartList.Find(x => x.ProductItemID == productItemId);
+            if (cartitem != null)
+            {
+                cartitem.AmountBuy = amountBuy;
+                cartitem.Total = cartitem.AmountBuy * cartitem.Price;
+            }
+
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartList));
+
+            return Ok();
+        }
+
+        //Xóa sản phẩm trong giỏ hàng
+        [HttpPost]
+        public IActionResult RemoveCart(int productItemId)
+        {
+            List<CartItem> cartList = new List<CartItem>();
+            var sessionCart = HttpContext.Session.GetString("Cart");
+            if (sessionCart != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+            }
+
+            var cartitem = cartList.Find(x => x.ProductItemID == productItemId);
+            if (cartitem != null)
+            {
+                cartList.Remove(cartitem);
+            }
+
+            HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cartList));
+
+            return Ok();
+        }
+
+        //Thực hiện thanh toán
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckOutView checkOutView)
+        {
+            List<CartItem> cartList = new List<CartItem>();
+            var sessionCart = HttpContext.Session.GetString("Cart");
+            if (sessionCart != null)
+            {
+                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+            }
             var orderDetailInfo = new List<OrderDetailInfo>();
             foreach (var item in cartList)
             {
@@ -57,33 +113,41 @@ namespace SneakerOutside2.Controllers
                     ProductItemID = item.ProductItemID,
                     PriceBuy = item.Price,
                     AmountBuy = item.AmountBuy
-                }); 
+                });
             }
 
             var checkOutAction = new CheckOutAction()
             {
-                UserInfo = userInfo,
-                OrderInfo = orderInfo,
+                UserInfo = checkOutView.UserInfo,
+                OrderInfo = checkOutView.OrderInfo,
                 OrderDetailInfo = orderDetailInfo
             };
 
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(checkOutAction), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSCheckout/Checkout", content))
+                Error error = new Error();
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(checkOutAction), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSCheckout/Checkout", content))
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        _error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                        string errorCode = _error.ErrorCode;
-                        string errorMesage = _error.ErrorMessage;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                            if(error.ErrorMessage == "")
+                            {
+                                HttpContext.Session.Remove("Cart");
+                            }
+                        }
                     }
                 }
+                return Json(new { isValid = true, error });
             }
-
-            ViewBag.success = "Thành công";
-            return View();
+            else
+            {
+                return Json(new { isValid = false });
+            }
         }
     }
 }

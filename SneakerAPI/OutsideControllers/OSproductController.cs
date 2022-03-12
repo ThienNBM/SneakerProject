@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SneakerAPI.OutsideControllers
 {
-    //[ApiExplorerSettings(IgnoreApi = true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class OSproductController : Controller
@@ -47,16 +47,16 @@ namespace SneakerAPI.OutsideControllers
             var ProductID = new SqlParameter("@ProductID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ProductGetInfo> products;
+            List<ProductGetInfo> result;
             try
             {
-                products = await context.ProductGetInfo.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
+                result = await context.ProductGetInfo.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch(Exception ex)
             {
-                products = null;
+                result = null;
             }
-            return products;
+            return result;
         }
 
         [HttpGet]
@@ -67,16 +67,16 @@ namespace SneakerAPI.OutsideControllers
             var ProductID = new SqlParameter("@ProductID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ProductGetSize> sizes;
+            List<ProductGetSize> result;
             try
             {
-                sizes = await context.ProductGetSize.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
+                result = await context.ProductGetSize.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch
             {
-                sizes = null;
+                result = null;
             }
-            return sizes;
+            return result;
         }
 
         [HttpGet]
@@ -87,16 +87,37 @@ namespace SneakerAPI.OutsideControllers
             var ProductID = new SqlParameter("@ProductID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ProductGetImage> images;
+            List<ProductGetImage> result;
             try
             {
-                images = await context.ProductGetImage.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
+                result = await context.ProductGetImage.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch
             {
-                images = null;
+                result = null;
             }
-            return images;
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetProductItem/{ProductID}/{SizeID}")]
+        public async Task<ActionResult<IEnumerable<ProductGetProductItem>>> GetProductItem(int ProductID, int SizeID)
+        {
+            string StoredProc = "exec OS_Product_GetProductItem @ProductID, @SizeID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var productID = new SqlParameter("@ProductID", ProductID);
+            var sizeID = new SqlParameter("@SizeID", SizeID);
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ProductGetProductItem> result;
+            try
+            {
+                result = await context.ProductGetProductItem.FromSqlRaw(StoredProc, productID, sizeID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
         }
     }
 }

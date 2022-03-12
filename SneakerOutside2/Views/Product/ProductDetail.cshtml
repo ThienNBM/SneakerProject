@@ -3,65 +3,73 @@
     ViewData["Title"] = "ProductDetail";
 }
 
-
-<section class="container sproduct my-5 pt-5">
-    <div class="row mt-5">
-        <div class="col-lg-5 col-md-12 col-12">
-            <img id="MainImg" class="img-fluid w-100 pb-1" src="@("https://localhost:44344/Images/" + Model.Image)" alt="" />
-            <div class="small-img-group">
-                @foreach (var item in ViewBag.listImages)
-                {
-                    <div class="small-img-col">
-                        <img src="@("https://localhost:44344/Images/" + item.Image)" width="100%" class="small-img" alt="" />
+<div class="container p-5">
+    <div class="row">
+        <div class="col-7">
+            @foreach (var item in ViewBag.listImages)
+            {
+                <img src="@("https://localhost:44344/Images/" + item.Image)" class="img-fluid" />
+            }
+        </div>
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h3>@Model.ProductName</h3>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" id="price">0 VNĐ</h3>
+                    <div class="row">
+                        <div class="col-12 pb-4">
+                            @foreach (var item in ViewBag.listSizes)
+                            {
+                                <input type="radio" class="btn-check" name="options-size" id="@("danger-outlined-" + item.SizeID)" autocomplete="off" onclick="chooseSize(@item.SizeID,@item.Price)">
+                                <label class="btn btn-outline-secondary" for="@("danger-outlined-" + item.SizeID)">@item.SizeName</label>
+                            }
+                        </div>
+                        <div class="col-12 pb-4">
+                            <button class="btn btn-dark col-12 btn-lg" id="add-to-card">Thêm vào giỏ hàng</button>
+                        </div>
+                        <hr />
+                        <div class="col-12">
+                            <h4>Thông tin sản phẩm</h4>
+                            <p>@Model.Description</p>
+                        </div>
                     </div>
-                }
+                </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-12 col-12">
-            <input type="hidden" asp-for="ProductID" />
-            <h3 class="py-4">@Model.ProductName</h3>
-            @*<h2>VNĐ @Model.Price.ToString("n0")</h2>*@
-            <select id="sizeID" class="my-3" asp-items="@ViewBag.dropDownSize"></select>
-            <button class="btn btn-dark" id="add-to-card">Thêm vào giỏ hàng</button>
-            <h4 class="mt-5 mb-5">Thông tin sản phẩm</h4>
-            <span>@Model.Description</span>
-        </div>
     </div>
-</section>
+</div>
 
 
 @section Scripts {
     <script type="text/javascript">
-        var mainimg = document.getElementById("MainImg");
-        var smallimg = document.getElementsByClassName("small-img");
+        var tempSizeID;
 
-        smallimg[0].onclick = function () {
-            mainimg.src = smallimg[0].src;
-        }
-        smallimg[1].onclick = function () {
-            mainimg.src = smallimg[1].src;
+        function chooseSize(sizeID, Price) {
+            tempSizeID = sizeID;
+            $("#price").text(Price.toLocaleString() + " VNĐ");
         }
 
         $(document).ready(function () {
-            $("#add-to-card").click(function (e) {
-                e.preventDefault();
-                const ProductID = $("#ProductID").val();
-                const SizeID = $("#sizeID").val();
+            $("#add-to-card").click(function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Cart/AddCart",
+                    url: "/Product/AddToCart",
                     data: {
-                        ProductID: ProductID,
-                        SizeID: SizeID
+                        ProductID: @Model.ProductID,
+                        SizeID: tempSizeID
                     },
-                    success: function (response) {
-                        switch (response.errorCode) {
-                            case 1:
-                                console.log(response.errorMessage);
-                                break;
-                            default:
-                                console.log(response.errorMessage);
-                                break;
+                    success: function (res) {
+                        if (res.errorCode == 0) {
+                            $.bootstrapGrowl(res.errorMessage, {
+                                type: 'success'
+                            });
+                        }
+                        else {
+                            $.bootstrapGrowl(res.errorMessage, {
+                                type: 'danger'
+                            });
                         }
                     }
                 });

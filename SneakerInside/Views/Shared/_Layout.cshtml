@@ -40,7 +40,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="" class="brand-link">
+            <a asp-action="Index" asp-controller="Home" class="brand-link">
                 <img src="~/adminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
@@ -84,25 +84,25 @@
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Product" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Sản phẩm</p>
+                                        <p>Giày</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="ImageProduct" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Ảnh sản phẩm</p>
+                                        <p>Ảnh giày</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Size" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Size</p>
+                                        <p>Size giày</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a asp-action="Index" asp-controller="ProductItem" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Sản phẩm chi tiết</p>
+                                        <p>Số lượng giày</p>
                                     </a>
                                 </li>
                             </ul>
@@ -117,15 +117,15 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="User" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Khách hàng</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Order" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Đơn hàng</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="User" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Khách hàng</p>
                                     </a>
                                 </li>
                             </ul>
