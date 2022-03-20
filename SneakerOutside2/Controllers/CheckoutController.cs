@@ -18,6 +18,8 @@ namespace SneakerOutside2.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
+        Error error = new();
+
         public IActionResult Index()
         {
             UserInfo userInfo = new UserInfo();
@@ -27,6 +29,7 @@ namespace SneakerOutside2.Controllers
                 UserMember userMember = JsonConvert.DeserializeObject<UserMember>(sessionUserMember);
                 userInfo = new UserInfo()
                 {
+                    UserID = userMember.UserID,
                     FullName = userMember.FullName,
                     Phone = userMember.Phone,
                     Email = userMember.Email,
@@ -104,54 +107,98 @@ namespace SneakerOutside2.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckOutView checkOutView)
         {
-            List<CartItem> cartList = new List<CartItem>();
             var sessionCart = HttpContext.Session.GetString("Cart");
             if (sessionCart != null)
             {
-                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
-            }
-            var orderDetailInfo = new List<OrderDetailInfo>();
-            foreach (var item in cartList)
-            {
-                orderDetailInfo.Add(new OrderDetailInfo()
+                List<CartItem> cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+                if (cartList.Count > 0)
                 {
-                    ProductItemID = item.ProductItemID,
-                    PriceBuy = item.Price,
-                    AmountBuy = item.AmountBuy
-                });
-            }
-
-            var checkOutAction = new CheckOutAction()
-            {
-                UserInfo = checkOutView.UserInfo,
-                OrderInfo = checkOutView.OrderInfo,
-                OrderDetailInfo = orderDetailInfo
-            };
-
-            if (ModelState.IsValid)
-            {
-                Error error = new Error();
-                using (var httpClient = new HttpClient())
-                {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(checkOutAction), Encoding.UTF8, "application/json");
-                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSCheckout/Checkout", content))
+                    List<OrderDetailInfo> orderDetailInfo = new();
+                    foreach (var item in cartList)
                     {
-                        if (response.IsSuccessStatusCode)
+                        orderDetailInfo.Add(new OrderDetailInfo()
                         {
-                            string apiResponse = await response.Content.ReadAsStringAsync();
-                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
-                            if(error.ErrorMessage == "")
+                            ProductItemID = item.ProductItemID,
+                            PriceBuy = item.Price,
+                            AmountBuy = item.AmountBuy
+                        });
+                    }
+
+                    OrderInfo orderInfo = new OrderInfo
+                    {
+                        UserID = checkOutView.UserInfo.UserID,
+                        Note = checkOutView.OrderInfo.Note
+                    };
+
+                    var checkOutAction = new CheckOutAction()
+                    {
+                        UserInfo = checkOutView.UserInfo,
+                        OrderInfo = orderInfo,
+                        OrderDetailInfo = orderDetailInfo
+                    };
+
+                    if (ModelState.IsValid)
+                    {
+                        using (var httpClient = new HttpClient())
+                        {
+                            StringContent content = new StringContent(JsonConvert.SerializeObject(checkOutAction), Encoding.UTF8, "application/json");
+                            var sessionUserMember = HttpContext.Session.GetString("UserMember");
+                            if (sessionUserMember != null)
                             {
-                                HttpContext.Session.Remove("Cart");
+                                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSCheckout/CheckoutUserMember", content))
+                                {
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        string apiResponse = await response.Content.ReadAsStringAsync();
+                                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                                        if (error.ErrorCode == "0")
+                                        {
+                                            error.ErrorMessage = "Thanh toán thành công";
+
+                                            HttpContext.Session.Remove("Cart");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSCheckout/CheckoutUserNormal", content))
+                                {
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        string apiResponse = await response.Content.ReadAsStringAsync();
+                                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                                        if (error.ErrorCode == "0")
+                                        {
+                                            error.ErrorMessage = "Thanh toán thành công";
+
+                                            HttpContext.Session.Remove("Cart");
+                                        }
+                                    }
+                                }
                             }
                         }
+                        return Json(new { isValid = true, error });
+                    }
+                    else
+                    {
+                        error.ErrorCode = "1";
+                        error.ErrorMessage = "Dữ liệu không hợp lệ";
+                        return Json(new { isValid = false, error });
                     }
                 }
-                return Json(new { isValid = true, error });
+                else
+                {
+                    error.ErrorCode = "1";
+                    error.ErrorMessage = "Giỏ hàng trống";
+                    return Json(new { isValid = false, error });
+                }
             }
             else
             {
-                return Json(new { isValid = false });
+                error.ErrorCode = "1";
+                error.ErrorMessage = "Giỏ hàng trống";
+                return Json(new { isValid = false, error });
             }
         }
     }

@@ -106,5 +106,10 @@ namespace SneakerOutside2.Controllers
                 return Json(new { isValid = false });
             }
         }
+        
+        public IActionResult Info()
+        {
+            return View();
+        }
     }
 }

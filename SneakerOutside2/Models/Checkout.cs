@@ -20,6 +20,8 @@ namespace SneakerOutside2.Models
 
     public class UserInfo
     {
+        public int UserID { get; set; }
+
         [DisplayName("Họ và tên")]
         [Required(ErrorMessage = "Họ và tên không được để trống")]
         public string FullName { get; set; }
@@ -41,6 +43,8 @@ namespace SneakerOutside2.Models
 
     public class OrderInfo
     {
+        public int UserID { get; set; }
+
         [DisplayName("Ghi chú")]
         public string Note { get; set; }
     }

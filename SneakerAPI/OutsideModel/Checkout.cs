@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SneakerAPI.OutsideModel
 {
@@ -14,6 +11,8 @@ namespace SneakerAPI.OutsideModel
 
     public class UserInfo
     {
+        public int UserID { get; set; }
+
         public string FullName { get; set; }
 
         public string Phone { get; set; }
@@ -25,6 +24,8 @@ namespace SneakerAPI.OutsideModel
 
     public class OrderInfo
     {
+        public int UserID { get; set; }
+
         public string Note { get; set; }
     }
 
