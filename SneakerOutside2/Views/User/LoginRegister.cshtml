@@ -1,0 +1,77 @@
+﻿@model SneakerOutside2.Models.LoginRegister
+
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng nhập</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Login" onsubmit="return submitLogin(this)" autocomplete="off">
+                    <div class="mb-3">
+                        <label asp-for="Login.Email" class="form-label"></label>
+                        <input asp-for="Login.Email" class="form-control">
+                        <span asp-validation-for="Login.Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Login.Password" class="form-label"></label>
+                        <input asp-for="Login.Password" type="password" class="form-control">
+                        <span asp-validation-for="Login.Password" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-dark col-12">Đăng nhập</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Đăng ký</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Register" onsubmit="return submitRegister(this)" autocomplete="off">
+                    <div class="mb-3">
+                        <label asp-for="Register.FullName" class="form-label">Họ và tên</label>
+                        <input asp-for="Register.FullName" class="form-control">
+                        <span asp-validation-for="Register.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Register.Phone" class="form-label">Số điện thoại</label>
+                        <input asp-for="Register.Phone" class="form-control">
+                        <span asp-validation-for="Register.Phone" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Register.Email" class="form-label">Email</label>
+                        <input asp-for="Register.Email" class="form-control">
+                        <span asp-validation-for="Register.Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Register.Password" class="form-label">Mật khẩu</label>
+                        <input asp-for="Register.Password" type="password" class="form-control">
+                        <span asp-validation-for="Register.Password" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Register.RePassword" class="form-label">Nhập lại mật khẩu</label>
+                        <input asp-for="Register.RePassword" type="password" class="form-control">
+                        <span asp-validation-for="Register.RePassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-dark col-12">Đăng ký</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-bs-target="#loginModal" data-bs-toggle="modal" data-bs-dismiss="modal">Đăng nhập</button>
+            </div>
+        </div>
+    </div>
+</div>

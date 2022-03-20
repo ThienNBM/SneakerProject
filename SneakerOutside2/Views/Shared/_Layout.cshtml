@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,11 +38,25 @@
                         </li>*@
                 </ul>
                 <ul class="navbar-nav">
-                    <li><a asp-controller="Checkout" asp-action="Index"><i class="fa fa-light fa-cart-shopping fa-2xl" style="color:white"></i></a></li>
+                    <li>
+                        @if (Context.Session.GetString("UserMember") != null)
+                        {
+                            <a asp-controller="User" asp-action="Info"><i class="fa fa-light fa-user fa-2xl" style="color:white"></i></a>
+                        }
+                        else
+                        {
+                            <a id="userButton"><i class="fa fa-light fa-user fa-2xl" style="color:white"></i></a>
+                        }
+                    </li>
+                    <li>
+                        <a asp-controller="Checkout" asp-action="Index"><i class="fa fa-light fa-cart-shopping fa-2xl" style="color:white"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <div id="loginRegisterModal"></div>
 
     @RenderBody()
 

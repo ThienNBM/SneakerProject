@@ -20,18 +20,23 @@ namespace SneakerOutside2.Controllers
 
         public IActionResult Index()
         {
-            //Lấy danh sách giỏ hàng từ session
-            List<CartItem> cartList = new List<CartItem>();
-            var sessionCart = HttpContext.Session.GetString("Cart");
-            if (sessionCart != null)
+            UserInfo userInfo = new UserInfo();
+            var sessionUserMember = HttpContext.Session.GetString("UserMember");
+            if (sessionUserMember != null)
             {
-                cartList = JsonConvert.DeserializeObject<List<CartItem>>(sessionCart);
+                UserMember userMember = JsonConvert.DeserializeObject<UserMember>(sessionUserMember);
+                userInfo = new UserInfo()
+                {
+                    FullName = userMember.FullName,
+                    Phone = userMember.Phone,
+                    Email = userMember.Email,
+                    Address = userMember.Address
+                };
             }
+
             CheckOutView checkoutView = new CheckOutView()
             {
-                CartList = cartList,
-                UserInfo = new UserInfo(),
-                OrderInfo = new OrderInfo()
+                UserInfo = userInfo
             };
 
             return View(checkoutView);
