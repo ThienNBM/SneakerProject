@@ -1,4 +1,5 @@
-﻿@model SneakerOutside2.Models.CheckOutView
+﻿@using Microsoft.AspNetCore.Http;
+@model SneakerOutside2.Models.CheckOutView
 
 @{
     ViewData["Title"] = "Index";
@@ -13,31 +14,41 @@
                 </div>
                 <div class="card-body">
                     <form id="checkoutForm" asp-action="Checkout" autocomplete="off">
-                        <div class="form-group">
+                        <div class="mb-3">
+                            <input type="hidden" asp-for="UserInfo.UserID" class="form-control" />
+                        </div>
+                        <div class="mb-3">
                             <label asp-for="UserInfo.FullName" class="control-label"></label>
                             <input asp-for="UserInfo.FullName" class="form-control" />
                             <span asp-validation-for="UserInfo.FullName" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label asp-for="UserInfo.Phone" class="control-label"></label>
                             <input asp-for="UserInfo.Phone" class="form-control" />
                             <span asp-validation-for="UserInfo.Phone" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label asp-for="UserInfo.Email" class="control-label"></label>
-                            <input asp-for="UserInfo.Email" class="form-control" />
+                            @if (Context.Session.GetString("UserMember") != null)
+                            {
+                                <input asp-for="UserInfo.Email" class="form-control" readonly/>
+                            }
+                            else
+                            {
+                                <input asp-for="UserInfo.Email" class="form-control" />
+                            }
                             <span asp-validation-for="UserInfo.Email" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label asp-for="UserInfo.Address" class="control-label"></label>
                             <input asp-for="UserInfo.Address" class="form-control" />
                             <span asp-validation-for="UserInfo.Address" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label asp-for="OrderInfo.Note" class="control-label"></label>
                             <textarea asp-for="OrderInfo.Note" rows="3" class="form-control"></textarea>
                         </div>
-                        <div class="form-group pt-3">
+                        <div class="mb-3">
                             <input type="submit" value="Thanh toán" class="btn btn-dark col-12" />
                         </div>
                     </form>
@@ -166,23 +177,31 @@
             //Hàm thực hiện thanh toán
             $("#checkoutForm").submit(function (e) {
                 e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: this.action,
-                    data: new FormData(this),
-                    contentType: false,
-                    processData: false,
-                    success: function (res) {
-                        if (res.isValid) {
-                            if (res.error.errorMessage == "") {
-                                $.bootstrapGrowl("Thanh toán thành công", {
-                                    type: 'success'
-                                });
-                                dataTable.ajax.reload();
-                                setTimeout(function () {
+                $.validator.unobtrusive.parse(this);
+                if ($(this).valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: this.action,
+                        data: new FormData(this),
+                        contentType: false,
+                        processData: false,
+                        success: function (res) {
+                            if (res.isValid) {
+                                if (res.error.errorCode == "0") {
+                                    $.bootstrapGrowl(res.error.errorMessage, {
+                                        type: 'success'
+                                    });
+                                    dataTable.ajax.reload();
+                                    setTimeout(function () {
                                         window.location.replace("Home/Index");
                                     }, 2000
-                                );
+                                    );
+                                }
+                                else {
+                                    $.bootstrapGrowl(res.error.errorMessage, {
+                                        type: 'danger'
+                                    });
+                                }
                             }
                             else {
                                 $.bootstrapGrowl(res.error.errorMessage, {
@@ -190,13 +209,8 @@
                                 });
                             }
                         }
-                        else {
-                            $.bootstrapGrowl("Dữ liệu không hợp lệ", {
-                                type: 'danger'
-                            });
-                        }
-                    }
-                });
+                    });
+                }
             });
         });
 
