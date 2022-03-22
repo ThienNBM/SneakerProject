@@ -22,5 +22,7 @@ namespace SneakerAPI.OutsideModel
         public DbSet<ProductGetProductItem> ProductGetProductItem { get; set; }
 
         public DbSet<UserMember> UserMember { get; set; }
+        public DbSet<UserGetOrderById> UserGetOrderById { get; set; }
+        public DbSet<UserGetOrderDetailById> UserGetOrderDetailById { get; set; }
     }
 }

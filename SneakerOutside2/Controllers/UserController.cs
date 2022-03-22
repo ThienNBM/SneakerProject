@@ -106,10 +106,183 @@ namespace SneakerOutside2.Controllers
                 return Json(new { isValid = false });
             }
         }
-        
+
         public IActionResult Info()
         {
-            return View();
+            ChangeInfo changeInfo = new();
+            ChangePass changePass = new();
+            var sessionUserMember = HttpContext.Session.GetString("UserMember");
+            if (sessionUserMember != null)
+            {
+                UserMember userMember = JsonConvert.DeserializeObject<UserMember>(sessionUserMember);
+                changeInfo = new ChangeInfo()
+                {
+                    UserID = userMember.UserID,
+                    FullName = userMember.FullName,
+                    Phone = userMember.Phone,
+                    Email = userMember.Email,
+                    Address = userMember.Address
+                };
+                changePass = new ChangePass()
+                {
+                    UserID = userMember.UserID
+                };
+
+                ChangeInfoAndPass changeInfoAndPass = new ChangeInfoAndPass()
+                {
+                    ChangeInfo = changeInfo,
+                    ChangePass = changePass
+                };
+
+                ViewBag.UserID = userMember.UserID;
+
+                return View(changeInfoAndPass);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeInfo(ChangeInfoAndPass item)
+        {
+            Error error = new Error();
+            if (ModelState.IsValid)
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(item.ChangeInfo), Encoding.UTF8, "application/json");
+                    using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSuser/ChangeInfo", content))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                            if (error.ErrorCode == "0")
+                            {
+                                error.ErrorMessage = "Thay đổi thông tin thành công";
+
+                                var sessionUserMember = HttpContext.Session.GetString("UserMember");
+                                UserMember userMember = JsonConvert.DeserializeObject<UserMember>(sessionUserMember);
+                                UserMember userMemberTemp = new UserMember()
+                                {
+                                    UserID = item.ChangeInfo.UserID,
+                                    FullName = item.ChangeInfo.FullName,
+                                    Phone = item.ChangeInfo.Phone,
+                                    Address = item.ChangeInfo.Address,
+                                    Email = item.ChangeInfo.Email,
+                                    Password = userMember.Password
+                                };
+                                HttpContext.Session.SetString("UserMember", JsonConvert.SerializeObject(userMemberTemp));
+                            }
+                        }
+                    }
+                }
+                return Json(new { isValid = true, error });
+            }
+            else
+            {
+                error.ErrorCode = "1";
+                error.ErrorMessage = "Dữ liệu không hợp lệ";
+                return Json(new { isValid = false, error });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangeInfoAndPass item)
+        {
+            Error error = new Error();
+            var sessionUserMember = HttpContext.Session.GetString("UserMember");
+            UserMember userMember = JsonConvert.DeserializeObject<UserMember>(sessionUserMember);
+            if (userMember.Password == item.ChangePass.OldPassword)
+            {
+                if (ModelState.IsValid)
+                {
+                    using (var httpClient = new HttpClient())
+                    {
+                        StringContent content = new StringContent(JsonConvert.SerializeObject(item.ChangePass), Encoding.UTF8, "application/json");
+                        using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSuser/ChangePassword", content))
+                        {
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string apiResponse = await response.Content.ReadAsStringAsync();
+                                error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                                if (error.ErrorCode == "0")
+                                {
+                                    error.ErrorMessage = "Thay đổi mật khẩu thành công";
+                                }
+                            }
+                        }
+                    }
+                    return Json(new { isValid = true, error });
+                }
+                else
+                {
+                    error.ErrorCode = "1";
+                    error.ErrorMessage = "Dữ liệu không hợp lệ";
+                    return Json(new { isValid = false, error });
+                }
+            }
+            else
+            {
+                error.ErrorCode = "1";
+                error.ErrorMessage = "Mật khẩu cũ không đúng";
+                return Json(new { isValid = false, error });
+            }    
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetOrderById(int id)
+        {
+            List<UserGetOrderById> orders = new();
+            using (var httpClient = new HttpClient())
+            {
+                using var response = await httpClient.GetAsync(apiBaseUrl + $"/api/OSuser/GetOrderById/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    orders = JsonConvert.DeserializeObject<List<UserGetOrderById>>(apiResponse);
+                }
+            }
+            return Json(new { data = orders });
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetOrderDetailById(int id)
+        {
+            List<UserGetOrderDetailById> orderDetails = new();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + $"/api/OSuser/GetOrderDetailById/{id}"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        orderDetails = JsonConvert.DeserializeObject<List<UserGetOrderDetailById>>(apiResponse);
+                    }
+                }
+            }
+            return Json(new { data = orderDetails });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DestroyOrder(UserDestroyOrder item)
+        {
+            Error error = new Error();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSuser/DestroyOrder", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        error = JsonConvert.DeserializeObject<Error>(apiResponse);
+                    }
+                }
+            }
+            return Json(new { isValid = true, error });
         }
     }
 }

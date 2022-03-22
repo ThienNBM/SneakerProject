@@ -133,6 +133,7 @@
 
         //Hàm lấy danh sách đơn hàng theo người dùng
         function getOrderTable(data) {
+            $('#orderDetailTable').DataTable().clear().draw();
             $('#orderTable').DataTable({
                 ajax: {
                     url: '@Url.Action("GetOrderById", "User")/' + data,

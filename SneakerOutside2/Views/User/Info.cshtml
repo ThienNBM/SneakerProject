@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SneakerOutside2.Models.ChangeInfoAndPass
+
+@{
     ViewData["Title"] = "Index";
 }
 
@@ -7,96 +9,100 @@
         <div class="col-4">
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <h2 class="accordion-header">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne">
-                            Accordion Item #1
+                            Thông tin cá nhân
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                         <div class="accordion-body">
-                            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            <form id="changeInfoForm" asp-action="ChangeInfo" autocomplete="off">
+                                <div class="mb-3">
+                                    <input type="hidden" asp-for="ChangeInfo.UserID" class="form-control" />
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangeInfo.FullName" class="form-label"></label>
+                                    <input asp-for="ChangeInfo.FullName" class="form-control">
+                                    <span asp-validation-for="ChangeInfo.FullName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangeInfo.Phone" class="form-label"></label>
+                                    <input asp-for="ChangeInfo.Phone" class="form-control">
+                                    <span asp-validation-for="ChangeInfo.Phone" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangeInfo.Email" class="form-label"></label>
+                                    <input asp-for="ChangeInfo.Email" class="form-control" readonly>
+                                    <span asp-validation-for="ChangeInfo.Email" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangeInfo.Address" class="form-label"></label>
+                                    <input asp-for="ChangeInfo.Address" class="form-control">
+                                    <span asp-validation-for="ChangeInfo.Address" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class="btn btn-dark col-12">Thay đổi thông tin</button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <h2 class="accordion-header">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo">
-                            Accordion Item #2
+                            Thay đổi mật khẩu
                         </button>
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
                         <div class="accordion-body">
-                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            <form id="changePassForm" asp-action="ChangePassword" autocomplete="off">
+                                <div class="mb-3">
+                                    <input type="hidden" asp-for="ChangePass.UserID" class="form-control" />
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangePass.OldPassword" class="form-label"></label>
+                                    <input asp-for="ChangePass.OldPassword" type="password" class="form-control">
+                                    <span asp-validation-for="ChangePass.OldPassword" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangePass.NewPassword" class="form-label"></label>
+                                    <input asp-for="ChangePass.NewPassword" type="password" class="form-control">
+                                    <span asp-validation-for="ChangePass.NewPassword" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="ChangePass.RePassword" class="form-label"></label>
+                                    <input asp-for="ChangePass.RePassword" type="password" class="form-control">
+                                    <span asp-validation-for="ChangePass.RePassword" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class="btn btn-dark col-12">Thay đổi mật khẩu</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-8">
             <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h3>Danh sách đơn hàng</h3>
-                </div>
+                <h3 class="card-header bg-secondary text-white">Danh sách đơn hàng</h3>
                 <div class="card-body">
                     <table id="orderTable" class="table table-bordered table-hover" width="100%">
                         <thead>
                             <tr>
                                 <th>
-                                    Ảnh
+                                    Chi tiết đơn hàng
                                 </th>
                                 <th>
-                                    Tên sản phẩm
+                                    Ngày tạo
                                 </th>
                                 <th>
-                                    Size
+                                    Ghi chú
                                 </th>
                                 <th>
-                                    Đơn giá
+                                    Tổng đơn hàng
                                 </th>
                                 <th>
-                                    Số lượng
+                                    Trạng thái
                                 </th>
                                 <th>
-                                    Thành tiền
-                                </th>
-                                <th>
-                                    Xóa
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h3>Danh sách đơn hàng chi tiết</h3>
-                </div>
-                <div class="card-body">
-                    <table id="orderTable" class="table table-bordered table-hover" width="100%">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Ảnh
-                                </th>
-                                <th>
-                                    Tên sản phẩm
-                                </th>
-                                <th>
-                                    Size
-                                </th>
-                                <th>
-                                    Đơn giá
-                                </th>
-                                <th>
-                                    Số lượng
-                                </th>
-                                <th>
-                                    Thành tiền
-                                </th>
-                                <th>
-                                    Xóa
+                                    Hủy đơn hàng
                                 </th>
                             </tr>
                         </thead>
@@ -106,3 +112,303 @@
         </div>
     </div>
 </div>
+
+<!--Modal chi tiết đơn hàng-->
+<div class="modal fade" id="orderDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table id="orderDetailTable" class="table table-bordered table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Ảnh
+                            </th>
+                            <th>
+                                Tên sản phẩm
+                            </th>
+                            <th>
+                                Size
+                            </th>
+                            <th>
+                                Đơn giá
+                            </th>
+                            <th>
+                                Số lượng
+                            </th>
+                            <th>
+                                Thành tiền
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" style="text-align: right">Tổng tiền:</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal hủy-->
+<div class="modal fade" id="destroyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hủy đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có muốn hủy đơn hàng ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="submitDestroy()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        var dataTable, tempId;
+
+
+        $(document).ready(function () {
+
+            //Lấy dữ liệu lên bảng danh sách đơn hàng
+            dataTable = $('#orderTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetOrderById", "User")/' + @ViewBag.UserID,
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'orderID',
+                        render: function (data) {
+                            return '<button type="button" class="btn btn-secondary" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: 'dateCreate'
+                    },
+                    {
+                        data: 'note',
+                        orderable: false
+                    },
+                    {
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
+                    },
+                    {
+                        data: null,
+                        render: function (row) {
+                            if (row.status == 1) {
+                                return '<button type="button" class="btn btn-primary">Đang chờ duyệt</button >';
+                            }
+                            else if (row.status == 2) {
+                                return '<button type="button" class="btn btn-warning">Đang giao hàng</button >';
+                            }
+                            else if (row.status == 3) {
+                                return '<button type="button" class="btn btn-success">Đã hoàn thành</button >';
+                            }
+                            else if (row.status == 4) {
+                                return '<button type="button" class="btn btn-danger">Đã hủy</button >';
+                            }
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: null,
+                        render: function (row) {
+                            if (row.status == 1 || row.status == 2) {
+                                return '<button type="button" class="btn btn-danger" onclick="destroyModal(' + row.orderID + ')"><i class="fas fa-trash-alt"></i></button >';
+                            }
+                            else {
+                                return null
+                            }
+                        },
+                        orderable: false
+                    }
+                ]
+            });
+
+            //Hàm thực hiện thay đổi thông tin
+            $("#changeInfoForm").submit(function (e) {
+                e.preventDefault();
+                $.validator.unobtrusive.parse(this);
+                if ($(this).valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: this.action,
+                        data: new FormData(this),
+                        contentType: false,
+                        processData: false,
+                        success: function (res) {
+                            if (res.isValid) {
+                                if (res.error.errorCode == "0") {
+                                    $.bootstrapGrowl(res.error.errorMessage, {
+                                        type: 'success'
+                                    });
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 1000);
+                                }
+                                else {
+                                    $.bootstrapGrowl(res.error.errorMessage, {
+                                        type: 'danger'
+                                    });
+                                }
+                            }
+                            else {
+                                $.bootstrapGrowl(res.error.errorMessage, {
+                                    type: 'danger'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+
+            //Hàm thực hiện thay đổi mật khẩu
+            $("#changePassForm").submit(function (e) {
+                e.preventDefault();
+                $.validator.unobtrusive.parse(this);
+                if ($(this).valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: this.action,
+                        data: new FormData(this),
+                        contentType: false,
+                        processData: false,
+                        success: function (res) {
+                            if (res.isValid) {
+                                if (res.error.errorCode == "0") {
+                                    $.bootstrapGrowl(res.error.errorMessage, {
+                                        type: 'success'
+                                    });
+                                    setTimeout(function () {
+                                        dataTable.ajax.reload();
+                                    }, 1000);
+                                }
+                                else {
+                                    $.bootstrapGrowl(res.error.errorMessage, {
+                                        type: 'danger'
+                                    });
+                                }
+                            }
+                            else {
+                                $.bootstrapGrowl(res.error.errorMessage, {
+                                    type: 'danger'
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        //Hàm hiện danh sách chi tiết đơn hàng theo id đơn hàng
+        function getOrderDetailTable(data) {
+            $("#orderDetailModal").modal('show');
+            $('#orderDetailTable').DataTable({
+                ajax: {
+                    url: '@Url.Action("GetOrderDetailById", "User")/' + data,
+                    type: 'GET',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'image',
+                        render: function (data) {
+                            return '<img src="https://localhost:44344/Images/' + data + '" asp-append-version="true" width="300" />';
+                        }
+                    },
+                    {
+                        data: 'productName'
+                    },
+                    {
+                        data: 'sizeName'
+                    },
+                    {
+                        data: 'priceBuy',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
+                    },
+                    {
+                        data: 'amountBuy'
+                    },
+                    {
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
+                    },
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(5)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(5).footer()).html($.fn.dataTable.render.number(',', '.', 0, '').display(total) + ' VNĐ');
+                },
+                searching: false,
+                paging: false,
+                ordering: false,
+                info: false,
+                destroy: true
+            });
+        }
+
+        //Hàm hiện modal hủy đơn hàng
+        function destroyModal(id) {
+            tempId = id;
+            $("#destroyModal").modal('show');
+        }
+
+        //Hàm thực hiện hủy đơn hàng
+        function submitDestroy() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DestroyOrder", "User")",
+                data: {
+                    OrderID: tempId
+                },
+                success: function (res) {
+                    if (res.error.errorMessage == "") {
+                        $.bootstrapGrowl("Hủy đơn hàng thành công", {
+                            type: 'success'
+                        });
+                        $("#destroyModal").modal('hide');
+                        dataTable.ajax.reload();
+                    }
+                    else {
+                        $.bootstrapGrowl(res.error.errorMessage, {
+                            type: 'danger'
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+}

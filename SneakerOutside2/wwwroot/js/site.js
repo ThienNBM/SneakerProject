@@ -23,7 +23,6 @@ function submitLogin(form) {
             processData: false,
             success: function (res) {
                 if (res.isValid) {
-                    debugger
                     if (res.error.errorCode == "0") {
                         $.bootstrapGrowl(res.error.errorMessage, {
                             type: 'success'
