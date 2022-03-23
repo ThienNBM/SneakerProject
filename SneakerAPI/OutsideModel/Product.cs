@@ -17,6 +17,27 @@ namespace SneakerAPI.OutsideModel
     }
 
     [Keyless]
+    public class ProductGetAllCatalog
+    {
+        public int CatalogID { get; set; }
+
+        public string CatalogName { get; set; }
+    }
+    
+    [Keyless]
+    public class ProductGetAllSubCatalog
+    {
+        public int SubCatalogID { get; set; }
+
+        public string SubCatalogName { get; set; }
+    }
+
+    public class ProductFilterProduct
+    {
+        public int CatalogID { get; set; }
+    }
+
+    [Keyless]
     public class ProductGetInfo
     {
         public int ProductID { get; set; }

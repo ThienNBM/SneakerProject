@@ -107,7 +107,7 @@ namespace SneakerOutside2.Controllers
             }
         }
 
-        public IActionResult Info()
+        public IActionResult Index()
         {
             ChangeInfo changeInfo = new();
             ChangePass changePass = new();
@@ -211,6 +211,8 @@ namespace SneakerOutside2.Controllers
                                 if (error.ErrorCode == "0")
                                 {
                                     error.ErrorMessage = "Thay đổi mật khẩu thành công";
+
+                                    HttpContext.Session.Remove("UserMember");
                                 }
                             }
                         }
@@ -283,6 +285,14 @@ namespace SneakerOutside2.Controllers
                 }
             }
             return Json(new { isValid = true, error });
+        }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Remove("UserMember");
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SneakerOutside2.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SneakerOutside2.Controllers
@@ -32,7 +33,50 @@ namespace SneakerOutside2.Controllers
                     }
                 }
             }
+
+            List<ProductGetAllCatalog> catalogs = new();
+            using (var httpClient = new HttpClient())
+            {
+                using var response = await httpClient.GetAsync(apiBaseUrl + "/api/OSproduct/GetAllCatalog");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    catalogs = JsonConvert.DeserializeObject<List<ProductGetAllCatalog>>(apiResponse);
+                }
+            }
+            
+            List<ProductGetAllSubCatalog> subCatalogs = new();
+            using (var httpClient = new HttpClient())
+            {
+                using var response = await httpClient.GetAsync(apiBaseUrl + "/api/OSproduct/GetAllSubCatalog");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    subCatalogs = JsonConvert.DeserializeObject<List<ProductGetAllSubCatalog>>(apiResponse);
+                }
+            } 
+
+            ViewBag.catalogs = catalogs;
+            ViewBag.subCatalogs = subCatalogs;
             return View(products);
+        }
+
+        public async Task<ActionResult> FilterProduct(ProductFilterProduct item)
+        {
+            List<ProductGetAll> products = new List<ProductGetAll>();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(apiBaseUrl + "/api/OSproduct/FilterProduct", content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        products = JsonConvert.DeserializeObject<List<ProductGetAll>>(apiResponse);
+                    }
+                }
+            }
+            return Json(products);
         }
 
         //Chi tiết sản phẩm: hiển thị thông tin chi tiết

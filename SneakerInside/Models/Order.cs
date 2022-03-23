@@ -11,7 +11,7 @@ namespace SneakerInside.Models
     {
         public int OrderID { get; set; }
 
-        public DateTime DateCreate { get; set; }
+        public string DateCreate { get; set; }
 
         public string FullName { get; set; }
 

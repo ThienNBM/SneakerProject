@@ -17,18 +17,28 @@
                     <h3>@Model.ProductName</h3>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title" id="price">0 VNĐ</h3>
+                    @if (ViewBag.listSizes.Count != 0)
+                    {
+                        <h3 class="card-title" id="price">0 VNĐ</h3>
+                    }
+                    else
+                    {
+                        <h3 class="card-title" id="price">Hết hàng</h3>
+                    }
                     <div class="row">
-                        <div class="col-12 pb-4">
-                            @foreach (var item in ViewBag.listSizes)
-                            {
-                                <input type="radio" class="btn-check" name="options-size" id="@("danger-outlined-" + item.SizeID)" autocomplete="off" onclick="chooseSize(@item.SizeID,@item.Price)">
-                                <label class="btn btn-outline-secondary" for="@("danger-outlined-" + item.SizeID)">@item.SizeName</label>
-                            }
-                        </div>
-                        <div class="col-12 pb-4">
-                            <button class="btn btn-dark col-12" id="add-to-card">Thêm vào giỏ hàng</button>
-                        </div>
+                        @if (ViewBag.listSizes.Count != 0)
+                        {
+                            <div class="col-12 pb-4">
+                                @foreach (var item in ViewBag.listSizes)
+                                {
+                                    <input type="radio" class="btn-check" name="options-size" id="@("danger-outlined-" + item.SizeID)" autocomplete="off" onclick="chooseSize(@item.SizeID,@item.Price)">
+                                    <label class="btn btn-outline-secondary" for="@("danger-outlined-" + item.SizeID)">@item.SizeName</label>
+                                }
+                            </div>
+                            <div class="col-12 pb-4">
+                                <button class="btn btn-dark col-12" id="add-to-card">Thêm vào giỏ hàng</button>
+                            </div>
+                        }
                         <hr />
                         <div class="col-12">
                             <h4>Thông tin sản phẩm</h4>

@@ -30,27 +30,32 @@
                     <li class="nav-item px-5">
                         <h5><a asp-controller="Product" asp-action="Index" class="nav-link">Sản phẩm</a></h5>
                     </li>
-                    @*<li class="nav-item px-5">
-                            <h5><a class="nav-link">Giới thiệu</a></h5>
-                        </li>
-                        <li class="nav-item px-5">
-                            <h5><a class="nav-link">Liên hệ</a></h5>
-                        </li>*@
+                    <li class="nav-item px-5">
+                        <h5><a class="nav-link">Giới thiệu</a></h5>
+                    </li>
+                    <li class="nav-item px-5">
+                        <h5><a class="nav-link">Liên hệ</a></h5>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li>
-                        @if (Context.Session.GetString("UserMember") != null)
-                        {
-                            <a asp-controller="User" asp-action="Info"><i class="fa fa-light fa-user fa-2xl" style="color:white"></i></a>
-                        }
-                        else
-                        {
-                            <a id="userButton"><i class="fa fa-light fa-user fa-2xl" style="color:white"></i></a>
-                        }
-                    </li>
-                    <li>
+                    <li class="px-3">
                         <a asp-controller="Checkout" asp-action="Index"><i class="fa fa-light fa-cart-shopping fa-2xl" style="color:white"></i></a>
                     </li>
+                    @if (Context.Session.GetString("UserMember") != null)
+                    {
+                        <li class="px-3">
+                            <a asp-controller="User" asp-action="Index"><i class="fa fa-light fa-user fa-2xl" style="color:white"></i></a>
+                        </li>
+                        <li class="px-3">
+                            <a asp-controller="User" asp-action="Logout"><i class="fa fa-light fa-right-from-bracket fa-2xl" style="color:white"></i></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="px-3">
+                            <a id="userButton"><i class="fa fa-light fa-user fa-2xl" style="color:white"></i></a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

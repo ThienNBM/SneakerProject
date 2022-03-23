@@ -40,6 +40,64 @@ namespace SneakerAPI.OutsideControllers
         }
 
         [HttpGet]
+        [Route("GetAllCatalog")]
+        public async Task<ActionResult<IEnumerable<ProductGetAllCatalog>>> GetAllCatalog()
+        {
+            string StoredProc = "exec OS_Product_GetAllCatalog @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ProductGetAllCatalog> result;
+            try
+            {
+                result = await context.ProductGetAllCatalog.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+        
+        [HttpGet]
+        [Route("GetAllSubCatalog")]
+        public async Task<ActionResult<IEnumerable<ProductGetAllSubCatalog>>> GetAllSubCatalog()
+        {
+            string StoredProc = "exec OS_Product_GetAllSubCatalog @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ProductGetAllSubCatalog> result;
+            try
+            {
+                result = await context.ProductGetAllSubCatalog.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        [Route("FilterProduct")]
+        public async Task<ActionResult<IEnumerable<ProductGetAll>>> FilterProduct(ProductFilterProduct item)
+        {
+            string StoredProc = "exec OS_Product_FilterProduct @CatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var CatalogID = new SqlParameter("@CatalogID", item.CatalogID);
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ProductGetAll> result;
+            try
+            {
+                result = await context.ProductGetAll.FromSqlRaw(StoredProc, CatalogID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch
+            {
+                result = null;
+            }
+            return result;
+        }
+
+        [HttpGet]
         [Route("GetInfo/{id}")]
         public async Task<ActionResult<IEnumerable<ProductGetInfo>>> GetInfo(int id)
         {

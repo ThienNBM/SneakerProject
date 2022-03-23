@@ -29,7 +29,7 @@ function submitLogin(form) {
                         });
                         setTimeout(function () {
                             location.reload();
-                        }, 2000);
+                        }, 1000);
                     }
                     else {
                         $.bootstrapGrowl(res.error.errorMessage, {

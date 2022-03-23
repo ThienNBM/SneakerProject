@@ -111,7 +111,7 @@ namespace SneakerOutside2.Models
         public int OrderID { get; set; }
 
         [DisplayName("Ngày tạo")]
-        public DateTime DateCreate { get; set; }
+        public string DateCreate { get; set; }
 
         [DisplayName("Ghi chú")]
         public string Note { get; set; }

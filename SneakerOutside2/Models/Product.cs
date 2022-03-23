@@ -18,6 +18,25 @@ namespace SneakerOutside2.Models
         public string Image { get; set; }
     }
 
+    public class ProductGetAllCatalog
+    {
+        public int CatalogID { get; set; }
+
+        public string CatalogName { get; set; }
+    }
+    
+    public class ProductGetAllSubCatalog
+    {
+        public int SubCatalogID { get; set; }
+
+        public string SubCatalogName { get; set; }
+    }
+
+    public class ProductFilterProduct
+    { 
+        public int CatalogID { get; set; }
+    }
+
     public class ProductGetInfo
     {
         public int ProductID { get; set; }
