@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SneakerOutside2.Models;
+using SneakerOutside2.Services;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -13,8 +14,10 @@ namespace SneakerOutside2.Controllers
     public class UserController : Controller
     {
         private readonly string apiBaseUrl;
-        public UserController(IConfiguration configuration)
+        IEmailService _emailService = null;
+        public UserController(IConfiguration configuration, IEmailService emailService)
         {
+            _emailService = emailService;
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
@@ -95,6 +98,14 @@ namespace SneakerOutside2.Controllers
                                 error.ErrorMessage = "Đăng ký thành công";
 
                                 HttpContext.Session.SetString("UserMember", JsonConvert.SerializeObject(result[0]));
+
+                                EmailRegister emailRegister = new EmailRegister()
+                                {
+                                    EmailToId = item.Register.Email,
+                                    EmailToName = item.Register.FullName,
+                                    EmailToPhone = item.Register.Phone
+                                };
+                                _emailService.SendEmail(emailRegister);
                             }
                         }
                     }
