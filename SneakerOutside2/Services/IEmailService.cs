@@ -8,6 +8,8 @@ namespace SneakerOutside2.Services
 {
     public interface IEmailService
     {
-        bool SendEmail(EmailRegister emailRegister);
+        bool SendEmailRegister(EmailRegister emailRegister);
+
+        bool SendEmailCheckout(EmailCheckout emailCheckout);
     }
 }

@@ -22,11 +22,15 @@ namespace SneakerAPI.InsideModels
     [Keyless]
     public class ReportOrder
     {
-        public DateTime DateCreate { get; set; }
+        public string OrderCode { get; set; }
+
+        public string DateCreate { get; set; }
 
         public string FullName { get; set; }
 
         public string Phone { get; set; }
+
+        public string Email { get; set; }
 
         public string Address { get; set; }
 
@@ -43,5 +47,15 @@ namespace SneakerAPI.InsideModels
         public string StartDate { get; set; }
 
         public string EndDate { get; set; }
+    }
+
+    [Keyless]
+    public class ReportRevenue
+    {
+        public string DateCreate { get; set; }
+
+        public int OrderAmount { get; set; }
+
+        public int Total { get; set; }
     }
 }

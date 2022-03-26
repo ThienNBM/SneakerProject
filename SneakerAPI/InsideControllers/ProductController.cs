@@ -14,11 +14,11 @@ namespace SneakerAPI.InsideControllers
     public class ProductController : ControllerBase
     {
         private readonly ISdbContext _context;
-
         public ProductController(ISdbContext context)
         {
             _context = context;
         }
+        Error error = new();
 
         [HttpGet]
         [Route("GetAll")]
@@ -27,16 +27,36 @@ namespace SneakerAPI.InsideControllers
             string StoredProc = "exec IS_Product_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ProductGetAll> products;
+            List<ProductGetAll> result = new();
             try
             {
-                products = await _context.ProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+                result = await _context.ProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch (Exception ex)
             {
-                products = null;
+                result = new();
             }
-            return products;
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<ActionResult<IEnumerable<ProductGetAndUpdate>>> GetById(int id)
+        {
+            string StoredProc = "exec IS_Product_GetItemById @ProductID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var ProductID = new SqlParameter("@ProductID", id);
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ProductGetAndUpdate> result = new();
+            try
+            {
+                result = await _context.ProductGetAndUpdate.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new();
+            }
+            return result;
         }
 
         [HttpPost]
@@ -51,7 +71,6 @@ namespace SneakerAPI.InsideControllers
             var SubCatalogID = new SqlParameter("@SubCatalogID", productInsert.SubCatalogID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, ProductName, Description, Status, CatalogID, SubCatalogID, ErrorCode, ErrorMessage);
@@ -64,26 +83,6 @@ namespace SneakerAPI.InsideControllers
                 error.ErrorMessage = ex.Message;
             }
             return error;
-        }
-
-        [HttpGet]
-        [Route("GetById/{id}")]
-        public async Task<ActionResult<IEnumerable<ProductGetAndUpdate>>> GetById(int id)
-        {
-            string StoredProc = "exec IS_Product_GetItemById @ProductID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-            var ProductID = new SqlParameter("@ProductID", id);
-            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
-            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ProductGetAndUpdate> products;
-            try
-            {
-                products = await _context.ProductGetAndUpdate.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                products = null;
-            }
-            return products;
         }
 
         [HttpPut]
@@ -99,7 +98,6 @@ namespace SneakerAPI.InsideControllers
             var SubCatalogID = new SqlParameter("@SubCatalogID", productGetAndUpdate.SubCatalogID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, ProductID, ProductName, Description, Status, CatalogID, SubCatalogID, ErrorCode, ErrorMessage);
@@ -122,7 +120,6 @@ namespace SneakerAPI.InsideControllers
             var ProductID = new SqlParameter("@ProductID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, ProductID, ErrorCode, ErrorMessage);

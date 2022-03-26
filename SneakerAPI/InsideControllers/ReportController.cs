@@ -59,5 +59,24 @@ namespace SneakerAPI.InsideControllers
             }
             return result;
         }
+
+        [HttpGet]
+        [Route("GetRevenue")]
+        public async Task<ActionResult<IEnumerable<ReportRevenue>>> GetRevenue()
+        {
+            string StoredProc = "exec IS_Report_Revenue @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ReportRevenue> result;
+            try
+            {
+                result = await _context.ReportRevenue.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = null;
+            }
+            return result;
+        }
     }
 }

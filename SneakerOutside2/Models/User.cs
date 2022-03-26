@@ -46,10 +46,12 @@ namespace SneakerOutside2.Models
 
         [DisplayName("Số điện thoại")]
         [Required(ErrorMessage = "Số điện thoại không được để trống")]
+        [StringLength(10, ErrorMessage = "Số điện thoại phải đủ 10 ký tự.", MinimumLength = 10)]
         public string Phone { get; set; }
 
         [DisplayName("Email")]
         [Required(ErrorMessage = "Email không được để trống")]
+        [EmailAddress(ErrorMessage = "Email không đúng định dạng")]
         public string Email { get; set; }
 
         [DisplayName("Mật khẩu")]
@@ -58,6 +60,7 @@ namespace SneakerOutside2.Models
 
         [DisplayName("Nhập lại mật khẩu")]
         [Required(ErrorMessage = "Nhập lại mật khẩu không được để trống")]
+        [Compare(otherProperty: "Password", ErrorMessage = "Mật khẩu nhập lại không đúng")]
         public string RePassword { get; set; }
     }
 
@@ -78,10 +81,12 @@ namespace SneakerOutside2.Models
 
         [DisplayName("Số điện thoại")]
         [Required(ErrorMessage = "Số điện thoại không được để trống")]
+        [StringLength(10, ErrorMessage = "Số điện thoại phải đủ 10 ký tự.", MinimumLength = 10)]
         public string Phone { get; set; }
 
         [DisplayName("Email")]
         [Required(ErrorMessage = "Email không được để trống")]
+        [EmailAddress(ErrorMessage = "Email không đúng định dạng")]
         public string Email { get; set; }
 
         [DisplayName("Địa chỉ")]
@@ -103,12 +108,16 @@ namespace SneakerOutside2.Models
 
         [DisplayName("Nhập lại mật khẩu")]
         [Required(ErrorMessage = "Nhập lại mật khẩu không được để trống")]
+        [Compare(otherProperty: "NewPassword", ErrorMessage = "Mật khẩu nhập lại không đúng")]
         public string RePassword { get; set; }
     }
 
     public class UserGetOrderById
     {
         public int OrderID { get; set; }
+
+        [DisplayName("Mã đơn hàng")]
+        public string OrderCode { get; set; }
 
         [DisplayName("Ngày tạo")]
         public string DateCreate { get; set; }

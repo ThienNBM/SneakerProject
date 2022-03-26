@@ -105,7 +105,7 @@ namespace SneakerOutside2.Controllers
                                     EmailToName = item.Register.FullName,
                                     EmailToPhone = item.Register.Phone
                                 };
-                                _emailService.SendEmail(emailRegister);
+                                _emailService.SendEmailRegister(emailRegister);
                             }
                         }
                     }

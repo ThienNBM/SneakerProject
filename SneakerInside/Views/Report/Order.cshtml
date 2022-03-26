@@ -29,6 +29,9 @@
                 <thead>
                     <tr>
                         <th>
+                            @Html.DisplayNameFor(model => model.OrderCode)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.DateCreate)
                         </th>
                         <th>
@@ -38,16 +41,19 @@
                             @Html.DisplayNameFor(model => model.Phone)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.Address)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Note)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Status)
+                            @Html.DisplayNameFor(model => model.Total)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Total)
+                            @Html.DisplayNameFor(model => model.Status)
                         </th>
                     </tr>
                 </thead>
@@ -86,11 +92,15 @@
                     }
                 },
                 searching: false,
+                ordering: false,
                 dom: 'Bfrtip',
                 buttons: [
                     'excel', 'pdf', 'print'
                 ],
                 columns: [
+                    {
+                        data: 'orderCode'
+                    },
                     {
                         data: 'dateCreate'
                     },
@@ -101,10 +111,17 @@
                         data: 'phone'
                     },
                     {
+                        data: 'email'
+                    },
+                    {
                         data: 'address'
                     },
                     {
                         data: 'note'
+                    },
+                    {
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                     {
                         data: 'status',
@@ -123,9 +140,6 @@
                             }
                         },
                         orderable: false
-                    },
-                    {
-                        data: 'total'
                     }
                 ],
                 destroy: true

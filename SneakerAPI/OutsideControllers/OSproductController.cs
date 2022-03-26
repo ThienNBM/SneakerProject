@@ -34,7 +34,7 @@ namespace SneakerAPI.OutsideControllers
             }
             catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -51,9 +51,9 @@ namespace SneakerAPI.OutsideControllers
             {
                 result = await context.ProductGetAllCatalog.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -70,9 +70,9 @@ namespace SneakerAPI.OutsideControllers
             {
                 result = await context.ProductGetAllSubCatalog.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -90,9 +90,9 @@ namespace SneakerAPI.OutsideControllers
             {
                 result = await context.ProductGetAll.FromSqlRaw(StoredProc, CatalogID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -112,7 +112,7 @@ namespace SneakerAPI.OutsideControllers
             }
             catch(Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -130,9 +130,9 @@ namespace SneakerAPI.OutsideControllers
             {
                 result = await context.ProductGetSize.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -150,9 +150,9 @@ namespace SneakerAPI.OutsideControllers
             {
                 result = await context.ProductGetImage.FromSqlRaw(StoredProc, ProductID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -171,9 +171,9 @@ namespace SneakerAPI.OutsideControllers
             {
                 result = await context.ProductGetProductItem.FromSqlRaw(StoredProc, productID, sizeID, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }

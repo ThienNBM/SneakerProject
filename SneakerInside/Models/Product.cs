@@ -8,7 +8,10 @@ namespace SneakerInside.Models
         [DisplayName("ID")]
         public int ProductID { get; set; }
 
-        [DisplayName("Tên sản phẩm")]
+        [DisplayName("Ảnh")]
+        public string Image { get; set; }
+
+        [DisplayName("Tên giày")]
         public string ProductName { get; set; }
 
         [DisplayName("Giá")]

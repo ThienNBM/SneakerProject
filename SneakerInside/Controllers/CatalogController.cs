@@ -17,6 +17,7 @@ namespace SneakerInside.Controllers
         {
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
+        Error error = new();
 
         readonly string Name = "hãng giày";
 
@@ -49,7 +50,6 @@ namespace SneakerInside.Controllers
             return Json(new { data = catalogs });
         }
 
-        [HttpGet]
         public IActionResult Create()
         {
             ViewBag.status = status;
@@ -61,7 +61,6 @@ namespace SneakerInside.Controllers
         {
             if (ModelState.IsValid)
             {
-                Error error = new Error();
                 using (var httpClient = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
@@ -105,7 +104,6 @@ namespace SneakerInside.Controllers
         {
             if (ModelState.IsValid)
             {
-                Error error = new Error();
                 using (var httpClient = new HttpClient())
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(catalog), Encoding.UTF8, "application/json");
@@ -128,7 +126,6 @@ namespace SneakerInside.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            Error error = new Error();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.DeleteAsync(apiBaseUrl + $"/api/Catalog/Delete/{id}"))

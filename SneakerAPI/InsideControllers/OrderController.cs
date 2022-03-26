@@ -14,11 +14,11 @@ namespace SneakerAPI.InsideControllers
     public class OrderController : ControllerBase
     {
         private readonly ISdbContext _context;
-
         public OrderController(ISdbContext context)
         {
             _context = context;
         }
+        Error error = new();
 
         [HttpGet]
         [Route("GetAll")]
@@ -27,16 +27,16 @@ namespace SneakerAPI.InsideControllers
             string StoredProc = "exec IS_Order_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<OrderGetAll> orders;
+            List<OrderGetAll> result;
             try
             {
-                orders = await _context.OrderGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+                result = await _context.OrderGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch (Exception ex)
             {
-                orders = null;
+                result = new();
             }
-            return orders;
+            return result;
         }
 
         [HttpGet]
@@ -47,16 +47,16 @@ namespace SneakerAPI.InsideControllers
             var OrderID = new SqlParameter("@OrderID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<OrderGetOrderDetailById> orderDetails;
+            List<OrderGetOrderDetailById> result;
             try
             {
-                orderDetails = await _context.OrderGetOrderDetailById.FromSqlRaw(StoredProc, OrderID, ErrorCode, ErrorMessage).ToListAsync();
+                result = await _context.OrderGetOrderDetailById.FromSqlRaw(StoredProc, OrderID, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch (Exception ex)
             {
-                orderDetails = null;
+                result = new();
             }
-            return orderDetails;
+            return result;
         }
 
         [HttpPost]
@@ -68,7 +68,6 @@ namespace SneakerAPI.InsideControllers
             var Status = new SqlParameter("@Status", orderChangeStatus.Status);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, OrderID, Status, ErrorCode, ErrorMessage);
@@ -91,7 +90,6 @@ namespace SneakerAPI.InsideControllers
             var OrderID = new SqlParameter("@OrderID", orderDestroy.OrderID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, OrderID, ErrorCode, ErrorMessage);

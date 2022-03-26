@@ -4,7 +4,7 @@
 }
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-7">
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Danh sách đơn hàng</h3>
@@ -17,19 +17,13 @@
                                 Chi tiết đơn hàng
                             </th>
                             <th>
+                                Mã đơn hàng
+                            </th>
+                            <th>
                                 Ngày tạo
                             </th>
                             <th>
-                                Họ tên
-                            </th>
-                            <th>
-                                Điện thoại
-                            </th>
-                            <th>
-                                Địa chỉ
-                            </th>
-                            <th>
-                                Ghi chú
+                                Thông tin khách hàng
                             </th>
                             <th>
                                 Tổng đơn hàng
@@ -46,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12">
+    <div class="col-5">
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Chi tiết đơn hàng</h3>
@@ -144,19 +138,16 @@
                         orderable: false
                     },
                     {
+                        data: 'orderCode'
+                    },
+                    {
                         data: 'dateCreate'
                     },
                     {
-                        data: 'fullName'
-                    },
-                    {
-                        data: 'phone'
-                    },
-                    {
-                        data: 'address'
-                    },
-                    {
-                        data: 'note'
+                        data: null,
+                        render: function (row) {
+                            return '<p>Họ và tên: ' + row.fullName + '<br />Số điện thoại: ' + row.phone + '<br />Email: ' + row.email + '<br />Địa chỉ: ' + row.address +  '<br />Ghi chú: ' + row.note +'</p>'
+                        }
                     },
                     {
                         data: 'total',

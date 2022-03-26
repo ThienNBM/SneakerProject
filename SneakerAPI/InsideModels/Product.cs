@@ -7,6 +7,8 @@ namespace SneakerAPI.InsideModels
     {
         public int ProductID { get; set; }
 
+        public string Image { get; set; }
+
         public string ProductName { get; set; }
 
         public int Status { get; set; }

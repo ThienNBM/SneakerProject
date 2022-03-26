@@ -14,7 +14,6 @@ namespace SneakerAPI.InsideControllers
     public class HomeController : ControllerBase
     {
         private readonly ISdbContext _context;
-
         public HomeController(ISdbContext context)
         {
             _context = context;
@@ -34,11 +33,11 @@ namespace SneakerAPI.InsideControllers
             }
             catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
-        
+
         [HttpGet]
         [Route("CountCatalogProduct")]
         public async Task<ActionResult<IEnumerable<ChartCountCatalogProduct>>> CountCatalogProduct()
@@ -53,11 +52,11 @@ namespace SneakerAPI.InsideControllers
             }
             catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
-        
+
         [HttpGet]
         [Route("TopSellProduct")]
         public async Task<ActionResult<IEnumerable<TopSellProduct>>> TopSellProduct()
@@ -72,7 +71,7 @@ namespace SneakerAPI.InsideControllers
             }
             catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }

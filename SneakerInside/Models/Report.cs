@@ -31,14 +31,20 @@ namespace SneakerInside.Models
 
         public string EndDate { get; set; }
 
+        [DisplayName("Mã đơn hàng")]
+        public string OrderCode { get; set; }
+
         [DisplayName("Ngày tạo")]
-        public DateTime DateCreate { get; set; }
+        public string DateCreate { get; set; }
 
         [DisplayName("Họ và tên")]
         public string FullName { get; set; }
 
         [DisplayName("Số điện thoại")]
         public string Phone { get; set; }
+        
+        [DisplayName("Email")]
+        public string Email { get; set; }
 
         [DisplayName("Địa chỉ")]
         public string Address { get; set; }
@@ -50,6 +56,18 @@ namespace SneakerInside.Models
         public int Status { get; set; }
 
         [DisplayName("Tổng đơn hàng")]
+        public int Total { get; set; }
+    }
+
+    public class ReportRevenue
+    {
+        [DisplayName("Ngày")]
+        public string DateCreate { get; set; }
+
+        [DisplayName("Số đơn hàng")]
+        public int OrderAmount { get; set; }
+
+        [DisplayName("Tổng doanh thu")]
         public int Total { get; set; }
     }
 }

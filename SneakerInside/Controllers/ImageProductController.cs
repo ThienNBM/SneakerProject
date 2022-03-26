@@ -24,7 +24,7 @@ namespace SneakerInside.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        readonly string Name = "ảnh sản phẩm";
+        readonly string Name = "ảnh giày";
 
         public IActionResult Index()
         {

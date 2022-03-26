@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SneakerOutside2.Models;
+using SneakerOutside2.Services;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -13,8 +14,10 @@ namespace SneakerOutside2.Controllers
     public class CheckoutController : Controller
     {
         private readonly string apiBaseUrl;
-        public CheckoutController(IConfiguration configuration)
+        IEmailService _emailService = null;
+        public CheckoutController(IConfiguration configuration, IEmailService emailService)
         {
+            _emailService = emailService;
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
@@ -155,6 +158,13 @@ namespace SneakerOutside2.Controllers
                                         {
                                             error.ErrorMessage = "Thanh toán thành công";
 
+                                            EmailCheckout emailCheckout = new EmailCheckout()
+                                            {
+                                                EmailToId = checkOutView.UserInfo.Email,
+                                                EmailToName = checkOutView.UserInfo.FullName
+                                            };
+                                            _emailService.SendEmailCheckout(emailCheckout);
+
                                             HttpContext.Session.Remove("Cart");
                                         }
                                     }
@@ -171,6 +181,13 @@ namespace SneakerOutside2.Controllers
                                         if (error.ErrorCode == "0")
                                         {
                                             error.ErrorMessage = "Thanh toán thành công";
+
+                                            EmailCheckout emailCheckout = new EmailCheckout()
+                                            {
+                                                EmailToId = checkOutView.UserInfo.Email,
+                                                EmailToName = checkOutView.UserInfo.FullName
+                                            };
+                                            _emailService.SendEmailCheckout(emailCheckout);
 
                                             HttpContext.Session.Remove("Cart");
                                         }

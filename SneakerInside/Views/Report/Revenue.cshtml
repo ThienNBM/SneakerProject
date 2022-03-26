@@ -1,35 +1,26 @@
-﻿@model IEnumerable<SneakerInside.Models.ReportAmountStock>
+﻿@model IEnumerable<SneakerInside.Models.ReportRevenue>
 
 @{
-    ViewData["Title"] = "Danh sách hàng tồn";
+    ViewData["Title"] = "Danh sách doanh thu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="card card-secondary">
     <div class="card-header">
-        <h3 class="card-title">Danh sách hàng tồn</h3>
+        <h3 class="card-title">Danh sách doanh thu</h3>
     </div>
     <div class="card-body">
         <table id="mainTable" class="table table-bordered table-hover" width="100%">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.ProductName)
+                        @Html.DisplayNameFor(model => model.DateCreate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CatalogName)
+                        @Html.DisplayNameFor(model => model.OrderAmount)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.SubCatalogName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SizeName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AmountStock)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Price)
+                        @Html.DisplayNameFor(model => model.Total)
                     </th>
                 </tr>
             </thead>
@@ -43,7 +34,7 @@
         $(document).ready(function () {
             $('#mainTable').DataTable({
                 ajax: {
-                    url: '@Url.Action("GetAmountStock", "Report")',
+                    url: '@Url.Action("GetRevenue", "Report")',
                     type: 'GET',
                     datatype: 'json'
                 },
@@ -55,22 +46,13 @@
                 ],
                 columns: [
                     {
-                        data: 'productName'
+                        data: 'dateCreate'
                     },
                     {
-                        data: 'catalogName'
+                        data: 'orderAmount'
                     },
                     {
-                        data: 'subCatalogName'
-                    },
-                    {
-                        data: 'sizeName'
-                    },
-                    {
-                        data: 'amountStock'
-                    },
-                    {
-                        data: 'price',
+                        data: 'total',
                         render: $.fn.dataTable.render.number(',', '.', 0, '')
                     }
                 ]

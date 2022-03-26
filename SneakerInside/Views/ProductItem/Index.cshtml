@@ -19,6 +19,9 @@
                         </button>
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.ProductName)
                     </th>
                     <th>
@@ -61,6 +64,13 @@
                         width: '100px'
                     },
                     {
+                        data: 'image',
+                        render: function (data) {
+                            return '<img src="/Images/' + data + '" asp-append-version="true" width="300" />';
+                        },
+                        orderable: false,
+                    },
+                    {
                         data: 'productName'
                     },
                     {
@@ -70,7 +80,8 @@
                         data: 'amountStock'
                     },
                     {
-                        data: 'price'
+                        data: 'price',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     }
                 ]
             });

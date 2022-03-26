@@ -64,5 +64,28 @@ namespace SneakerInside.Controllers
             }
             return Json(new { data = result });
         }
+
+        public IActionResult Revenue()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetRevenue()
+        {
+            List<ReportRevenue> result = new List<ReportRevenue>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(apiBaseUrl + "/api/Report/GetRevenue"))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        result = JsonConvert.DeserializeObject<List<ReportRevenue>>(apiResponse);
+                    }
+                }
+            }
+            return Json(new { data = result });
+        }
     }
 }

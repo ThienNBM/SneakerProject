@@ -52,5 +52,6 @@ namespace SneakerAPI.InsideModels
 
         public DbSet<ReportAmountStock> ReportAmountStock { get; set; }
         public DbSet<ReportOrder> ReportOrder { get; set; }
+        public DbSet<ReportRevenue> ReportRevenue { get; set; }
     }
 }

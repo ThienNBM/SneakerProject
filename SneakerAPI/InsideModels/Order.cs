@@ -8,6 +8,8 @@ namespace SneakerAPI.InsideModels
     {
         public int OrderID { get; set; }
 
+        public string OrderCode { get; set; }
+
         public string DateCreate { get; set; }
 
         public string FullName { get; set; }
@@ -15,6 +17,8 @@ namespace SneakerAPI.InsideModels
         public string Phone { get; set; }
 
         public string Address { get; set; }
+
+        public string Email { get; set; }
 
         public string Note { get; set; }
 

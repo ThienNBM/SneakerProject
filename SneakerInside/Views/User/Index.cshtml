@@ -15,13 +15,13 @@
                         Danh sách đơn hàng
                     </th>
                     <th>
-                        Email
-                    </th>
-                    <th>
                         Họ và tên
                     </th>
                     <th>
                         Số điện thoại
+                    </th>
+                    <th>
+                        Email
                     </th>
                     <th>
                         Địa chỉ
@@ -45,13 +45,16 @@
                                 Chi tiết đơn hàng
                             </th>
                             <th>
+                                Mã đơn hàng
+                            </th>
+                            <th>
                                 Ngày tạo
                             </th>
                             <th>
                                 Ghi chú
                             </th>
                             <th>
-                                Tổng hóa đơn
+                                Tổng đơn hàng
                             </th>
                             <th>
                                 Trạng thái
@@ -116,13 +119,13 @@
                         orderable: false
                     },
                     {
-                        data: 'email'
-                    },
-                    {
                         data: 'fullName'
                     },
                     {
                         data: 'phone'
+                    },
+                    {
+                        data: 'email'
                     },
                     {
                         data: 'address'
@@ -149,16 +152,35 @@
                         orderable: false
                     },
                     {
+                        data: 'orderCode'
+                    },
+                    {
                         data: 'dateCreate'
                     },
                     {
                         data: 'note'
                     },
                     {
-                        data: 'total'
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                     {
-                        data: 'status'
+                        data: 'status',
+                        render: function (data) {
+                            if (data == 1) {
+                                return 'Đang chờ duyệt';
+                            }
+                            else if (data == 2) {
+                                return 'Đang giao hàng';
+                            }
+                            else if (data == 3) {
+                                return 'Đã hoàn thành';
+                            }
+                            else if (data == 4) {
+                                return 'Đã hủy';
+                            }
+                        },
+                        orderable: false
                     }
                 ],
                 destroy: true
@@ -188,13 +210,15 @@
                         data: 'sizeName'
                     },
                     {
-                        data: 'priceBuy'
+                        data: 'priceBuy',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                     {
                         data: 'amountBuy'
                     },
                     {
-                        data: 'total'
+                        data: 'total',
+                        render: $.fn.dataTable.render.number(',', '.', 0, '')
                     },
                 ],
                 destroy: true

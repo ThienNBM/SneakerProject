@@ -14,6 +14,8 @@ namespace SneakerAPI.InsideModels
         public int AmountStock { get; set; }
 
         public int Price { get; set; }
+
+        public string Image { get; set; }
     }
 
     [Keyless]

@@ -35,7 +35,7 @@ namespace SneakerAPI.OutsideControllers
             }
             catch (Exception ex)
             {
-                result = null;
+                result = new();
             }
             return result;
         }
@@ -128,7 +128,7 @@ namespace SneakerAPI.OutsideControllers
             }
             catch (Exception ex)
             {
-                orders = null;
+                orders = new();
             }
             return orders;
         }
@@ -148,7 +148,7 @@ namespace SneakerAPI.OutsideControllers
             }
             catch (Exception ex)
             {
-                orderDetails = null;
+                orderDetails = new();
             }
             return orderDetails;
         }

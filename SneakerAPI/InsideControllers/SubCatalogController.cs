@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SneakerAPI.InsideModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,11 +14,11 @@ namespace SneakerAPI.InsideControllers
     public class SubCatalogController : ControllerBase
     {
         private readonly ISdbContext _context;
-
         public SubCatalogController(ISdbContext context)
         {
             _context = context;
         }
+        Error error = new();
 
         [HttpGet]
         [Route("GetAll")]
@@ -26,16 +27,36 @@ namespace SneakerAPI.InsideControllers
             string StoredProc = "exec IS_SubCatalog_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<SubCatalogGetAll> subCatalogs;
+            List<SubCatalogGetAll> result = new();
             try
             {
-                subCatalogs = await _context.SubCatalogGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+                result = await _context.SubCatalogGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                subCatalogs = null;
+                result = new();
             }
-            return subCatalogs;
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<ActionResult<IEnumerable<SubCatalogGetAndUpdate>>> GetById(int id)
+        {
+            string StoredProc = "exec IS_SubCatalog_GetItemById @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var SubCatalogID = new SqlParameter("@SubCatalogID", id);
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<SubCatalogGetAndUpdate> result = new();
+            try
+            {
+                result = await _context.SubCatalogGetAndUpdate.FromSqlRaw(StoredProc, SubCatalogID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = new();
+            }
+            return result;
         }
 
         [HttpPost]
@@ -48,35 +69,18 @@ namespace SneakerAPI.InsideControllers
             var CatalogID = new SqlParameter("@CatalogID", SubCatalogInsert.CatalogID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogName, Status, CatalogID, ErrorCode, ErrorMessage);
-
-            var error = new Error
-            {
-                ErrorCode = ErrorCode.Value.ToString(),
-                ErrorMessage = ErrorMessage.Value.ToString()
-            };
-            return error;
-        }
-
-        [HttpGet]
-        [Route("GetById/{id}")]
-        public async Task<ActionResult<IEnumerable<SubCatalogGetAndUpdate>>> GetById(int id)
-        {
-            string StoredProc = "exec IS_SubCatalog_GetItemById @SubCatalogID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-            var SubCatalogID = new SqlParameter("@SubCatalogID", id);
-            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
-            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<SubCatalogGetAndUpdate> subCatalogs;
             try
             {
-                subCatalogs = await _context.SubCatalogGetAndUpdate.FromSqlRaw(StoredProc, SubCatalogID, ErrorCode, ErrorMessage).ToListAsync();
+                await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogName, Status, CatalogID, ErrorCode, ErrorMessage);
+                error.ErrorCode = ErrorCode.Value.ToString();
+                error.ErrorMessage = ErrorMessage.Value.ToString();
             }
-            catch
+            catch (Exception ex)
             {
-                subCatalogs = null;
-            }
-            return subCatalogs;
+                error.ErrorCode = "API_ERROR";
+                error.ErrorMessage = ex.Message;
+            };
+            return error;
         }
 
         [HttpPut]
@@ -90,13 +94,16 @@ namespace SneakerAPI.InsideControllers
             var CatalogID = new SqlParameter("@CatalogID", SubCatalogGetAndUpdate.CatalogID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogID, SubCatalogName, Status, CatalogID, ErrorCode, ErrorMessage);
-
-            var error = new Error
+            try
             {
-                ErrorCode = ErrorCode.Value.ToString(),
-                ErrorMessage = ErrorMessage.Value.ToString()
+                await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogID, SubCatalogName, Status, CatalogID, ErrorCode, ErrorMessage);
+                error.ErrorCode = ErrorCode.Value.ToString();
+                error.ErrorMessage = ErrorMessage.Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                error.ErrorCode = "API_ERROR";
+                error.ErrorMessage = ex.Message;
             };
             return error;
         }
@@ -109,13 +116,16 @@ namespace SneakerAPI.InsideControllers
             var SubCatalogID = new SqlParameter("@SubCatalogID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-
-            await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogID, ErrorCode, ErrorMessage);
-
-            var error = new Error
+            try
             {
-                ErrorCode = ErrorCode.Value.ToString(),
-                ErrorMessage = ErrorMessage.Value.ToString()
+                await _context.Database.ExecuteSqlRawAsync(StoredProc, SubCatalogID, ErrorCode, ErrorMessage);
+                error.ErrorCode = ErrorCode.Value.ToString();
+                error.ErrorMessage = ErrorMessage.Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                error.ErrorCode = "API_ERROR";
+                error.ErrorMessage = ex.Message;
             };
             return error;
         }

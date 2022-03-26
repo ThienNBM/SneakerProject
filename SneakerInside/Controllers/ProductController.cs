@@ -18,7 +18,7 @@ namespace SneakerInside.Controllers
             apiBaseUrl = configuration.GetValue<string>("SneakerAPIUrl");
         }
 
-        readonly string Name = "sản phẩm";
+        readonly string Name = "giày";
 
         List<SelectListItem> status = new List<SelectListItem>()
         {

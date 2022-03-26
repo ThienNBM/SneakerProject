@@ -13,4 +13,11 @@ namespace SneakerOutside2.Models
 
         public string EmailToPhone { get; set; }
     }
+    
+    public class EmailCheckout
+    {
+        public string EmailToId { get; set; }
+
+        public string EmailToName { get; set; }
+    }
 }

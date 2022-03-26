@@ -62,6 +62,8 @@ namespace SneakerAPI.OutsideModel
     {
         public int OrderID { get; set; }
 
+        public string OrderCode { get; set; }
+
         public string DateCreate { get; set; }
 
         public string Note { get; set; }

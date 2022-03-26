@@ -90,6 +90,9 @@
                                     Chi tiết đơn hàng
                                 </th>
                                 <th>
+                                    Mã đơn hàng
+                                </th>
+                                <th>
                                     Ngày tạo
                                 </th>
                                 <th>
@@ -196,6 +199,9 @@
                             return '<button type="button" class="btn btn-secondary" onclick="getOrderDetailTable(' + data + ')"><i class="fas fa-edit"></i></button >';
                         },
                         orderable: false
+                    },
+                    {
+                        data: 'orderCode'
                     },
                     {
                         data: 'dateCreate'

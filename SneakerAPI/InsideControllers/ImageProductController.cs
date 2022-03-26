@@ -14,11 +14,11 @@ namespace SneakerAPI.InsideControllers
     public class ImageProductController : ControllerBase
     {
         private readonly ISdbContext _context;
-
         public ImageProductController(ISdbContext context)
         {
             _context = context;
         }
+        Error error = new();
 
         [HttpGet]
         [Route("GetAll")]
@@ -27,16 +27,36 @@ namespace SneakerAPI.InsideControllers
             string StoredProc = "exec ImageProduct_GetAll @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ImageProductGetAll> imageProducts;
+            List<ImageProductGetAll> result = new();
             try
             {
-                imageProducts = await _context.ImageProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
+                result = await _context.ImageProductGetAll.FromSqlRaw(StoredProc, ErrorCode, ErrorMessage).ToListAsync();
             }
             catch (Exception ex)
             {
-                imageProducts = null;
+                result = null;
             }
-            return imageProducts;
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetById/{id}")]
+        public async Task<ActionResult<IEnumerable<ImageProductGetAndUpdate>>> GetById(int id)
+        {
+            string StoredProc = "exec ImageProduct_GetItemById @ImageID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
+            var ImageID = new SqlParameter("@ImageID", id);
+            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
+            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
+            List<ImageProductGetAndUpdate> result = new();
+            try
+            {
+                result = await _context.ImageProductGetAndUpdate.FromSqlRaw(StoredProc, ImageID, ErrorCode, ErrorMessage).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                result = null;
+            }
+            return result;
         }
 
         [HttpPost]
@@ -48,7 +68,6 @@ namespace SneakerAPI.InsideControllers
             var ProductID = new SqlParameter("@ProductID", imageProductInsert.ProductID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, Image, ProductID, ErrorCode, ErrorMessage);
@@ -63,26 +82,6 @@ namespace SneakerAPI.InsideControllers
             return error;
         }
 
-        [HttpGet]
-        [Route("GetById/{id}")]
-        public async Task<ActionResult<IEnumerable<ImageProductGetAndUpdate>>> GetById(int id)
-        {
-            string StoredProc = "exec ImageProduct_GetItemById @ImageID, @ErrorCode OUTPUT, @ErrorMessage OUTPUT";
-            var ImageID = new SqlParameter("@ImageID", id);
-            var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
-            var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            List<ImageProductGetAndUpdate> imageProducts;
-            try
-            {
-                imageProducts = await _context.ImageProductGetAndUpdate.FromSqlRaw(StoredProc, ImageID, ErrorCode, ErrorMessage).ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                imageProducts = null;
-            }
-            return imageProducts;
-        }
-
         [HttpPut]
         [Route("Update")]
         public async Task<ActionResult<Error>> Update(ImageProductGetAndUpdate imageProductGetAndUpdate)
@@ -93,7 +92,6 @@ namespace SneakerAPI.InsideControllers
             var ProductID = new SqlParameter("@ProductID", imageProductGetAndUpdate.ProductID);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, ImageID, Image, ProductID, ErrorCode, ErrorMessage);
@@ -116,7 +114,6 @@ namespace SneakerAPI.InsideControllers
             var ImageID = new SqlParameter("@ImageID", id);
             var ErrorCode = new SqlParameter("@ErrorCode", System.Data.SqlDbType.NVarChar, 100) { Direction = System.Data.ParameterDirection.Output };
             var ErrorMessage = new SqlParameter("@ErrorMessage", System.Data.SqlDbType.NVarChar, 4000) { Direction = System.Data.ParameterDirection.Output };
-            Error error = new Error();
             try
             {
                 await _context.Database.ExecuteSqlRawAsync(StoredProc, ImageID, ErrorCode, ErrorMessage);

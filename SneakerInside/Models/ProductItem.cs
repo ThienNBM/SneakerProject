@@ -23,20 +23,26 @@ namespace SneakerInside.Models
 
         [DisplayName("Giá sản phẩm")]
         public int Price { get; set; }
+
+        [DisplayName("Ảnh")]
+        public string Image { get; set; }
     }
 
     public class ProductItemInsert
     {
-        [Required, DisplayName("Tên sản phẩm")]
+        [DisplayName("Tên sản phẩm")]
+        [Required(ErrorMessage = "Tên sản phẩm không được để trống")]
         public int ProductID { get; set; }
 
         [Required, DisplayName("Size")]
         public int SizeID { get; set; }
 
-        [Required, DisplayName("Số lượng tồn")]
+        [DisplayName("Số lượng tồn")]
+        [Required(ErrorMessage = "Số lượng tồn không được để trống")]
         public int AmountStock { get; set; }
 
-        [Required, DisplayName("Giá sản phẩm")]
+        [DisplayName("Giá sản phẩm")]
+        [Required(ErrorMessage = "Giá sản phẩm không được để trống")]
         public int Price { get; set; }
     }
 
@@ -44,16 +50,19 @@ namespace SneakerInside.Models
     {
         public int ProductItemID { get; set; }
 
-        [Required, DisplayName("Tên sản phẩm")]
+        [DisplayName("Tên sản phẩm")]
+        [Required(ErrorMessage = "Tên sản phẩm không được để trống")]
         public int ProductID { get; set; }
 
         [Required, DisplayName("Size")]
         public int SizeID { get; set; }
 
-        [Required, DisplayName("Số lượng tồn")]
+        [DisplayName("Số lượng tồn")]
+        [Required(ErrorMessage = "Số lượng tồn không được để trống")]
         public int AmountStock { get; set; }
 
-        [Required, DisplayName("Giá sản phẩm")]
+        [DisplayName("Giá sản phẩm")]
+        [Required(ErrorMessage = "Giá sản phẩm không được để trống")]
         public int Price { get; set; }
     }
 }
